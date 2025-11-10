@@ -120,5 +120,12 @@
         <default-constraints vsize-policy="6" hsize-policy="0" anchor="0" fill="2" />
       </item>
     </group>
+    <group name="Extended Swing" />
+    <group name="My Creations" />
+  </component>
+  <component name="uidesigner-configuration">
+    <option name="INSTRUMENT_CLASSES" value="false" />
+    <option name="GENERATE_SOURCES_ON_SAVE" value="true" />
+    <option name="USE_DYNAMIC_BUNDLES" value="true" />
   </component>
 </project>

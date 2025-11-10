@@ -1,5 +1,11 @@
 plugins {
     id 'java'
+    id 'application'
+}
+
+application {
+    mainClass = 'Main'
+    applicationDefaultJvmArgs = ["--add-exports=java.desktop/com.apple.eawt=ALL-UNNAMED"]
 }
 
 group = 'org.SEFB.IBM'
@@ -13,6 +19,7 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'com.intellij:forms_rt:7.0.3'
 }
 
 test {

@@ -3,30 +3,32 @@
   <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="515" height="400"/>
+      <xy x="73" y="258" width="627" height="400"/>
     </constraints>
     <properties>
-      <background color="-8487298"/>
+      <background color="-1315861"/>
     </properties>
-    <border type="none"/>
+    <border type="none" title-justification="1" title-position="1"/>
     <children>
-      <component id="dbffa" class="javax.swing.JButton" binding="start_button">
-        <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Start Program"/>
-        </properties>
-      </component>
       <component id="fbf93" class="javax.swing.JLabel" binding="title_field">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="2" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background color="-1"/>
-          <font name="DialogInput" size="24" style="3"/>
+          <font name=".AppleSystemUIFont" size="24" style="1"/>
           <foreground color="-16777216"/>
           <text value="Arterial Reservoir Pressure Monitor"/>
+        </properties>
+      </component>
+      <component id="dbffa" class="javax.swing.JButton" binding="start_button">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <alignmentX value="0.0"/>
+          <alignmentY value="1.0"/>
+          <text value="Start Program"/>
         </properties>
       </component>
     </children>
