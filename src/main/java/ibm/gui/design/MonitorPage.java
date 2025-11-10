@@ -121,6 +121,5 @@ public class MonitorPage {
     private void createUIComponents() {
         arterialReservoirPlot = new JScrollPane();
         bloodPressurePlot = new JScrollPane();
-        // TODO: place custom component creation code here
     }
 }
