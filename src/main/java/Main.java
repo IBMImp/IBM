@@ -1,9 +1,12 @@
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import ibm.gui.GUIController;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.formdev.flatlaf.*;
 
 private static final Logger guiLogger = Logger.getLogger(GUIController.class.getName());
 
@@ -12,6 +15,8 @@ void main() {
     GUIController gui = new GUIController(guiLogger);
     SwingUtilities.invokeLater(() -> {
         try {
+            javax.swing.UIManager.setLookAndFeel(new FlatDarkLaf());
+            UIManager.put("defaultFont", new Font(".AppleSystemUIFont", Font.PLAIN, 12));
             if (!gui.init()) throw new ExceptionInInitializerError("GUI Initialization Error");
             gui.showGUI();
         } catch (Exception e) {

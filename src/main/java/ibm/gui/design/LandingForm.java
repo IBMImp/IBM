@@ -2,6 +2,7 @@ package ibm.gui.design;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.uiDesigner.core.Spacer;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -12,12 +13,10 @@ import java.util.Locale;
 
 public class LandingForm {
     private JPanel panel1;
-    private JLabel title_field;
     private JButton start_button;
 
     public LandingForm() {
         $$$setupUI$$$();
-        //System.out.println("LandingForm init, panel1 = " + panel1); // should NOT be null
     }
 
     public JPanel getPanel() {
@@ -37,20 +36,26 @@ public class LandingForm {
      */
     private void $$$setupUI$$$() {
         panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
-        panel1.setBackground(new Color(-1315861));
-        title_field = new JLabel();
-        title_field.setBackground(new Color(-1));
-        Font title_fieldFont = this.$$$getFont$$$(".AppleSystemUIFont", Font.BOLD, 24, title_field.getFont());
-        if (title_fieldFont != null) title_field.setFont(title_fieldFont);
-        title_field.setForeground(new Color(-16777216));
-        title_field.setText("Arterial Reservoir Pressure Monitor");
-        panel1.add(title_field, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_SOUTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.setLayout(new GridLayoutManager(5, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.setOpaque(true);
         start_button = new JButton();
         start_button.setAlignmentX(0.0f);
         start_button.setAlignmentY(1.0f);
+        Font start_buttonFont = this.$$$getFont$$$(null, -1, 18, start_button.getFont());
+        if (start_buttonFont != null) start_button.setFont(start_buttonFont);
         start_button.setText("Start Program");
-        panel1.add(start_button, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(start_button, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(250, 50), null, 0, false));
+        final JLabel label1 = new JLabel();
+        Font label1Font = this.$$$getFont$$$(".AppleSystemUIFont", Font.BOLD, 26, label1.getFont());
+        if (label1Font != null) label1.setFont(label1Font);
+        label1.setText("Arterial Reservoir Pressure Monitor");
+        panel1.add(label1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_SOUTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer1 = new Spacer();
+        panel1.add(spacer1, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 20), null, 0, false));
+        final Spacer spacer2 = new Spacer();
+        panel1.add(spacer2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        final Spacer spacer3 = new Spacer();
+        panel1.add(spacer3, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
     }
 
     /**

@@ -1,5 +1,7 @@
 package ibm.gui;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
 import ibm.gui.design.*;
 
 import javax.swing.*;
@@ -80,7 +82,7 @@ public class GUIController {
         JMenu setupMenu = new JMenu("Setup");
         JMenuItem setupItem = new JMenuItem("New Setup");
         setupItem.addActionListener(_ ->{
-            ConfirmDialog newSetupConfirm = new ConfirmDialog("Confirm Setup");
+            ConfirmDialog newSetupConfirm = new ConfirmDialog("Create a New Setup?");
             newSetupConfirm.confirmButton.addActionListener(_->{
                 showSetupPage();
                 //TODO Clear Graph and allow new setup
@@ -93,6 +95,12 @@ public class GUIController {
         menuBar.add(setupMenu);
 
         JMenu monitorMenu = createMonitorMenu();
+        JMenuItem saveGraph = new JMenuItem("Save Graph");
+        saveGraph.addActionListener(_->{
+            SaveGraph saveDialog = new SaveGraph();
+        });
+        monitorMenu.add(saveGraph);
+
         monitorMenu.setVisible(false);
 
         menuBar.add(monitorMenu);
@@ -110,7 +118,7 @@ public class GUIController {
         JMenuItem graphClearItem = new JMenuItem("Clear all Graphs");
         //graphClearItem.setVisible(false);
         graphClearItem.addActionListener(_ -> {
-            ConfirmDialog clearConfirm = new ConfirmDialog("Clear");
+            ConfirmDialog clearConfirm = new ConfirmDialog("Clear all Graphs?");
             clearConfirm.confirmButton().addActionListener(_ -> {
                 //TODO add clear graphs
             });
@@ -118,6 +126,63 @@ public class GUIController {
         });
         monitorMenu.add(graphClearItem);
         return monitorMenu;
+    }
+
+    private class SaveGraph extends JDialog{
+        private final JDialog dialog;
+        private final JTextField nameField;
+        private final JTextField locField;
+        private final JButton save;
+        private SaveGraph(){
+            dialog = new  JDialog();
+            dialog.setLocationRelativeTo(null);
+            dialog.setLayout(new BorderLayout());
+            save = new JButton("Save");
+            JPanel filePropertiesPane = new RoundedPanel(5,0);
+            filePropertiesPane.setOpaque(true);
+            filePropertiesPane.getBackground().darker();
+
+            filePropertiesPane.setLayout(new GridLayout(0,1));
+            filePropertiesPane.setSize(300,200);
+
+            JPanel fileNamePane = new JPanel();
+            fileNamePane.setSize(300,100);
+            fileNamePane.setLayout(new GridLayout(1,0));
+            fileNamePane.setBackground(new Color(0,0,0,0));
+            fileNamePane.setOpaque(false);
+            nameField = new JTextField();
+            nameField.setSize(150,25);
+            JLabel nameLabel = new JLabel("Enter File Name:");
+            fileNamePane.add(nameLabel);
+            fileNamePane.add(nameField);
+            filePropertiesPane.add(fileNamePane);
+
+            JPanel fileLocationPane = new JPanel();
+            fileLocationPane.setLayout(new GridLayout(1,0));
+            fileLocationPane.setBackground(new Color(0,0,0,0));
+            fileLocationPane.setOpaque(false);
+
+            locField = new JTextField();
+            JLabel locLabel = new JLabel("Enter File Location:");
+            fileLocationPane.add(locLabel);
+            fileLocationPane.add(locField);
+            filePropertiesPane.add(fileLocationPane);
+
+            dialog.add(filePropertiesPane,BorderLayout.CENTER);
+            dialog.add(save, BorderLayout.SOUTH);
+
+
+
+            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+            save.addActionListener(_ -> {
+                //TODO Add Save Featah
+                dialog.dispose();
+                this.dispose();
+            });
+            dialog.setSize(300,300);
+            dialog.setVisible(true);
+
+        }
     }
 
     private class ConfirmDialog extends JDialog{
@@ -128,41 +193,67 @@ public class GUIController {
         private ConfirmDialog(String action) {
             dialog = new JDialog();
             dialog.setTitle(action);
-            dialog.setLocationRelativeTo(frame);
+            dialog.setUndecorated(true);
             Font f = new Font(".AppleSystemUIFont", Font.PLAIN, 14);
 
             confirmButton = new JButton("Confirm");
             confirmButton.setFont(f);
             confirmButton.setFocusPainted(false);
+
             cancelButton = new JButton("Cancel");
             cancelButton.setFont(f);
             cancelButton.setFocusPainted(false);
-            JPanel round = new RoundedPanel(5, 0);
-            round.setBackground(Color.DARK_GRAY);
 
+            //Create New Round Panel and Set a Margin
+            JPanel round = new RoundedPanel(5, 1);
+            round.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+            round.setOpaque(true);
+
+            //Create a Round Panel to House Confrim Button and add margin.
+            JPanel confirmWrapper = new JPanel();
+            confirmWrapper.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+            confirmWrapper.setOpaque(false);
+            confirmWrapper.setBackground(new Color(0,0,0,0));
             JPanel confirm = new RoundedPanel(5, 0);
-            dialog.setUndecorated(true);
+            //Removes Button Border
             confirmButton.setBorderPainted(false);
-
             confirm.setBackground(Color.GREEN);
             confirm.add(confirmButton);
+            confirmWrapper.add(confirm);
 
+            JPanel cancelWrapper =  new JPanel();
+            cancelWrapper.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+            cancelWrapper.setOpaque(false);
+            cancelWrapper.setBackground(new Color(0,0,0,0));
             JPanel cancel = new RoundedPanel(5, 0);
             cancelButton.setBorderPainted(false);
-
-            cancel.add(cancelButton);
             cancel.setBackground(Color.RED);
+            cancel.add(cancelButton);
+            cancelWrapper.add(cancel);
 
-            dialog.setLayout(new GridLayout(1, 0));
+            JPanel buttonsLocator = new  JPanel();
+            buttonsLocator.setOpaque(false);
+            buttonsLocator.setBackground(new Color(0, 0, 0, 0));
+            buttonsLocator.setLayout(new BorderLayout());
+            buttonsLocator.add(cancelWrapper,BorderLayout.WEST);
+            buttonsLocator.add(confirmWrapper,BorderLayout.EAST);
+            buttonsLocator.setSize(new Dimension(200,30));
+            //cancelButton.setBackground(Color.RED);
+
+            Font f2 = new Font(".AppleSystemUIFont", Font.BOLD, 14);
+            JLabel actionLabel = new JLabel(action, SwingConstants.CENTER);
+            actionLabel.setOpaque(false);
+            actionLabel.setFont(f2);
+
+
 
             dialog.setModal(true);
             dialog.setBackground(new Color(0, 0, 0, 0));
 
             dialog.setContentPane(round);
-
-            dialog.add(cancel);
-            dialog.add(confirm);
-
+            dialog.setLayout(new BorderLayout());
+            dialog.add(actionLabel, BorderLayout.NORTH);
+            dialog.add(buttonsLocator, BorderLayout.SOUTH);
             dialog.pack();
             dialog.setLocationRelativeTo(null);
             cancelButton.addActionListener(_ -> {

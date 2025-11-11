@@ -18,8 +18,10 @@ public class RoundedPanel extends JPanel {
         g2.setColor(getBackground());
         g2.fillRoundRect(ox, oy, ww, hh, 2*R, 2*R);
         g2.setStroke(new BasicStroke(T));
-        g2.setColor(stroke);
-        g2.drawRoundRect(ox, oy, ww, hh, 2*R, 2*R);
-        g2.dispose();
+        if(T!=0) {
+            g2.setColor(stroke);
+            g2.drawRoundRect(ox, oy, ww, hh, 2 * R, 2 * R);
+            g2.dispose();
+        }
     }
 }
