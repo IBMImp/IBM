@@ -4,10 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 
 //Code written with assistance from ChatGpt (OpenAI) 2025
-class RoundedPanel extends JPanel {
+public class RoundedPanel extends JPanel {
     private final int R, T;
     private final Color stroke = new Color(0,0,0);
-    RoundedPanel(int radius, int thickness) {
+    public RoundedPanel(int radius, int thickness) {
         this.R = radius; this.T = thickness;
         setOpaque(false);
     }
