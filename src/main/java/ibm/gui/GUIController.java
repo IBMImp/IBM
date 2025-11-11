@@ -29,8 +29,8 @@ public class GUIController {
             this.frame.getContentPane().add(cards);
 
             //Add Main Pages
-            createLandingPage();System.out.print("here3");
-            createSetupPage(); System.out.print("here2");
+            createLandingPage();
+            createSetupPage();
             createMonitorPage();
             this.frame.setJMenuBar(createMenuBar());
             menuBar.setVisible(false);
