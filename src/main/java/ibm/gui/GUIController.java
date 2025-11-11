@@ -57,8 +57,8 @@ public class GUIController {
     public boolean showSetupPage() {
         //Switches to startup page
         menuBar.setVisible(true);
-        menuBar.getMenu(1).setVisible(false);
-        menuBar.getMenu(0).setVisible(false);
+        /*menuBar.getMenu(1).setVisible(false);
+        menuBar.getMenu(0).setVisible(false);*/
         //menuBar.getMenu(1).getItem(1).setVisible(false);
         this.cards_switcher.show(cards, "setup");
         return true;
@@ -66,8 +66,8 @@ public class GUIController {
 
     public boolean showMonitorPage(){
         //Switches to startup page
-        menuBar.getMenu(0).setVisible(true);
-        menuBar.getMenu(1).setVisible(true);
+        /*menuBar.getMenu(0).setVisible(true);
+        menuBar.getMenu(1).setVisible(true);*/
         //menuBar.getMenu(1).getItem(0).setVisible(true);
         this.cards_switcher.show(cards, "monitor");
 
@@ -82,39 +82,58 @@ public class GUIController {
         JMenu setupMenu = new JMenu("Setup");
         JMenuItem setupItem = new JMenuItem("New Setup");
         setupItem.addActionListener(_ ->{
-            ConfirmDialog newSetupConfirm = new ConfirmDialog("Create a New Setup?");
+            /*ConfirmDialog newSetupConfirm = new ConfirmDialog("Create a New Setup?");
             newSetupConfirm.confirmButton.addActionListener(_->{
                 showSetupPage();
                 //TODO Clear Graph and allow new setup
                 newSetupConfirm.dialog.dispose();
                 newSetupConfirm.dispose();
             });
-            newSetupConfirm.dialog.setVisible(true);
+            newSetupConfirm.dialog.setVisible(true);*/
+            JOptionPane setupOptionPane = new JOptionPane();
+            if(JOptionPane.showConfirmDialog(setupOptionPane, "This will clear all graphs.", "Start New Setup?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){};
         });
         setupMenu.add(setupItem);
         menuBar.add(setupMenu);
 
-        JMenu monitorMenu = createMonitorMenu();
+        //JMenu monitorMenu = createMonitorMenu();
         JMenuItem saveGraph = new JMenuItem("Save Graph");
         saveGraph.addActionListener(_->{
             SaveGraph saveDialog = new SaveGraph();
         });
-        monitorMenu.add(saveGraph);
+        //monitorMenu.add(saveGraph);
 
-        monitorMenu.setVisible(false);
+        //monitorMenu.setVisible(false);
 
-        menuBar.add(monitorMenu);
+        JMenu Test = new JMenu();
+        JMenuItem testItem = new JMenuItem("Test");
+        testItem.addActionListener(_->{
+           JOptionPane testDialog = new JOptionPane();
+           testDialog.setWantsInput(true);
+           int answer = JOptionPane.showConfirmDialog(testDialog, "Confirm");
+           if(answer == 0){
+               showMonitorPage();
+           }
+        });
 
-        JMenu helpMenu = createHelpMenu();
-        menuBar.add(helpMenu);
+
+        //menuBar.add(monitorMenu);
+
+        //JMenu helpMenu = createHelpMenu();
+        JMenuItem helpItem = new JMenuItem("Help");
+        helpItem.addActionListener(_->{
+            JOptionPane.showMessageDialog(frame, "No Help", "Help", JOptionPane.INFORMATION_MESSAGE);
+        });
+        menuBar.add(helpItem);
+        menuBar.add(testItem);
         return menuBar;
     }
 
-    private JMenu createMonitorMenu() {
+   /* private JMenu createMonitorMenu() {
         JMenu monitorMenu = new JMenu("Graph Options");
-        /*JMenuItem monitorItem = new JMenuItem("Monitor");
-        monitorItem.addActionListener(_ -> showMonitorPage());
-        monitorMenu.add(monitorItem);*/
+        //JMenuItem monitorItem = new JMenuItem("Monitor");
+        //monitorItem.addActionListener(_ -> showMonitorPage());
+        //monitorMenu.add(monitorItem);
         JMenuItem graphClearItem = new JMenuItem("Clear all Graphs");
         //graphClearItem.setVisible(false);
         graphClearItem.addActionListener(_ -> {
@@ -127,7 +146,7 @@ public class GUIController {
         monitorMenu.add(graphClearItem);
         return monitorMenu;
     }
-
+*/
     private class SaveGraph extends JDialog{
         private final JDialog dialog;
         private final JTextField nameField;
@@ -185,7 +204,7 @@ public class GUIController {
         }
     }
 
-    private class ConfirmDialog extends JDialog{
+    /*private class ConfirmDialog extends JDialog{
         private final JButton confirmButton;
         private final JButton cancelButton;
         private final JDialog dialog;
@@ -265,7 +284,7 @@ public class GUIController {
             return confirmButton;
         }
     }
-    
+
     private JMenu createHelpMenu() {
         JMenu helpMenu = new JMenu("Help");
         JMenuItem helpItem = new JMenuItem("Help");
@@ -283,7 +302,7 @@ public class GUIController {
         helpMenu.add(helpItem);
         return helpMenu;
     }
-
+*/
     private void createLandingPage(){
         //Create and add the landing page
         LandingForm landingForm = new LandingForm();
