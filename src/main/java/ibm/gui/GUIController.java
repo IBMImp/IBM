@@ -1,11 +1,11 @@
 package ibm.gui;
 
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
 import ibm.gui.design.*;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.io.*;
 import java.util.Arrays;
 import java.util.logging.*;
 
@@ -82,206 +82,82 @@ public class GUIController {
         JMenu setupMenu = new JMenu("Setup");
         JMenuItem setupItem = new JMenuItem("New Setup");
         setupItem.addActionListener(_ ->{
-            ConfirmDialog newSetupConfirm = new ConfirmDialog("Create a New Setup?");
-            newSetupConfirm.confirmButton.addActionListener(_->{
+            if(JOptionPane.showConfirmDialog(null, "Start a New Setup?\nThis will clear all graphs", "Warning", JOptionPane.YES_NO_OPTION) == 0) {
                 showSetupPage();
-                //TODO Clear Graph and allow new setup
-                newSetupConfirm.dialog.dispose();
-                newSetupConfirm.dispose();
-            });
-            newSetupConfirm.dialog.setVisible(true);
+                //TODO Clear Graph and allow new Setup
+            }
         });
         setupMenu.add(setupItem);
         menuBar.add(setupMenu);
 
-        JMenu monitorMenu = createMonitorMenu();
+        JMenu monitorMenu = new JMenu("Monitor");
+        JMenuItem graphClearItem = new JMenuItem("Clear all Graphs");
+        //graphClearItem.setVisible(false);
+        graphClearItem.addActionListener(_ -> {
+            if(JOptionPane.showConfirmDialog(null, "Clear all graphs ?", "Warning", JOptionPane.YES_NO_OPTION) == 0) {
+                //TODO Implement Clear Graph
+            }
+        });
+        monitorMenu.add(graphClearItem);
         JMenuItem saveGraph = new JMenuItem("Save Graph");
         saveGraph.addActionListener(_->{
-            SaveGraph saveDialog = new SaveGraph();
+            JFileChooser chooser = new JFileChooser();
+            chooser.setDialogTitle("Save As");
+            chooser.setSelectedFile(new File("untitled.csv"));
+            if(chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+                File file = chooser.getSelectedFile();
+                try {
+                    FileWriter fw = new FileWriter(file);
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    bw.write("Hello World");
+                    bw.close();
+                    //TODO ADD SAVE GRAPH
+                    System.out.println("Saved file:" + file.getName() + "  To:" + file.getAbsolutePath());
+                } catch(Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
         });
         monitorMenu.add(saveGraph);
+
+        JMenuItem loadGraph = new JMenuItem("Load Graph");
+        loadGraph.addActionListener(_->{
+            JFileChooser chooser = new JFileChooser();
+            chooser.setDialogTitle("Load Graph");
+            chooser.setFileFilter(new FileNameExtensionFilter("CSV Files","csv"));
+           if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+               File file = chooser.getSelectedFile();
+               if(file.exists() && !file.isDirectory() && file.canRead() && file.getName().toLowerCase().endsWith(".csv")) {
+                   try {
+                       FileReader fr = new FileReader(file);
+                       //TODO Impletment file reader
+                   } catch (Exception e) {
+                       System.out.println(e.getMessage());
+                   }
+               }
+               else {
+                   JOptionPane.showMessageDialog(null, "Please Select a CSV File", "Warning", JOptionPane.WARNING_MESSAGE);
+               }
+           }
+        });
+        monitorMenu.add(loadGraph);
 
         monitorMenu.setVisible(false);
 
         menuBar.add(monitorMenu);
 
-        JMenu helpMenu = createHelpMenu();
+        JMenuItem helpMenu = new JMenuItem("Help");
+        helpMenu.addActionListener(_->{
+           JOptionPane helpMenuOptionPane = new JOptionPane();
+           
+           helpMenuOptionPane.setMessage("<html><body><p style='width: 200px;'>"+"There ain't no help where you're looking and now this is just testing if the " +
+                   "thing will wrap because it should but im not 100% sure it will because Ive never tried this before really and it would be very cool if it did." +
+                   " Obviously this is yappery and absolutely usless but ehhhhhh"+"</p></body></html>"); //TODO Actual HELP
+            helpMenuOptionPane.setFont(f);
+           JOptionPane.showMessageDialog(helpMenuOptionPane,helpMenuOptionPane.getMessage(),"Help",JOptionPane.INFORMATION_MESSAGE);
+        });
         menuBar.add(helpMenu);
         return menuBar;
-    }
-
-    private JMenu createMonitorMenu() {
-        JMenu monitorMenu = new JMenu("Graph Options");
-        /*JMenuItem monitorItem = new JMenuItem("Monitor");
-        monitorItem.addActionListener(_ -> showMonitorPage());
-        monitorMenu.add(monitorItem);*/
-        JMenuItem graphClearItem = new JMenuItem("Clear all Graphs");
-        //graphClearItem.setVisible(false);
-        graphClearItem.addActionListener(_ -> {
-            ConfirmDialog clearConfirm = new ConfirmDialog("Clear all Graphs?");
-            clearConfirm.confirmButton().addActionListener(_ -> {
-                //TODO add clear graphs
-            });
-            clearConfirm.dialog.setVisible(true);
-        });
-        monitorMenu.add(graphClearItem);
-        return monitorMenu;
-    }
-
-    private class SaveGraph extends JDialog{
-        private final JDialog dialog;
-        private final JTextField nameField;
-        private final JTextField locField;
-        private final JButton save;
-        private SaveGraph(){
-            dialog = new  JDialog();
-            dialog.setLocationRelativeTo(null);
-            dialog.setLayout(new BorderLayout());
-            save = new JButton("Save");
-            JPanel filePropertiesPane = new RoundedPanel(5,0);
-            filePropertiesPane.setOpaque(true);
-            filePropertiesPane.getBackground().darker();
-
-            filePropertiesPane.setLayout(new GridLayout(0,1));
-            filePropertiesPane.setSize(300,200);
-
-            JPanel fileNamePane = new JPanel();
-            fileNamePane.setSize(300,100);
-            fileNamePane.setLayout(new GridLayout(1,0));
-            fileNamePane.setBackground(new Color(0,0,0,0));
-            fileNamePane.setOpaque(false);
-            nameField = new JTextField();
-            nameField.setSize(150,25);
-            JLabel nameLabel = new JLabel("Enter File Name:");
-            fileNamePane.add(nameLabel);
-            fileNamePane.add(nameField);
-            filePropertiesPane.add(fileNamePane);
-
-            JPanel fileLocationPane = new JPanel();
-            fileLocationPane.setLayout(new GridLayout(1,0));
-            fileLocationPane.setBackground(new Color(0,0,0,0));
-            fileLocationPane.setOpaque(false);
-
-            locField = new JTextField();
-            JLabel locLabel = new JLabel("Enter File Location:");
-            fileLocationPane.add(locLabel);
-            fileLocationPane.add(locField);
-            filePropertiesPane.add(fileLocationPane);
-
-            dialog.add(filePropertiesPane,BorderLayout.CENTER);
-            dialog.add(save, BorderLayout.SOUTH);
-
-
-
-            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-            save.addActionListener(_ -> {
-                //TODO Add Save Featah
-                dialog.dispose();
-                this.dispose();
-            });
-            dialog.setSize(300,300);
-            dialog.setVisible(true);
-
-        }
-    }
-
-    private class ConfirmDialog extends JDialog{
-        private final JButton confirmButton;
-        private final JButton cancelButton;
-        private final JDialog dialog;
-        //Creates and returns a JDialog to confirm action
-        private ConfirmDialog(String action) {
-            dialog = new JDialog();
-            dialog.setTitle(action);
-            dialog.setUndecorated(true);
-            Font f = new Font(".AppleSystemUIFont", Font.PLAIN, 14);
-
-            confirmButton = new JButton("Confirm");
-            confirmButton.setFont(f);
-            confirmButton.setFocusPainted(false);
-
-            cancelButton = new JButton("Cancel");
-            cancelButton.setFont(f);
-            cancelButton.setFocusPainted(false);
-
-            //Create New Round Panel and Set a Margin
-            JPanel round = new RoundedPanel(5, 1);
-            round.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-            round.setOpaque(true);
-
-            //Create a Round Panel to House Confrim Button and add margin.
-            JPanel confirmWrapper = new JPanel();
-            confirmWrapper.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-            confirmWrapper.setOpaque(false);
-            confirmWrapper.setBackground(new Color(0,0,0,0));
-            JPanel confirm = new RoundedPanel(5, 0);
-            //Removes Button Border
-            confirmButton.setBorderPainted(false);
-            confirm.setBackground(Color.GREEN);
-            confirm.add(confirmButton);
-            confirmWrapper.add(confirm);
-
-            JPanel cancelWrapper =  new JPanel();
-            cancelWrapper.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-            cancelWrapper.setOpaque(false);
-            cancelWrapper.setBackground(new Color(0,0,0,0));
-            JPanel cancel = new RoundedPanel(5, 0);
-            cancelButton.setBorderPainted(false);
-            cancel.setBackground(Color.RED);
-            cancel.add(cancelButton);
-            cancelWrapper.add(cancel);
-
-            JPanel buttonsLocator = new  JPanel();
-            buttonsLocator.setOpaque(false);
-            buttonsLocator.setBackground(new Color(0, 0, 0, 0));
-            buttonsLocator.setLayout(new BorderLayout());
-            buttonsLocator.add(cancelWrapper,BorderLayout.WEST);
-            buttonsLocator.add(confirmWrapper,BorderLayout.EAST);
-            buttonsLocator.setSize(new Dimension(200,30));
-            //cancelButton.setBackground(Color.RED);
-
-            Font f2 = new Font(".AppleSystemUIFont", Font.BOLD, 14);
-            JLabel actionLabel = new JLabel(action, SwingConstants.CENTER);
-            actionLabel.setOpaque(false);
-            actionLabel.setFont(f2);
-
-
-
-            dialog.setModal(true);
-            dialog.setBackground(new Color(0, 0, 0, 0));
-
-            dialog.setContentPane(round);
-            dialog.setLayout(new BorderLayout());
-            dialog.add(actionLabel, BorderLayout.NORTH);
-            dialog.add(buttonsLocator, BorderLayout.SOUTH);
-            dialog.pack();
-            dialog.setLocationRelativeTo(null);
-            cancelButton.addActionListener(_ -> {
-                dialog.dispose();
-                this.dispose();
-            });
-        }
-        public JButton confirmButton(){
-            return confirmButton;
-        }
-    }
-    
-    private JMenu createHelpMenu() {
-        JMenu helpMenu = new JMenu("Help");
-        JMenuItem helpItem = new JMenuItem("Help");
-        helpItem.addActionListener(_ ->{
-            JDialog helpDialog = new JDialog(frame, "Help", true);
-            Dimension dialogSize = new  Dimension(400,400);
-            helpDialog.setSize(dialogSize);
-            helpDialog.setLocationRelativeTo(null);
-            helpDialog.setResizable(false);
-            helpDialog.setTitle("Help");
-            helpDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            helpDialog.setVisible(true);
-        });
-
-        helpMenu.add(helpItem);
-        return helpMenu;
     }
 
     private void createLandingPage(){
