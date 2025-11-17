@@ -94,18 +94,23 @@ public class GUIController {
 
         menuBar.add(monitorMenu);
 
+        JMenuItem helpMenu = createJMenuItem(f);
+        menuBar.add(helpMenu);
+        return menuBar;
+    }
+
+    private JMenuItem createJMenuItem(Font f) {
         JMenuItem helpMenu = new JMenuItem("Help");
         helpMenu.addActionListener(_->{
            JOptionPane helpMenuOptionPane = new JOptionPane();
-           
+
            helpMenuOptionPane.setMessage("<html><body><p style='width: 200px;'>"+"There ain't no help where you're looking and now this is just testing if the " +
                    "thing will wrap because it should but im not 100% sure it will because Ive never tried this before really and it would be very cool if it did." +
                    " Obviously this is yappery and absolutely useless but ehhhhhh"+"</p></body></html>"); //TODO Actual HELP
             helpMenuOptionPane.setFont(f);
            JOptionPane.showMessageDialog(helpMenuOptionPane,helpMenuOptionPane.getMessage(),"Help",JOptionPane.INFORMATION_MESSAGE);
         });
-        menuBar.add(helpMenu);
-        return menuBar;
+        return helpMenu;
     }
 
     private JMenu createMonitorMenu() {
@@ -156,7 +161,7 @@ public class GUIController {
             int numWaveForms = Integer.parseInt(settings[0]);
             int sampleRate = Integer.parseInt(settings[1]);
             AppState.currentSettings = new SetupSettings(numWaveForms, sampleRate);
-            return;
+            //TODO ADD File data
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -250,9 +255,9 @@ public class GUIController {
         monitorPage.getGraphsPane().setDividerLocation(frameSize.height/2-100);
         cards.add(monitorPage.getPanel(), "monitor");
     }
+
     public static class AppState {
         public static SetupSettings currentSettings;
     }
-
     public record SetupSettings(int numWaveForms, int sampleRate) {}
 }
