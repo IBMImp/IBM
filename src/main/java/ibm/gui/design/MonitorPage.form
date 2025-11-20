@@ -23,8 +23,9 @@
             </constraints>
             <properties>
               <continuousLayout value="true"/>
-              <dividerLocation value="492"/>
+              <dividerLocation value="250"/>
               <dividerSize value="4"/>
+              <enabled value="true"/>
               <name value="Both Graphs"/>
               <oneTouchExpandable value="true"/>
               <orientation value="1"/>
@@ -100,7 +101,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="52ea6" class="javax.swing.JLabel" binding="patientName">
+          <component id="52ea6" class="javax.swing.JLabel" binding="patientNameLabel">
             <constraints/>
             <properties>
               <text value="Patient Name"/>

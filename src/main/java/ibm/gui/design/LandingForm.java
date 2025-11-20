@@ -14,9 +14,18 @@ import java.util.Locale;
 public class LandingForm {
     private JPanel panel1;
     private JButton start_button;
+    private JLabel title;
+
+    private void setFonts() {
+        Font f = new Font(".AppleSystemUIFont", Font.BOLD, 24);
+        title.setFont(f);
+        Font f2 = new Font(".AppleSystemUIFont", Font.BOLD, 16);
+        start_button.setFont(f2);
+    }
 
     public LandingForm() {
         $$$setupUI$$$();
+        setFonts();
     }
 
     public JPanel getPanel() {
@@ -45,11 +54,11 @@ public class LandingForm {
         if (start_buttonFont != null) start_button.setFont(start_buttonFont);
         start_button.setText("Start Program");
         panel1.add(start_button, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(250, 50), null, 0, false));
-        final JLabel label1 = new JLabel();
-        Font label1Font = this.$$$getFont$$$(".AppleSystemUIFont", Font.BOLD, 26, label1.getFont());
-        if (label1Font != null) label1.setFont(label1Font);
-        label1.setText("Arterial Reservoir Pressure Monitor");
-        panel1.add(label1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_SOUTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        title = new JLabel();
+        Font titleFont = this.$$$getFont$$$(".AppleSystemUIFont", Font.BOLD, 26, title.getFont());
+        if (titleFont != null) title.setFont(titleFont);
+        title.setText("Arterial Reservoir Pressure Monitor");
+        panel1.add(title, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_SOUTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
         panel1.add(spacer1, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 20), null, 0, false));
         final Spacer spacer2 = new Spacer();

@@ -1,15 +1,22 @@
 package ibm.gui;
 
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.FlatPropertiesLaf;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import ibm.gui.design.*;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.logging.*;
+
 
 public class GUIController {
 
@@ -19,6 +26,9 @@ public class GUIController {
     private final CardLayout cards_switcher = (CardLayout)cards.getLayout();
     private final Dimension frameSize = new Dimension(1500,1000);
     private final JMenuBar menuBar = new JMenuBar();
+    private MonitorPage monitorPage;
+    private SetupPage setupPage;
+    private boolean dark = true;
 
     public GUIController(Logger logger) {
         GUIController.logger = logger;
@@ -32,11 +42,13 @@ public class GUIController {
             this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             this.frame.getContentPane().add(cards);
 
+            monitorPage = new MonitorPage();
             //Add Main Pages
             createLandingPage();
             createSetupPage();
             createMonitorPage();
             this.frame.setJMenuBar(createMenuBar());
+            applyTheme(dark);
             menuBar.setVisible(false);
             this.cards_switcher.show(cards, "landing");
             result = true;
@@ -67,12 +79,46 @@ public class GUIController {
     }
 
     public boolean showMonitorPage(){
-        //Switches to startup page
+        //Switches to monitor page
         menuBar.getMenu(0).setVisible(true);
         menuBar.getMenu(1).setVisible(true);
+        monitorPage.setCustomFields(AppState.currentSettings.patientName);
+        cards.revalidate();
+        cards.repaint();
         this.cards_switcher.show(cards, "monitor");
 
         return true;
+    }
+
+    public void applyTheme(boolean dark) {
+        try {
+            if (dark) {
+                FlatDarkLaf.setup();
+                FlatLaf.setup(new FlatPropertiesLaf(
+                        "MyDarkTheme",
+                        Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("themes/my_dark.properties"))
+                ));
+            } else {
+                FlatLightLaf.setup();
+                FlatLaf.setup(new FlatPropertiesLaf(
+                        "MyLightTheme",
+                        Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("themes/my_light.properties"))
+                ));
+            }
+
+            UIManager.put("defaultFont", new Font(".AppleSystemUIFont", Font.PLAIN, 12));
+
+            for (java.awt.Window w : java.awt.Window.getWindows()) {
+                javax.swing.SwingUtilities.updateComponentTreeUI(w);
+                w.repaint();
+            }
+            setupPage.darkenBackground();
+            monitorPage.darkenBackground();
+        }
+        catch(Exception e) {
+            logger.warning(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
+
+        }
     }
 
     private JMenuBar createMenuBar(){
@@ -93,8 +139,10 @@ public class GUIController {
         menuBar.add(setupMenu);
 
         JMenu monitorMenu = createMonitorMenu();
-
         menuBar.add(monitorMenu);
+
+        JMenuItem lookMenu = createLookMenu();
+        menuBar.add(lookMenu);
 
         JMenuItem helpMenu = createHelpMenu(f);
         menuBar.add(helpMenu);
@@ -121,6 +169,13 @@ public class GUIController {
 
 
         JMenuItem saveGraph = new JMenuItem("Save Graph");
+
+        KeyStroke saveKey = KeyStroke.getKeyStroke(
+                KeyEvent.VK_S,
+                Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()
+        );
+
+        saveGraph.setAccelerator(saveKey);
         saveGraph.addActionListener(_-> saveFileDialog());
         saveGraph.setIcon(new FlatSVGIcon("icons/save.svg",16,16));
         monitorMenu.add(saveGraph);
@@ -145,6 +200,20 @@ public class GUIController {
         return monitorMenu;
     }
 
+    private JMenu createLookMenu() {
+        JMenu lookMenu = new JMenu("Appearance");
+        JMenuItem lookItem = new JMenuItem("Theme");
+        lookItem.setIcon(new FlatSVGIcon("icons/dark.svg",16,16));
+        lookItem.addActionListener(_ -> {
+            dark = !dark;
+            applyTheme(dark);
+            if(!dark) lookItem.setIcon(new FlatSVGIcon("icons/light.svg",16,16));
+            else lookItem.setIcon(new FlatSVGIcon("icons/dark.svg",16,16));
+        });
+        lookMenu.add(lookItem);
+        return lookMenu;
+    }
+
     private void loadFileDialog(){
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("Load Graph");
@@ -165,9 +234,11 @@ public class GUIController {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String settingsLine = br.readLine();
             String[] settings = settingsLine.split(",");
-            int numWaveForms = Integer.parseInt(settings[0]);
-            int sampleRate = Integer.parseInt(settings[1]);
-            AppState.currentSettings = new SetupSettings(numWaveForms, sampleRate);
+            String patientName = settings[0].trim();
+            int numWaveForms = Integer.parseInt(settings[1]);
+            int sampleRate = Integer.parseInt(settings[2]);
+            AppState.currentSettings = new SetupSettings(patientName, numWaveForms, sampleRate);
+            showMonitorPage();
             //TODO ADD File data
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -176,7 +247,7 @@ public class GUIController {
     private void saveFileDialog(){
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("Save As");
-        chooser.setSelectedFile(new File("untitled.csv"));
+        chooser.setSelectedFile(new File(AppState.currentSettings.patientName + " Arterial Reservoir Pressure.csv"));
         if(chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
             if(!file.exists()){
@@ -205,6 +276,7 @@ public class GUIController {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
             StringJoiner setupLine = new StringJoiner(",");
+            setupLine.add(AppState.currentSettings.patientName);
             setupLine.add("" + AppState.currentSettings.numWaveForms);
             setupLine.add("" + AppState.currentSettings.sampleRate);
             setupLine.add("-->");
@@ -235,9 +307,8 @@ public class GUIController {
 
     private void createSetupPage(){
         //Create and add the setup page
-        SetupPage setupPage = new SetupPage();
+        setupPage = new SetupPage();
         cards.add(setupPage.getPanel(), "setup");
-
         setupPage.getButton_loadSetup().addActionListener(_ -> {
             if(JOptionPane.showConfirmDialog(null, "Would you like to load a pre-existing file?", "Load File?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 loadFileDialog();
@@ -245,7 +316,9 @@ public class GUIController {
             }
         });
         setupPage.getButton_finish_setup().addActionListener(_ -> {
-            AppState.currentSettings = new SetupSettings(setupPage.getNumWaveForms(), setupPage.getSampleRate());
+            AppState.currentSettings = new SetupSettings(setupPage.getPatientName().trim(),
+                    setupPage.getNumWaveForms(),
+                    setupPage.getSampleRate());
             if(!this.showMonitorPage()) {
                 try {
                     throw new Exception("Switch to Monitor Page Failed");
@@ -258,13 +331,12 @@ public class GUIController {
 
     private void createMonitorPage(){
         //Create and add the monitor Page
-        MonitorPage monitorPage = new MonitorPage();
-        monitorPage.getGraphsPane().setDividerLocation(frameSize.height/2-100);
+        monitorPage.getGraphsPane().setDividerLocation(frameSize.width/2);
         cards.add(monitorPage.getPanel(), "monitor");
     }
 
     public static class AppState {
         public static SetupSettings currentSettings;
     }
-    public record SetupSettings(int numWaveForms, int sampleRate) {}
+    public record SetupSettings(String patientName, int numWaveForms, int sampleRate) {}
 }

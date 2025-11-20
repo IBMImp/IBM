@@ -22,7 +22,7 @@ public class MonitorPage {
     private JButton stopButton;
     private JButton button3;
     private JButton button4;
-    private JLabel patientName;
+    private JLabel patientNameLabel;
     private double t = 0;
     private int sampleRate = 2048;
 
@@ -54,17 +54,23 @@ public class MonitorPage {
 
     }
 
-    private void darkerZones() {
-        graphsPane.setBackground(graphsPane.getBackground().darker());
-        bppCont.setBackground(bppCont.getBackground().darker());
-        arppCont.setBackground(arppCont.getBackground().darker());
+    public void darkenBackground() {
+        graphsPane.setBackground(graphsPane.getBackground().brighter());
+        bppCont.setBackground(panel1.getBackground().darker());
+        arppCont.setBackground(panel1.getBackground().darker());
     }
 
-    public void initButtons() {
+    private void initButtons() {
         int size = 30;
         playButton.setIcon(new FlatSVGIcon("icons/play.svg", size, size));
-        stopButton.setIcon(new FlatSVGIcon("icons/stop.svg", size+5, size+5));
-        patientName.setIcon(new FlatSVGIcon("icons/patient.svg", size-5, size-5));
+        stopButton.setIcon(new FlatSVGIcon("icons/stop.svg", size + 5, size + 5));
+        patientNameLabel.setIcon(new FlatSVGIcon("icons/patient.svg", size - 5, size - 5));
+    }
+
+    public void setCustomFields(String patientName) {
+        patientNameLabel.setText(patientName);
+        panel1.revalidate();
+        panel1.repaint();
     }
 
     public MonitorPage() {
@@ -72,7 +78,7 @@ public class MonitorPage {
 // >>> IMPORTANT!! <<<
 // DO NOT EDIT OR ADD ANY CODE HERE!
         $$$setupUI$$$();
-        darkerZones();
+        darkenBackground();
         initButtons();
     }
 
@@ -90,8 +96,9 @@ public class MonitorPage {
         panel1.add(tabbedPane1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
         graphsPane = new JSplitPane();
         graphsPane.setContinuousLayout(true);
-        graphsPane.setDividerLocation(492);
+        graphsPane.setDividerLocation(250);
         graphsPane.setDividerSize(4);
+        graphsPane.setEnabled(true);
         graphsPane.setName("Both Graphs");
         graphsPane.setOneTouchExpandable(true);
         graphsPane.setOrientation(1);
@@ -118,9 +125,9 @@ public class MonitorPage {
         tabbedPane1.addTab("Blood Pressure Chart", panel3);
         final JToolBar toolBar1 = new JToolBar();
         panel1.add(toolBar1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 20), null, 0, false));
-        patientName = new JLabel();
-        patientName.setText("Patient Name");
-        toolBar1.add(patientName);
+        patientNameLabel = new JLabel();
+        patientNameLabel.setText("Patient Name");
+        toolBar1.add(patientNameLabel);
         final Spacer spacer1 = new Spacer();
         toolBar1.add(spacer1);
         playButton = new JButton();

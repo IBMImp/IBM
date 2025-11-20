@@ -15,8 +15,7 @@ void main() {
     GUIController gui = new GUIController(guiLogger);
     SwingUtilities.invokeLater(() -> {
         try {
-            javax.swing.UIManager.setLookAndFeel(new FlatLightLaf());
-            UIManager.put("defaultFont", new Font(".AppleSystemUIFont", Font.PLAIN, 12));
+
             if (!gui.init()) throw new ExceptionInInitializerError("GUI Initialization Error");
             gui.showGUI();
         } catch (Exception e) {

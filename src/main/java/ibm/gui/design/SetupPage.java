@@ -21,6 +21,10 @@ public class SetupPage {
     private JComboBox sampleRateSelect;
     private JPanel numWavePanel;
     private JButton button_loadSetup;
+    private JLabel patientNameLabel;
+    private JTextField patientNameField;
+    private JLabel radioLabel;
+    private JLabel sampleLabel;
     private ButtonGroup input_num_select;
     private JPanel sampleRatePanel;
 
@@ -36,10 +40,31 @@ public class SetupPage {
         return button_loadSetup;
     }
 
+    public String getPatientName() {
+        return patientNameField.getText();
+    }
+
     public int getNumWaveForms() {
         if (input_one_select.isSelected()) return 1;
         if (input_two_select.isSelected()) return 2;
         return 0;
+    }
+
+    private void setFonts() {
+        Font f = new Font(".AppleSystemUIFont", Font.BOLD, 24);
+        setup_title.setFont(f);
+        Font f1 = new Font(".AppleSystemUIFont", Font.BOLD, 14);
+        patientNameLabel.setFont(f1);
+        radioLabel.setFont(f1);
+        sampleLabel.setFont(f1);
+        Font f2 = new Font(".AppleSystemUIFont", Font.BOLD, 16);
+        button_finish_setup.setFont(f2);
+        button_loadSetup.setFont(f2);
+    }
+
+    public void darkenBackground() {
+        input_number_panel.setBackground(panel1.getBackground().darker());
+        button_loadSetup.setBackground(panel1.getBackground().brighter());
     }
 
     public int getSampleRate() {
@@ -51,8 +76,8 @@ public class SetupPage {
 // >>> IMPORTANT!! <<<
 // DO NOT EDIT OR ADD ANY CODE HERE!
         $$$setupUI$$$();
-        button_loadSetup.setBackground(button_loadSetup.getBackground().brighter());
-        button_finish_setup.setBackground(button_finish_setup.getBackground().brighter());
+        setFonts();
+        darkenBackground();
     }
 
     /**
@@ -65,38 +90,58 @@ public class SetupPage {
     private void $$$setupUI$$$() {
         createUIComponents();
         panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(8, 3, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.setLayout(new GridLayoutManager(5, 3, new Insets(0, 0, 0, 0), -1, -1));
         panel1.setOpaque(true);
         panel1.setVisible(true);
         input_number_panel.setLayout(new GridLayoutManager(5, 3, new Insets(0, 0, 0, 0), -1, -1));
-        panel1.add(input_number_panel, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(527, 42), null, 0, false));
+        panel1.add(input_number_panel, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(527, 42), null, 0, false));
         final Spacer spacer1 = new Spacer();
-        input_number_panel.add(spacer1, new GridConstraints(2, 0, 2, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, 1, null, new Dimension(15, -1), null, 0, false));
+        input_number_panel.add(spacer1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 15), null, 0, false));
+        final Spacer spacer2 = new Spacer();
+        input_number_panel.add(spacer2, new GridConstraints(0, 0, 5, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, 1, null, new Dimension(10, 11), null, 0, false));
+        final Spacer spacer3 = new Spacer();
+        input_number_panel.add(spacer3, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        final JPanel panel2 = new JPanel();
+        panel2.setLayout(new GridLayoutManager(3, 2, new Insets(0, 0, 0, 0), -1, -1));
+        panel2.setFocusable(false);
+        panel2.setOpaque(false);
+        input_number_panel.add(panel2, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        patientNameLabel = new JLabel();
+        Font patientNameLabelFont = this.$$$getFont$$$(".AppleSystemUIFont", Font.BOLD, 14, patientNameLabel.getFont());
+        if (patientNameLabelFont != null) patientNameLabel.setFont(patientNameLabelFont);
+        patientNameLabel.setText("Patient Name");
+        panel2.add(patientNameLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        patientNameField = new JTextField();
+        Font patientNameFieldFont = this.$$$getFont$$$(".AppleSystemUIFont", Font.PLAIN, 14, patientNameField.getFont());
+        if (patientNameFieldFont != null) patientNameField.setFont(patientNameFieldFont);
+        patientNameField.setHorizontalAlignment(0);
+        panel2.add(patientNameField, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(200, 30), new Dimension(200, 30), 0, false));
+        radioLabel = new JLabel();
+        Font radioLabelFont = this.$$$getFont$$$(".AppleSystemUIFont", Font.BOLD, 14, radioLabel.getFont());
+        if (radioLabelFont != null) radioLabel.setFont(radioLabelFont);
+        radioLabel.setText("Select the Number of Pressure Waveforms");
+        panel2.add(radioLabel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         numWavePanel.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
         numWavePanel.setOpaque(false);
-        input_number_panel.add(numWavePanel, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 50), null, 0, false));
-        input_one_select = new JRadioButton();
-        Font input_one_selectFont = this.$$$getFont$$$(".AppleSystemUIFont", Font.PLAIN, 12, input_one_select.getFont());
-        if (input_one_selectFont != null) input_one_select.setFont(input_one_selectFont);
-        input_one_select.setSelected(true);
-        input_one_select.setText("One Input Wavefrom");
-        numWavePanel.add(input_one_select, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel2.add(numWavePanel, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 30), null, 0, false));
         input_two_select = new JRadioButton();
+        input_two_select.setBorderPainted(true);
         Font input_two_selectFont = this.$$$getFont$$$(".AppleSystemUIFont", Font.PLAIN, 12, input_two_select.getFont());
         if (input_two_selectFont != null) input_two_select.setFont(input_two_selectFont);
         input_two_select.setText("Two Input Waveform");
         numWavePanel.add(input_two_select, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final Spacer spacer2 = new Spacer();
-        input_number_panel.add(spacer2, new GridConstraints(2, 2, 2, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, 1, null, new Dimension(15, -1), null, 0, false));
-        final JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayoutManager(2, 1, new Insets(10, 10, 10, 10), -1, -1));
-        panel2.setOpaque(false);
-        input_number_panel.add(panel2, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        final JLabel label1 = new JLabel();
-        Font label1Font = this.$$$getFont$$$(".AppleSystemUIFont", Font.BOLD, 14, label1.getFont());
-        if (label1Font != null) label1.setFont(label1Font);
-        label1.setText("Device Sample Rate");
-        panel2.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        input_one_select = new JRadioButton();
+        input_one_select.setBorderPainted(true);
+        Font input_one_selectFont = this.$$$getFont$$$(".AppleSystemUIFont", Font.PLAIN, 12, input_one_select.getFont());
+        if (input_one_selectFont != null) input_one_select.setFont(input_one_selectFont);
+        input_one_select.setSelected(true);
+        input_one_select.setText("One Input Wavefrom");
+        numWavePanel.add(input_one_select, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        sampleLabel = new JLabel();
+        Font sampleLabelFont = this.$$$getFont$$$(".AppleSystemUIFont", Font.BOLD, 14, sampleLabel.getFont());
+        if (sampleLabelFont != null) sampleLabel.setFont(sampleLabelFont);
+        sampleLabel.setText("Device Sample Rate");
+        panel2.add(sampleLabel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         sampleRateSelect = new JComboBox();
         Font sampleRateSelectFont = this.$$$getFont$$$(".AppleSystemUIFont", Font.PLAIN, 12, sampleRateSelect.getFont());
         if (sampleRateSelectFont != null) sampleRateSelect.setFont(sampleRateSelectFont);
@@ -111,43 +156,46 @@ public class SetupPage {
         defaultComboBoxModel1.addElement("32768");
         defaultComboBoxModel1.addElement("65536");
         sampleRateSelect.setModel(defaultComboBoxModel1);
-        panel2.add(sampleRateSelect, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(200, 50), null, 0, false));
-        final Spacer spacer3 = new Spacer();
-        input_number_panel.add(spacer3, new GridConstraints(0, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 15), null, 0, false));
-        final JLabel label2 = new JLabel();
-        Font label2Font = this.$$$getFont$$$(".AppleSystemUIFont", Font.BOLD, 14, label2.getFont());
-        if (label2Font != null) label2.setFont(label2Font);
-        label2.setText("Select the Number of Pressure Waveforms");
-        input_number_panel.add(label2, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final Spacer spacer4 = new Spacer();
-        input_number_panel.add(spacer4, new GridConstraints(4, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 15), null, 0, false));
-        final Spacer spacer5 = new Spacer();
-        panel1.add(spacer5, new GridConstraints(0, 0, 8, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, 1, null, new Dimension(50, 11), null, 0, false));
-        final Spacer spacer6 = new Spacer();
-        panel1.add(spacer6, new GridConstraints(0, 2, 8, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, 1, null, new Dimension(50, -1), null, 0, false));
-        final Spacer spacer7 = new Spacer();
-        panel1.add(spacer7, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 15), null, 0, false));
-        final Spacer spacer8 = new Spacer();
-        panel1.add(spacer8, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 10), null, 0, false));
-        final Spacer spacer9 = new Spacer();
-        panel1.add(spacer9, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panel2.add(sampleRateSelect, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(200, 30), null, 0, false));
+        final JPanel panel3 = new JPanel();
+        panel3.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
+        panel3.setOpaque(false);
+        input_number_panel.add(panel3, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        button_loadSetup = new JButton();
+        button_loadSetup.setAutoscrolls(false);
+        button_loadSetup.setBackground(new Color(-13947600));
+        button_loadSetup.setBorderPainted(false);
+        Font button_loadSetupFont = this.$$$getFont$$$(".AppleSystemUIFont", Font.BOLD, 16, button_loadSetup.getFont());
+        if (button_loadSetupFont != null) button_loadSetup.setFont(button_loadSetupFont);
+        button_loadSetup.setText("Load File");
+        panel3.add(button_loadSetup, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, new Dimension(-1, 40), new Dimension(120, 40), new Dimension(-1, 40), 0, false));
         button_finish_setup = new JButton();
+        button_finish_setup.setAutoscrolls(false);
+        button_finish_setup.setBackground(new Color(-16733645));
+        button_finish_setup.setBorderPainted(false);
         Font button_finish_setupFont = this.$$$getFont$$$(".AppleSystemUIFont", Font.BOLD, 16, button_finish_setup.getFont());
         if (button_finish_setupFont != null) button_finish_setup.setFont(button_finish_setupFont);
         button_finish_setup.setText("Finish Setup");
-        panel1.add(button_finish_setup, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(120, 40), null, 0, false));
+        panel3.add(button_finish_setup, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, new Dimension(-1, 40), new Dimension(288, 40), new Dimension(-1, 40), 0, false));
+        final Spacer spacer4 = new Spacer();
+        input_number_panel.add(spacer4, new GridConstraints(1, 2, 4, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, 1, null, new Dimension(15, -1), null, 0, false));
+        final Spacer spacer5 = new Spacer();
+        input_number_panel.add(spacer5, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 10), null, 0, false));
+        final Spacer spacer6 = new Spacer();
+        panel1.add(spacer6, new GridConstraints(0, 0, 4, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, 1, null, new Dimension(50, 11), null, 0, false));
+        final Spacer spacer7 = new Spacer();
+        panel1.add(spacer7, new GridConstraints(0, 2, 5, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, 1, null, new Dimension(50, -1), new Dimension(50, -1), 0, false));
+        final Spacer spacer8 = new Spacer();
+        panel1.add(spacer8, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 10), null, 0, false));
+        final Spacer spacer9 = new Spacer();
+        panel1.add(spacer9, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 10), null, 0, false));
         setup_title = new JLabel();
         Font setup_titleFont = this.$$$getFont$$$(".AppleSystemUIFont", Font.BOLD, 24, setup_title.getFont());
         if (setup_titleFont != null) setup_title.setFont(setup_titleFont);
         setup_title.setText("Setup");
         panel1.add(setup_title, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer10 = new Spacer();
-        panel1.add(spacer10, new GridConstraints(7, 1, 1, 1, GridConstraints.ANCHOR_SOUTH, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 50), null, 0, false));
-        button_loadSetup = new JButton();
-        Font button_loadSetupFont = this.$$$getFont$$$(".AppleSystemUIFont", Font.BOLD, 16, button_loadSetup.getFont());
-        if (button_loadSetupFont != null) button_loadSetup.setFont(button_loadSetupFont);
-        button_loadSetup.setText("Load File");
-        panel1.add(button_loadSetup, new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(120, 40), null, 0, false));
+        panel1.add(spacer10, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_FIXED, new Dimension(-1, 50), null, null, 0, false));
         input_num_select = new ButtonGroup();
         input_num_select.add(input_one_select);
         input_num_select.add(input_two_select);
@@ -183,9 +231,8 @@ public class SetupPage {
     }
 
     private void createUIComponents() {
-        this.input_number_panel = new RoundedPanel(10, 2);
-        input_number_panel.setBackground(input_number_panel.getBackground().darker());
-        this.numWavePanel = new RoundedPanel(10, 1);
+        this.input_number_panel = new RoundedPanel(20, 2);
+        this.numWavePanel = new JPanel();
         //Font font = new Font(".AppleSystemUIFont", Font.BOLD, 14);
         //this.numWavePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(), "Select the Number of Pressure Waveforms", TitledBorder.CENTER, TitledBorder.TOP, font));
     }
