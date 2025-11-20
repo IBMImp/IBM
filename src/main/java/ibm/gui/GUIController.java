@@ -1,5 +1,6 @@
 package ibm.gui;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import ibm.gui.design.*;
 
 import javax.swing.*;
@@ -81,6 +82,7 @@ public class GUIController {
         UIManager.put("MenuItem.font", f);
         JMenu setupMenu = new JMenu("Setup");
         JMenuItem setupItem = new JMenuItem("New Setup");
+        setupItem.setIcon(new FlatSVGIcon("icons/newsetup.svg",16,16));
         setupItem.addActionListener(_ ->{
             if(JOptionPane.showConfirmDialog(null, "Start a New Setup?\nThis will clear all graphs", "Warning", JOptionPane.YES_NO_OPTION) == 0) {
                 showSetupPage();
@@ -94,13 +96,14 @@ public class GUIController {
 
         menuBar.add(monitorMenu);
 
-        JMenuItem helpMenu = createJMenuItem(f);
+        JMenuItem helpMenu = createHelpMenu(f);
         menuBar.add(helpMenu);
         return menuBar;
     }
 
-    private JMenuItem createJMenuItem(Font f) {
+    private JMenuItem createHelpMenu(Font f) {
         JMenuItem helpMenu = new JMenuItem("Help");
+        helpMenu.setIcon(new FlatSVGIcon("icons/help.svg",16,16));
         helpMenu.addActionListener(_->{
            JOptionPane helpMenuOptionPane = new JOptionPane();
 
@@ -115,24 +118,28 @@ public class GUIController {
 
     private JMenu createMonitorMenu() {
         JMenu monitorMenu = new JMenu("Monitor");
+
+
+        JMenuItem saveGraph = new JMenuItem("Save Graph");
+        saveGraph.addActionListener(_-> saveFileDialog());
+        saveGraph.setIcon(new FlatSVGIcon("icons/save.svg",16,16));
+        monitorMenu.add(saveGraph);
+
+        JMenuItem loadGraph = new JMenuItem("Load Graph");
+        loadGraph.setIcon(new FlatSVGIcon("icons/load.svg",16,16));
+        loadGraph.addActionListener(_-> {
+            if (JOptionPane.showConfirmDialog(null, "Do you want to load a new file? \nThis will clear all graphs.", "Warning", JOptionPane.YES_NO_OPTION) == 0)
+                loadFileDialog();
+        });
+        monitorMenu.add(loadGraph);
         JMenuItem graphClearItem = new JMenuItem("Clear all Graphs");
-        //graphClearItem.setVisible(false);
+        graphClearItem.setIcon(new FlatSVGIcon("icons/clear.svg",16,16));
         graphClearItem.addActionListener(_ -> {
             if(JOptionPane.showConfirmDialog(null, "Clear all graphs ?", "Warning", JOptionPane.YES_NO_OPTION) == 0) {
                 //TODO Implement Clear Graph
             }
         });
         monitorMenu.add(graphClearItem);
-        JMenuItem saveGraph = new JMenuItem("Save Graph");
-        saveGraph.addActionListener(_-> saveFileDialog());
-        monitorMenu.add(saveGraph);
-
-        JMenuItem loadGraph = new JMenuItem("Load Graph");
-        loadGraph.addActionListener(_-> {
-            if (JOptionPane.showConfirmDialog(null, "Do you want to load a new file? \nThis will clear all graphs.", "Warning", JOptionPane.YES_NO_OPTION) == 0)
-                loadFileDialog();
-        });
-        monitorMenu.add(loadGraph);
 
         monitorMenu.setVisible(false);
         return monitorMenu;

@@ -23,7 +23,7 @@
             </constraints>
             <properties>
               <continuousLayout value="true"/>
-              <dividerLocation value="600"/>
+              <dividerLocation value="492"/>
               <dividerSize value="4"/>
               <name value="Both Graphs"/>
               <oneTouchExpandable value="true"/>
@@ -100,16 +100,36 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="eb471" class="javax.swing.JButton" binding="button1" default-binding="true">
+          <component id="52ea6" class="javax.swing.JLabel" binding="patientName">
             <constraints/>
             <properties>
-              <text value="Button"/>
+              <text value="Patient Name"/>
             </properties>
           </component>
-          <component id="3b40b" class="javax.swing.JButton" binding="button2" default-binding="true">
+          <hspacer id="79d0b">
+            <constraints/>
+          </hspacer>
+          <component id="eb471" class="javax.swing.JButton" binding="playButton">
             <constraints/>
             <properties>
-              <text value="Button"/>
+              <iconTextGap value="2"/>
+              <inheritsPopupMenu value="true"/>
+              <label value=""/>
+              <maximumSize width="25" height="25"/>
+              <minimumSize width="25" height="25"/>
+              <preferredSize width="25" height="25"/>
+              <text value=""/>
+              <toolTipText value="Start Waveform Plotting"/>
+            </properties>
+          </component>
+          <component id="3b40b" class="javax.swing.JButton" binding="stopButton">
+            <constraints/>
+            <properties>
+              <maximumSize width="25" height="25"/>
+              <minimumSize width="25" height="25"/>
+              <preferredSize width="25" height="25"/>
+              <text value=""/>
+              <toolTipText value="Stop WaveForm Plotting"/>
             </properties>
           </component>
           <component id="490da" class="javax.swing.JToolBar$Separator">

@@ -1,4 +1,4 @@
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+
 import ibm.gui.GUIController;
 
 import javax.swing.*;
@@ -15,7 +15,7 @@ void main() {
     GUIController gui = new GUIController(guiLogger);
     SwingUtilities.invokeLater(() -> {
         try {
-            javax.swing.UIManager.setLookAndFeel(new FlatDarkLaf());
+            javax.swing.UIManager.setLookAndFeel(new FlatLightLaf());
             UIManager.put("defaultFont", new Font(".AppleSystemUIFont", Font.PLAIN, 12));
             if (!gui.init()) throw new ExceptionInInitializerError("GUI Initialization Error");
             gui.showGUI();
