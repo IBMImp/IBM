@@ -15,7 +15,6 @@ void main() {
     GUIController gui = new GUIController(guiLogger);
     SwingUtilities.invokeLater(() -> {
         try {
-
             if (!gui.init()) throw new ExceptionInInitializerError("GUI Initialization Error");
             gui.showGUI();
         } catch (Exception e) {

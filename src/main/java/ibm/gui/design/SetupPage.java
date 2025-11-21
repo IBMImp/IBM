@@ -164,7 +164,7 @@ public class SetupPage {
         button_loadSetup = new JButton();
         button_loadSetup.setAutoscrolls(false);
         button_loadSetup.setBackground(new Color(-13947600));
-        button_loadSetup.setBorderPainted(false);
+        button_loadSetup.setBorderPainted(true);
         Font button_loadSetupFont = this.$$$getFont$$$(".AppleSystemUIFont", Font.BOLD, 16, button_loadSetup.getFont());
         if (button_loadSetupFont != null) button_loadSetup.setFont(button_loadSetupFont);
         button_loadSetup.setText("Load File");
@@ -172,7 +172,7 @@ public class SetupPage {
         button_finish_setup = new JButton();
         button_finish_setup.setAutoscrolls(false);
         button_finish_setup.setBackground(new Color(-16733645));
-        button_finish_setup.setBorderPainted(false);
+        button_finish_setup.setBorderPainted(true);
         Font button_finish_setupFont = this.$$$getFont$$$(".AppleSystemUIFont", Font.BOLD, 16, button_finish_setup.getFont());
         if (button_finish_setupFont != null) button_finish_setup.setFont(button_finish_setupFont);
         button_finish_setup.setText("Finish Setup");

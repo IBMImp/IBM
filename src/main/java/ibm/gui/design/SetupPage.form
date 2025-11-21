@@ -169,7 +169,7 @@
                 <properties>
                   <autoscrolls value="false"/>
                   <background color="-13947600"/>
-                  <borderPainted value="false"/>
+                  <borderPainted value="true"/>
                   <font name=".AppleSystemUIFont" size="16" style="1"/>
                   <text value="Load File"/>
                 </properties>
@@ -185,7 +185,7 @@
                 <properties>
                   <autoscrolls value="false"/>
                   <background color="-16733645"/>
-                  <borderPainted value="false"/>
+                  <borderPainted value="true"/>
                   <font name=".AppleSystemUIFont" size="16" style="1"/>
                   <text value="Finish Setup"/>
                 </properties>
