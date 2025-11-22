@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+//TODO Custom graph component if the plotting library not utilized. I want the graph to be scrollable
 public class StreamGraph extends JPanel implements Scrollable{
     public StreamGraph() {
 

@@ -43,6 +43,9 @@ public class GUIController {
             //Setup Frame
             UIManager.put("defaultFont", new Font(".AppleSystemUIFont", Font.PLAIN, 12));
 
+            //Sets default theme as dark
+            dark = true;
+
             //Card layout for switching between pages
             cards = new JPanel(new CardLayout());
             //Main Frame
@@ -59,8 +62,7 @@ public class GUIController {
             createMonitorPage();
             this.frame.setJMenuBar(createMenuBar());
 
-            //Sets default theme as dark
-            dark = true;
+            //Apply theme after pages created
             applyTheme(dark);
 
             //Doesn't show menubar on landing page. Revealed based on page which helps with keyboard commands like save
