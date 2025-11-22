@@ -3,7 +3,9 @@ package ibm.gui.design;
 import javax.swing.*;
 import java.awt.*;
 
-//Code written with assistance from ChatGpt (OpenAI) 2025
+//Code written with assistance from ChatGpt 5.1 (OpenAI) 2025
+//Used for making custom round JPanels with the border painted in one step so it doesn't look off.
+
 public class RoundedPanel extends JPanel {
     private final int R, T;
     private final Color stroke = new Color(0,0,0);

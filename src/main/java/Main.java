@@ -12,9 +12,9 @@ private static final Logger guiLogger = Logger.getLogger(GUIController.class.get
 
 void main() {
     setupLogger(guiLogger);
-    GUIController gui = new GUIController(guiLogger);
     SwingUtilities.invokeLater(() -> {
         try {
+            GUIController gui = new GUIController(guiLogger);
             if (!gui.init()) throw new ExceptionInInitializerError("GUI Initialization Error");
             gui.showGUI();
         } catch (Exception e) {

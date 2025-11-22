@@ -26,13 +26,14 @@ public class MonitorPage {
     private double t = 0;
     private int sampleRate = 2048;
 
+    //Check if sample rate binary value, Honestly unnecessary with dropdown menu but eh better safe than sorry.
     private boolean validSampleRate(double x) {
         if (x == 2) return true;
         else if (x % 2 == 0) {
             return validSampleRate(x / 2);
         } else return false;
     }
-
+    //TODO needs to be tied into graphing
     public void setSampleRate(int sampleRate) throws SetupValueException {
         try {
             if (!validSampleRate(sampleRate)) throw new SetupValueException("Sample Rate incorrect: Make base 2");
@@ -50,6 +51,7 @@ public class MonitorPage {
         return graphsPane;
     }
 
+    //TODO Idea was to add samples to graph with this method but it hasnt been done yet
     public void addSamplePE(double sampleValue) {
 
     }

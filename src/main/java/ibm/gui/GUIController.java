@@ -21,43 +21,63 @@ import java.util.logging.*;
 public class GUIController {
 
     private static Logger logger;
-    private final JPanel cards = new JPanel(new CardLayout());
-    private final JFrame frame = new JFrame("Arterial Reservoir Pressure Monitor");
-    private final CardLayout cards_switcher = (CardLayout)cards.getLayout();
+    private JPanel cards;
+    private JFrame frame;
+    private CardLayout cards_switcher;
     private final Dimension frameSize = new Dimension(1500,1000);
-    private final JMenuBar menuBar = new JMenuBar();
+    private JMenuBar menuBar;
     private MonitorPage monitorPage;
     private SetupPage setupPage;
-    private boolean dark = true;
+    private boolean dark;
 
+    //Constructor. Doesn't create any swing components as those have to run on event thread.
     public GUIController(Logger logger) {
         GUIController.logger = logger;
     }
 
+    //Init for GUI creating gui. Called from event thread
     public boolean init(){
         boolean result = false;
 
         try {
             //Setup Frame
+            UIManager.put("defaultFont", new Font(".AppleSystemUIFont", Font.PLAIN, 12));
+
+            //Card layout for switching between pages
+            cards = new JPanel(new CardLayout());
+            //Main Frame
+            frame = new JFrame("Arterial Reservoir Pressure Monitor");
+            //What switches the cards
+            cards_switcher  = (CardLayout)cards.getLayout();
+
             this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             this.frame.getContentPane().add(cards);
 
-            monitorPage = new MonitorPage();
             //Add Main Pages
             createLandingPage();
             createSetupPage();
             createMonitorPage();
             this.frame.setJMenuBar(createMenuBar());
+
+            //Sets default theme as dark
+            dark = true;
             applyTheme(dark);
+
+            //Doesn't show menubar on landing page. Revealed based on page which helps with keyboard commands like save
             menuBar.setVisible(false);
+            //Default page landing
             this.cards_switcher.show(cards, "landing");
+            //Sets successful initialization
             result = true;
         }
         catch(Exception e) {
             logger.severe(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
         }
+
         return result;
     }
+
+    //Shows GUI
     public boolean showGUI() {
         //Called After GUI initialized.
         this.frame.setSize(frameSize);
@@ -65,10 +85,7 @@ public class GUIController {
         return true;
     }
 
-
-
-
-    public boolean showSetupPage() {
+    private boolean showSetupPage() {
         //Switches to startup page
         menuBar.setVisible(true);
         menuBar.getMenu(1).setVisible(false);
@@ -78,7 +95,7 @@ public class GUIController {
         return true;
     }
 
-    public boolean showMonitorPage(){
+    private boolean showMonitorPage(){
         //Switches to monitor page
         menuBar.getMenu(0).setVisible(true);
         menuBar.getMenu(1).setVisible(true);
@@ -90,8 +107,11 @@ public class GUIController {
         return true;
     }
 
-    public void applyTheme(boolean dark) {
+    /*Used to apply the selected theme. If dark true then dark mode if false then light mode
+    Uses custom themes defined in themes*/
+    private void applyTheme(boolean dark) {
         try {
+            //If dark mode true then setups dark theme, else setup light mode
             if (dark) {
                 FlatDarkLaf.setup();
                 FlatLaf.setup(new FlatPropertiesLaf(
@@ -106,7 +126,8 @@ public class GUIController {
                 ));
             }
 
-            UIManager.put("defaultFont", new Font(".AppleSystemUIFont", Font.PLAIN, 12));
+            /*Because the UI is reloaded and updated, some settings and custom details get overridden therefore
+            they're all recalled and rewrote.*/
 
             for (java.awt.Window w : java.awt.Window.getWindows()) {
                 javax.swing.SwingUtilities.updateComponentTreeUI(w);
@@ -121,7 +142,10 @@ public class GUIController {
         }
     }
 
+    //Creates the menubar at the top of the page
     private JMenuBar createMenuBar(){
+        menuBar = new JMenuBar();
+
         Font f = new Font(".AppleSystemUIFont", Font.PLAIN, 14);
         UIManager.put("MenuBar.font", f);
         UIManager.put("Menu.font", f);
@@ -149,6 +173,7 @@ public class GUIController {
         return menuBar;
     }
 
+    //Creates the help menu with all the help text in HTML format for text wrapping
     private JMenuItem createHelpMenu(Font f) {
         JMenuItem helpMenu = new JMenuItem("Help");
         helpMenu.setIcon(new FlatSVGIcon("icons/help.svg",16,16));
@@ -164,6 +189,7 @@ public class GUIController {
         return helpMenu;
     }
 
+    //Creates the monitor menu with save graph, load graph, and clear graph
     private JMenu createMonitorMenu() {
         JMenu monitorMenu = new JMenu("Monitor");
 
@@ -200,10 +226,14 @@ public class GUIController {
         return monitorMenu;
     }
 
+    //Creates the appearance menu to change the theme of the app
     private JMenu createLookMenu() {
         JMenu lookMenu = new JMenu("Appearance");
         JMenuItem lookItem = new JMenuItem("Theme");
-        lookItem.setIcon(new FlatSVGIcon("icons/dark.svg",16,16));
+        //Set icon at runtime
+        if(dark) lookItem.setIcon(new FlatSVGIcon("icons/dark.svg",16,16));
+        else lookItem.setIcon(new FlatSVGIcon("icons/light.svg",16,16));
+        //When switching themes, apply opposite them and update icon
         lookItem.addActionListener(_ -> {
             dark = !dark;
             applyTheme(dark);
@@ -214,6 +244,7 @@ public class GUIController {
         return lookMenu;
     }
 
+    //Opens a file chooser for loading new files
     private void loadFileDialog(){
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("Load Graph");
@@ -230,6 +261,7 @@ public class GUIController {
         }
 
     }
+    //Loads file with settings selected by load file dialog
     private void loadFile(File file){
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String settingsLine = br.readLine();
@@ -244,6 +276,8 @@ public class GUIController {
             System.out.println(e.getMessage());
         }
     }
+
+    //Opens a file chooser for saving files
     private void saveFileDialog(){
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("Save As");
@@ -272,6 +306,7 @@ public class GUIController {
             }
         }
     }
+    //Creates/Writes file selected from save file dialog
     private void writeFile(File file){
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
@@ -290,6 +325,7 @@ public class GUIController {
         }
     }
 
+    //Init for landing page
     private void createLandingPage(){
         //Create and add the landing page
         LandingForm landingForm = new LandingForm();
@@ -305,16 +341,20 @@ public class GUIController {
         });
     }
 
+    //Init for setup page
     private void createSetupPage(){
         //Create and add the setup page
         setupPage = new SetupPage();
         cards.add(setupPage.getPanel(), "setup");
+
+        //Load File Button
         setupPage.getButton_loadSetup().addActionListener(_ -> {
             if(JOptionPane.showConfirmDialog(null, "Would you like to load a pre-existing file?", "Load File?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 loadFileDialog();
                 showMonitorPage();
             }
         });
+        //Finish Setup Button, Writes all setup settings into AppState.currentSettings Record
         setupPage.getButton_finish_setup().addActionListener(_ -> {
             AppState.currentSettings = new SetupSettings(setupPage.getPatientName().trim(),
                     setupPage.getNumWaveForms(),
@@ -329,14 +369,19 @@ public class GUIController {
         });
     }
 
+    //Init for monitor Page
     private void createMonitorPage(){
         //Create and add the monitor Page
+        monitorPage = new MonitorPage();
+        //Sets divider locationa at middle of the page
         monitorPage.getGraphsPane().setDividerLocation(frameSize.width/2);
         cards.add(monitorPage.getPanel(), "monitor");
     }
 
-    public static class AppState {
-        public static SetupSettings currentSettings;
+    //Static Class for storing App State. Used for accessing and setting current settings
+    private static class AppState {
+        private static SetupSettings currentSettings;
     }
-    public record SetupSettings(String patientName, int numWaveForms, int sampleRate) {}
+    //Storage for apps settings, selected either at setup or by loading files
+    private record SetupSettings(String patientName, int numWaveForms, int sampleRate) {}
 }
