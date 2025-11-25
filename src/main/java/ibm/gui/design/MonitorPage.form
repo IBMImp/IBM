@@ -135,17 +135,21 @@
           </component>
           <component id="490da" class="javax.swing.JToolBar$Separator">
             <constraints/>
-            <properties/>
+            <properties>
+              <enabled value="false"/>
+            </properties>
           </component>
           <component id="64e6f" class="javax.swing.JButton" binding="button3" default-binding="true">
             <constraints/>
             <properties>
+              <enabled value="false"/>
               <text value="Button"/>
             </properties>
           </component>
           <component id="175b2" class="javax.swing.JButton" binding="button4" default-binding="true">
             <constraints/>
             <properties>
+              <enabled value="false"/>
               <text value="Button"/>
             </properties>
           </component>

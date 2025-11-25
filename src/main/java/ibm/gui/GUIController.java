@@ -99,12 +99,17 @@ public class GUIController {
 
     private boolean showMonitorPage(){
         //Switches to monitor page
-        menuBar.getMenu(0).setVisible(true);
-        menuBar.getMenu(1).setVisible(true);
-        monitorPage.setCustomFields(AppState.currentSettings.patientName);
-        cards.revalidate();
-        cards.repaint();
-        this.cards_switcher.show(cards, "monitor");
+        try {
+            monitorPage.setSampleRate(AppState.currentSettings.sampleRate);
+            menuBar.getMenu(0).setVisible(true);
+            menuBar.getMenu(1).setVisible(true);
+            monitorPage.setCustomFields(AppState.currentSettings.patientName);
+            cards.revalidate();
+            cards.repaint();
+            this.cards_switcher.show(cards, "monitor");
+        } catch (Exception e) {
+            logger.warning(e.getMessage());
+        }
 
         return true;
     }

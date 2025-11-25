@@ -24,23 +24,26 @@ public class MonitorPage {
     private JButton button4;
     private JLabel patientNameLabel;
     private double t = 0;
-    private int sampleRate = 2048;
+    private int sampleRate;
 
     //Check if sample rate binary value, Honestly unnecessary with dropdown menu but eh better safe than sorry.
-    private boolean validSampleRate(double x) {
-        if (x == 2) return true;
-        else if (x % 2 == 0) {
-            return validSampleRate(x / 2);
-        } else return false;
-    }
+
+
     //TODO needs to be tied into graphing
-    public void setSampleRate(int sampleRate) throws SetupValueException {
+    public void setSampleRate(int sample_rate) {
         try {
-            if (!validSampleRate(sampleRate)) throw new SetupValueException("Sample Rate incorrect: Make base 2");
-            this.sampleRate = sampleRate;
+            if (!validSampleRate(sample_rate)) throw new SetupValueException("Sample Rate incorrect: Make base 2");
+            sampleRate = sample_rate;
+            System.out.print(sampleRate);
         } catch (SetupValueException e) {
             System.out.println(e.getMessage());
         }
+
+    }
+    private boolean validSampleRate(double x) {
+        if (x == 2) return true;
+        else if (x % 2 == 0) return validSampleRate(x / 2);
+        else return false;
     }
 
     public JPanel getPanel() {
@@ -152,9 +155,11 @@ public class MonitorPage {
         final JToolBar.Separator toolBar$Separator1 = new JToolBar.Separator();
         toolBar1.add(toolBar$Separator1);
         button3 = new JButton();
+        button3.setEnabled(false);
         button3.setText("Button");
         toolBar1.add(button3);
         button4 = new JButton();
+        button4.setEnabled(false);
         button4.setText("Button");
         toolBar1.add(button4);
     }

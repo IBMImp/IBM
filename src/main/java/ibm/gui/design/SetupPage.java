@@ -65,6 +65,7 @@ public class SetupPage {
     public void darkenBackground() {
         input_number_panel.setBackground(panel1.getBackground().darker());
         button_loadSetup.setBackground(panel1.getBackground().brighter());
+        button_finish_setup.setBackground(UIManager.getColor("Button.default.background"));
     }
 
     public int getSampleRate() {
@@ -100,7 +101,7 @@ public class SetupPage {
         final Spacer spacer2 = new Spacer();
         input_number_panel.add(spacer2, new GridConstraints(0, 0, 5, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, 1, null, new Dimension(10, 11), null, 0, false));
         final Spacer spacer3 = new Spacer();
-        input_number_panel.add(spacer3, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        input_number_panel.add(spacer3, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, new Dimension(-1, 15), null, null, 0, false));
         final JPanel panel2 = new JPanel();
         panel2.setLayout(new GridLayoutManager(3, 2, new Insets(0, 0, 0, 0), -1, -1));
         panel2.setFocusable(false);
