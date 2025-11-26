@@ -40,6 +40,7 @@ public class MonitorPage {
         }
 
     }
+
     private boolean validSampleRate(double x) {
         if (x == 2) return true;
         else if (x % 2 == 0) return validSampleRate(x / 2);
@@ -102,7 +103,7 @@ public class MonitorPage {
         graphsPane = new JSplitPane();
         graphsPane.setContinuousLayout(true);
         graphsPane.setDividerLocation(250);
-        graphsPane.setDividerSize(4);
+        graphsPane.setDividerSize(3);
         graphsPane.setEnabled(true);
         graphsPane.setName("Both Graphs");
         graphsPane.setOneTouchExpandable(true);

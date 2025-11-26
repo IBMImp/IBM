@@ -24,7 +24,7 @@
             <properties>
               <continuousLayout value="true"/>
               <dividerLocation value="250"/>
-              <dividerSize value="4"/>
+              <dividerSize value="3"/>
               <enabled value="true"/>
               <name value="Both Graphs"/>
               <oneTouchExpandable value="true"/>
