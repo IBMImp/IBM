@@ -24,7 +24,7 @@ public class GUIController {
     private JPanel cards;
     private JFrame frame;
     private CardLayout cards_switcher;
-    private final Dimension frameSize = new Dimension(1500,1000);
+    private final Dimension frameSize = new Dimension(800,600);
     private JMenuBar menuBar;
     private MonitorPage monitorPage;
     private SetupPage setupPage;
@@ -288,9 +288,14 @@ public class GUIController {
     private void saveFileDialog(){
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("Save As");
-        chooser.setSelectedFile(new File(AppState.currentSettings.patientName + " Arterial Reservoir Pressure.csv"));
+        chooser.setFileFilter(new FileNameExtensionFilter("CSV Files","csv"));
+        chooser.setSelectedFile(new File(AppState.currentSettings.patientName + " ARP Plots"));
+
         if(chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
+            if(!file.getName().toLowerCase().endsWith(".csv")){
+                file = new File(file.getAbsolutePath() + ".csv");
+            }
             if(!file.exists()){
                 writeFile(file);
             }
