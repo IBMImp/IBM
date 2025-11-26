@@ -65,7 +65,7 @@ public class SetupPage {
     public void darkenBackground() {
         input_number_panel.setBackground(panel1.getBackground().darker());
         button_loadSetup.setBackground(panel1.getBackground().brighter());
-        button_finish_setup.setBackground(UIManager.getColor("Button.default.background"));
+        button_finish_setup.setBackground(UIManager.getColor("Button.default.accent"));
     }
 
     public int getSampleRate() {
@@ -172,7 +172,7 @@ public class SetupPage {
         panel3.add(button_loadSetup, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, new Dimension(-1, 40), new Dimension(120, 40), new Dimension(-1, 40), 0, false));
         button_finish_setup = new JButton();
         button_finish_setup.setAutoscrolls(false);
-        button_finish_setup.setBackground(new Color(-16733645));
+        button_finish_setup.setBackground(new Color(-16722079));
         button_finish_setup.setBorderPainted(true);
         Font button_finish_setupFont = this.$$$getFont$$$(".AppleSystemUIFont", Font.BOLD, 16, button_finish_setup.getFont());
         if (button_finish_setupFont != null) button_finish_setup.setFont(button_finish_setupFont);
@@ -189,7 +189,7 @@ public class SetupPage {
         final Spacer spacer8 = new Spacer();
         panel1.add(spacer8, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 10), null, 0, false));
         final Spacer spacer9 = new Spacer();
-        panel1.add(spacer9, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 10), null, 0, false));
+        panel1.add(spacer9, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 5), null, 0, false));
         setup_title = new JLabel();
         Font setup_titleFont = this.$$$getFont$$$(".AppleSystemUIFont", Font.BOLD, 24, setup_title.getFont());
         if (setup_titleFont != null) setup_title.setFont(setup_titleFont);

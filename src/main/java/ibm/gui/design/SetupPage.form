@@ -186,7 +186,7 @@
                 </constraints>
                 <properties>
                   <autoscrolls value="false"/>
-                  <background color="-16733645"/>
+                  <background color="-16722079"/>
                   <borderPainted value="true"/>
                   <font name=".AppleSystemUIFont" size="16" style="1"/>
                   <text value="Finish Setup"/>
@@ -235,7 +235,7 @@
       <vspacer id="d2bae">
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="1" fill="0" indent="0" use-parent-layout="false">
-            <preferred-size width="-1" height="10"/>
+            <preferred-size width="-1" height="5"/>
           </grid>
         </constraints>
       </vspacer>
