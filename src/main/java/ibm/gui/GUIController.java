@@ -367,7 +367,6 @@ public class GUIController {
         setupPage.getButton_loadSetup().addActionListener(_ -> {
             if(JOptionPane.showConfirmDialog(null, "Would you like to load a pre-existing file?", "Load File?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 loadFileDialog();
-                showMonitorPage();
             }
         });
         //Finish Setup Button, Writes all setup settings into AppState.currentSettings Record
