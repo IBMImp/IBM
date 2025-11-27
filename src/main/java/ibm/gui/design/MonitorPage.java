@@ -34,7 +34,6 @@ public class MonitorPage {
         try {
             if (!validSampleRate(sample_rate)) throw new SetupValueException("Sample Rate incorrect: Make base 2");
             sampleRate = sample_rate;
-            System.out.print(sampleRate);
         } catch (SetupValueException e) {
             System.out.println(e.getMessage());
         }
@@ -51,7 +50,7 @@ public class MonitorPage {
         return panel1;
     }
 
-    public JSplitPane getGraphsPane() {
+    public JSplitPane getSplitPane() {
         return graphsPane;
     }
 
@@ -61,7 +60,7 @@ public class MonitorPage {
     }
 
     public void darkenBackground() {
-        graphsPane.setBackground(graphsPane.getBackground().brighter());
+        graphsPane.setBackground(graphsPane.getBackground());
         bppCont.setBackground(panel1.getBackground().darker());
         arppCont.setBackground(panel1.getBackground().darker());
     }
@@ -128,7 +127,13 @@ public class MonitorPage {
         tabbedPane1.addTab("Reservoir Pressure Chart", panel2);
         final JPanel panel3 = new JPanel();
         panel3.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        tabbedPane1.addTab("Blood Pressure Chart", panel3);
+        panel2.add(panel3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        final JPanel panel4 = new JPanel();
+        panel4.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        tabbedPane1.addTab("Blood Pressure Chart", panel4);
+        final JPanel panel5 = new JPanel();
+        panel5.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel4.add(panel5, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JToolBar toolBar1 = new JToolBar();
         panel1.add(toolBar1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 20), null, 0, false));
         patientNameLabel = new JLabel();

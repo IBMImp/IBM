@@ -28,9 +28,13 @@ public class GUIController {
     private JMenuBar menuBar;
     private MonitorPage monitorPage;
     private SetupPage setupPage;
-    private boolean dark;
+
+    //Sets default theme. True = Dark, False = Light (Not dark :) )
+    private boolean dark = true;
+
 
     //Constructor. Doesn't create any swing components as those have to run on event thread.
+    //Attaches Logger
     public GUIController(Logger logger) {
         GUIController.logger = logger;
     }
@@ -43,8 +47,7 @@ public class GUIController {
             //Setup Frame
             UIManager.put("defaultFont", new Font(".AppleSystemUIFont", Font.PLAIN, 12));
 
-            //Sets default theme as dark
-            dark = true;
+
 
             //Card layout for switching between pages
             cards = new JPanel(new CardLayout());
@@ -87,18 +90,19 @@ public class GUIController {
         return true;
     }
 
+    //Shows Setuppage and shows relevant menus
     private boolean showSetupPage() {
         //Switches to startup page
         menuBar.setVisible(true);
         menuBar.getMenu(1).setVisible(false);
         menuBar.getMenu(0).setVisible(false);
-        //menuBar.getMenu(1).getItem(1).setVisible(false);
         this.cards_switcher.show(cards, "setup");
         return true;
     }
 
+    //Shows monitor and sets values from AppState to graphs. Also shows relevant menus
     private boolean showMonitorPage(){
-        //Switches to monitor page
+        //Switches to monitor page and sets all values for graphing
         try {
             monitorPage.setSampleRate(AppState.currentSettings.sampleRate);
             menuBar.getMenu(0).setVisible(true);
@@ -386,7 +390,7 @@ public class GUIController {
         //Create and add the monitor Page
         monitorPage = new MonitorPage();
         //Sets divider locationa at middle of the page
-        monitorPage.getGraphsPane().setDividerLocation(frameSize.width/2);
+        monitorPage.getSplitPane().setDividerLocation(frameSize.width/2);
         cards.add(monitorPage.getPanel(), "monitor");
     }
 
