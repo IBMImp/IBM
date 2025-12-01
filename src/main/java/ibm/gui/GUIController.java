@@ -337,10 +337,10 @@ public class GUIController {
             bw.write(setupLine.toString());
             bw.close();
             //TODO ADD SAVE GRAPH
-            System.out.println("Saved file:" + file.getName() + "  To:" + file.getAbsolutePath());
+            logger.info("Saved file:" + file.getName() + "  To:" + file.getAbsolutePath());
         }
         catch (IOException e) {
-            logger.log(Level.WARNING, "Could not save file: " + file.getName(), e);
+            logger.log(Level.WARNING, "Could not save file: " + file.getName() + " To:" + file.getAbsolutePath(), e);
         }
     }
 
