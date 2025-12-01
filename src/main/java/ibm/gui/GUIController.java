@@ -44,6 +44,14 @@ public class GUIController {
         boolean result = false;
 
         try {
+            try {
+                Image img = Toolkit.getDefaultToolkit()
+                        .getImage(GUIController.class.getResource("/icons/app.png"));
+                Taskbar taskbar = Taskbar.getTaskbar();
+                if (taskbar.isSupported(Taskbar.Feature.ICON_IMAGE)) {
+                    taskbar.setIconImage(img);
+                }
+            } catch (Exception ignored) {}
             //Setup Frame
             UIManager.put("defaultFont", new Font(".AppleSystemUIFont", Font.PLAIN, 12));
 
