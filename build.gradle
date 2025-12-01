@@ -5,7 +5,6 @@ plugins {
 
 application {
     mainClass = 'Main'
-    applicationDefaultJvmArgs = ["--add-exports=java.desktop/com.apple.eawt=ALL-UNNAMED"]
 }
 
 group = 'org.SEFB.IBM'
