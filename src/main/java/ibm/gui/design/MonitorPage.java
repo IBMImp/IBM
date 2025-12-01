@@ -28,20 +28,7 @@ public class MonitorPage {
 
     //TODO needs to be tied into graphing
     public void setSampleRate(int sample_rate) {
-        try {
-            if (!validSampleRate(sample_rate)) throw new SetupValueException("Sample Rate incorrect: Make base 2");
-            sampleRate = sample_rate;
-            System.out.print(sample_rate);
-        } catch (SetupValueException e) {
-            System.out.println(e.getMessage());
-        }
-
-    }
-
-    private boolean validSampleRate(double x) {
-        if (x == 2) return true;
-        else if (x % 2 == 0) return validSampleRate(x / 2);
-        else return false;
+        sampleRate = sample_rate;
     }
 
     public JPanel getPanel() {
