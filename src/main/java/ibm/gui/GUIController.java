@@ -47,6 +47,9 @@ public class GUIController {
             //Setup Frame
             UIManager.put("defaultFont", new Font(".AppleSystemUIFont", Font.PLAIN, 12));
 
+            //Apple Customization to make menu bar look native
+            System.setProperty("apple.laf.useScreenMenuBar", "true");
+            System.setProperty("com.apple.mrj.application.apple.menu.about.name", "MyApp");
 
 
             //Card layout for switching between pages
