@@ -18,15 +18,14 @@ public class SetupPage {
     private JLabel setup_title;
     private JButton button_finish_setup;
     private JPanel input_number_panel;
-    private JComboBox sampleRateSelect;
     private JPanel numWavePanel;
     private JButton button_loadSetup;
     private JLabel patientNameLabel;
     private JTextField patientNameField;
     private JLabel radioLabel;
     private JLabel sampleLabel;
+    private JTextField sampleRateField;
     private ButtonGroup input_num_select;
-    private JPanel sampleRatePanel;
 
     public JPanel getPanel() {
         return panel1;
@@ -68,8 +67,14 @@ public class SetupPage {
         button_finish_setup.setBackground(UIManager.getColor("Button.default.accent"));
     }
 
-    public int getSampleRate() {
-        return Integer.parseInt((String) Objects.requireNonNull(sampleRateSelect.getSelectedItem()));
+    public int getSampleRate() throws SetupValueException {
+        try {
+            int val = Integer.parseInt(Objects.requireNonNull(sampleRateField.getText()));
+            if (Integer.signum(val) == 1) return val;
+            else throw new Exception();
+        } catch (Exception _) {
+            throw new SetupValueException("Non Integer Value Entered");
+        }
     }
 
     public SetupPage() {
@@ -106,7 +111,7 @@ public class SetupPage {
         panel2.setLayout(new GridLayoutManager(3, 2, new Insets(0, 0, 0, 0), -1, -1));
         panel2.setFocusable(false);
         panel2.setOpaque(false);
-        input_number_panel.add(panel2, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        input_number_panel.add(panel2, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(613, 71), null, 0, false));
         patientNameLabel = new JLabel();
         Font patientNameLabelFont = this.$$$getFont$$$(".AppleSystemUIFont", Font.BOLD, 14, patientNameLabel.getFont());
         if (patientNameLabelFont != null) patientNameLabel.setFont(patientNameLabelFont);
@@ -122,6 +127,7 @@ public class SetupPage {
         if (radioLabelFont != null) radioLabel.setFont(radioLabelFont);
         radioLabel.setText("Select the Number of Pressure Waveforms");
         panel2.add(radioLabel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        numWavePanel = new JPanel();
         numWavePanel.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
         numWavePanel.setOpaque(false);
         panel2.add(numWavePanel, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 30), null, 0, false));
@@ -143,21 +149,10 @@ public class SetupPage {
         if (sampleLabelFont != null) sampleLabel.setFont(sampleLabelFont);
         sampleLabel.setText("Device Sample Rate");
         panel2.add(sampleLabel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        sampleRateSelect = new JComboBox();
-        Font sampleRateSelectFont = this.$$$getFont$$$(".AppleSystemUIFont", Font.PLAIN, 12, sampleRateSelect.getFont());
-        if (sampleRateSelectFont != null) sampleRateSelect.setFont(sampleRateSelectFont);
-        final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
-        defaultComboBoxModel1.addElement("256");
-        defaultComboBoxModel1.addElement("512");
-        defaultComboBoxModel1.addElement("1024");
-        defaultComboBoxModel1.addElement("2048");
-        defaultComboBoxModel1.addElement("4096");
-        defaultComboBoxModel1.addElement("8192");
-        defaultComboBoxModel1.addElement("16384");
-        defaultComboBoxModel1.addElement("32768");
-        defaultComboBoxModel1.addElement("65536");
-        sampleRateSelect.setModel(defaultComboBoxModel1);
-        panel2.add(sampleRateSelect, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(200, 30), null, 0, false));
+        sampleRateField = new JTextField();
+        sampleRateField.setHorizontalAlignment(0);
+        sampleRateField.setToolTipText("Input the recording devices sample rate.");
+        panel2.add(sampleRateField, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(200, 30), new Dimension(200, 30), 0, false));
         final JPanel panel3 = new JPanel();
         panel3.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
         panel3.setOpaque(false);
@@ -233,8 +228,5 @@ public class SetupPage {
 
     private void createUIComponents() {
         this.input_number_panel = new RoundedPanel(20, 2);
-        this.numWavePanel = new JPanel();
-        //Font font = new Font(".AppleSystemUIFont", Font.BOLD, 14);
-        //this.numWavePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(), "Select the Number of Pressure Waveforms", TitledBorder.CENTER, TitledBorder.TOP, font));
     }
 }

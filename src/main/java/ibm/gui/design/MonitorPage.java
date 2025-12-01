@@ -26,14 +26,12 @@ public class MonitorPage {
     private double t = 0;
     private int sampleRate;
 
-    //Check if sample rate binary value, Honestly unnecessary with dropdown menu but eh better safe than sorry.
-
-
     //TODO needs to be tied into graphing
     public void setSampleRate(int sample_rate) {
         try {
             if (!validSampleRate(sample_rate)) throw new SetupValueException("Sample Rate incorrect: Make base 2");
             sampleRate = sample_rate;
+            System.out.print(sample_rate);
         } catch (SetupValueException e) {
             System.out.println(e.getMessage());
         }

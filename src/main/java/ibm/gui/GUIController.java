@@ -90,7 +90,7 @@ public class GUIController {
         return true;
     }
 
-    //Shows Setuppage and shows relevant menus
+    //Shows SetupPage and shows relevant menus
     private boolean showSetupPage() {
         //Switches to startup page
         menuBar.setVisible(true);
@@ -227,7 +227,10 @@ public class GUIController {
         JMenuItem graphClearItem = new JMenuItem("Clear all Graphs");
         graphClearItem.setIcon(new FlatSVGIcon("icons/clear.svg",16,16));
         graphClearItem.addActionListener(_ -> {
-            if(JOptionPane.showConfirmDialog(null, "Clear all graphs ?", "Warning", JOptionPane.YES_NO_OPTION) == 0) {
+            if(JOptionPane.showConfirmDialog(null,
+                    "Clear all graphs ?",
+                    "Warning",
+                    JOptionPane.YES_NO_OPTION) == 0) {
                 //TODO Implement Clear Graph
             }
         });
@@ -365,22 +368,32 @@ public class GUIController {
 
         //Load File Button
         setupPage.getButton_loadSetup().addActionListener(_ -> {
-            if(JOptionPane.showConfirmDialog(null, "Would you like to load a pre-existing file?", "Load File?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            if(JOptionPane.showConfirmDialog(null, "Would you like to load " +
+                    "a pre-existing file?", "Load File?",
+                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 loadFileDialog();
             }
         });
         //Finish Setup Button, Writes all setup settings into AppState.currentSettings Record
         setupPage.getButton_finish_setup().addActionListener(_ -> {
-            AppState.currentSettings = new SetupSettings(setupPage.getPatientName().trim(),
-                    setupPage.getNumWaveForms(),
-                    setupPage.getSampleRate());
-            if(!this.showMonitorPage()) {
-                try {
-                    throw new Exception("Switch to Monitor Page Failed");
-                } catch (Exception ex) {
-                    logger.severe(ex.getMessage());
+            try {
+                AppState.currentSettings = new SetupSettings(setupPage.getPatientName().trim(),
+                        setupPage.getNumWaveForms(),
+                        setupPage.getSampleRate());
+                if(!this.showMonitorPage()) {
+                    try {
+                        throw new Exception("Switch to Monitor Page Failed");
+                    } catch (Exception ex) {
+                        logger.severe(ex.getMessage());
+                    }
                 }
+            } catch (SetupValueException e) {
+                logger.warning("The value entered for Sample Rate is Invalid. Ensure sample rate is a Positive" +
+                        "Integer.");
+                JOptionPane.showMessageDialog(null, "Sample Rate must be a Positive Integer", "Sample Rate " +
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
+
         });
     }
 
@@ -388,7 +401,7 @@ public class GUIController {
     private void createMonitorPage(){
         //Create and add the monitor Page
         monitorPage = new MonitorPage();
-        //Sets divider locationa at middle of the page
+        //Sets divider location at middle of the page
         monitorPage.getSplitPane().setDividerLocation(frameSize.width/2);
         cards.add(monitorPage.getPanel(), "monitor");
     }

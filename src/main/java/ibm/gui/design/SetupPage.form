@@ -45,7 +45,9 @@
           <grid id="cf374" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="613" height="71"/>
+              </grid>
             </constraints>
             <properties>
               <focusable value="false"/>
@@ -83,7 +85,7 @@
                   <text value="Select the Number of Pressure Waveforms"/>
                 </properties>
               </component>
-              <grid id="6203" binding="numWavePanel" custom-create="true" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="6203" binding="numWavePanel" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="8" fill="2" indent="0" use-parent-layout="false">
@@ -127,25 +129,16 @@
                   <text value="Device Sample Rate"/>
                 </properties>
               </component>
-              <component id="39032" class="javax.swing.JComboBox" binding="sampleRateSelect">
+              <component id="274b7" class="javax.swing.JTextField" binding="sampleRateField">
                 <constraints>
                   <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                     <preferred-size width="200" height="30"/>
+                    <maximum-size width="200" height="30"/>
                   </grid>
                 </constraints>
                 <properties>
-                  <font name=".AppleSystemUIFont" size="12" style="0"/>
-                  <model>
-                    <item value="256"/>
-                    <item value="512"/>
-                    <item value="1024"/>
-                    <item value="2048"/>
-                    <item value="4096"/>
-                    <item value="8192"/>
-                    <item value="16384"/>
-                    <item value="32768"/>
-                    <item value="65536"/>
-                  </model>
+                  <horizontalAlignment value="0"/>
+                  <toolTipText value="Input the recording devices sample rate."/>
                 </properties>
               </component>
             </children>
