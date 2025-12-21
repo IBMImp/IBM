@@ -1,6 +1,5 @@
 import ibm.gui.GUIController;
 import javax.swing.*;
-import java.awt.*;
 import java.util.logging.*;
 
 public class Main {
