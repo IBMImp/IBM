@@ -1,19 +1,21 @@
 package service;
 
 import calculation.ReservoirCalculator;
-import dicroticnotch.DicroticNotchDetector;
 import estimation.DiastolicParameterEstimator;
-import model.DiastolicParameters;
-import model.PressureSignal;
 import model.ReservoirResult;
+import preprocessing.BeatRegularisation;
+import preprocessing.DicroticNotchDetector;
+import preprocessing.LocalMinimaDetector;
+import preprocessing.NotchLocator;
+import preprocessing.SavitzkyGolaySmoother;
+import preprocessing.SignalSmoother;
 
 public class BackendService {
 
     // Fixed systolic rate constant (can be tuned later)
     private final double ks;
 
-    private final DiastolicParameterEstimator estimator;
-    private final ReservoirCalculator reservoirCalculator;
+    private final ReservoirComputationPipeline pipeline;
 
     public BackendService(double ks) {
         if (ks <= 0) {
@@ -21,8 +23,18 @@ public class BackendService {
         }
 
         this.ks = ks;
-        this.estimator = new DiastolicParameterEstimator();
-        this.reservoirCalculator = new ReservoirCalculator(ks);
+
+        SignalSmoother smoother = new SavitzkyGolaySmoother(3, 3, 2);
+        DicroticNotchDetector detector = new DicroticNotchDetector(smoother);
+        NotchLocator notchLocator = detector;
+        LocalMinimaDetector minimaDetector = detector;
+
+        this.pipeline = new ReservoirComputationPipeline(
+                notchLocator,
+                minimaDetector,
+                new BeatRegularisation(),
+                new DiastolicParameterEstimator(),
+                new ReservoirCalculator(ks));
     }
 
     /**
@@ -36,23 +48,6 @@ public class BackendService {
             double[] pressure,
             double beatDuration) {
 
-        // 1. Wrap raw inputs into PressureSignal model
-        PressureSignal signal = new PressureSignal(pressure, beatDuration);
-
-        // 2. Detect dicrotic notch
-        DicroticNotchDetector notchDetector =
-                new DicroticNotchDetector(
-                        signal.getPressure(),
-                        signal.getBeatDuration()
-                );
-
-        int notchIndex = notchDetector.getNotchIndex();
-
-        // 3. Estimate diastolic parameters (Pd, kd)
-        DiastolicParameters params =
-                estimator.estimate(signal, notchIndex);
-
-        // 4. Compute reservoir and excess pressure
-        return reservoirCalculator.compute(signal, params);
+        return pipeline.run(pressure, beatDuration);
     }
 }
