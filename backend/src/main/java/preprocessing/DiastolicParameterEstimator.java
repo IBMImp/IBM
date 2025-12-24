@@ -1,7 +1,6 @@
-package estimation;
+package preprocessing;
 
-import model.DiastolicParameters;
-import model.PressureSignal;
+import io.PressureSignal;
 
 public class DiastolicParameterEstimator {
 

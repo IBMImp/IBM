@@ -1,4 +1,4 @@
-package model;
+package preprocessing;
 
 public class DiastolicParameters {
 

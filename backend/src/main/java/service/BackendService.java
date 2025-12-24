@@ -1,11 +1,11 @@
 package service;
 
 import calculation.ReservoirCalculator;
-import dicroticnotch.DicroticNotchDetector;
-import estimation.DiastolicParameterEstimator;
-import model.DiastolicParameters;
-import model.PressureSignal;
-import model.ReservoirResult;
+import preprocessing.DicroticNotchDetector;
+import preprocessing.DiastolicParameterEstimator;
+import preprocessing.DiastolicParameters;
+import io.PressureSignal;
+import io.ReservoirResult;
 
 public class BackendService {
 
@@ -36,7 +36,7 @@ public class BackendService {
             double[] pressure,
             double beatDuration) {
 
-        // 1. Wrap raw inputs into PressureSignal model
+        // 1. Wrap raw inputs into PressureSignal io
         PressureSignal signal = new PressureSignal(pressure, beatDuration);
 
         // 2. Detect dicrotic notch

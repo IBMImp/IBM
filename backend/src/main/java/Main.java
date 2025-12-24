@@ -1,4 +1,4 @@
-import model.ReservoirResult;
+import io.ReservoirResult;
 import service.BackendService;
 
 import java.util.Arrays;

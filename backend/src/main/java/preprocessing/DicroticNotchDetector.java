@@ -1,6 +1,5 @@
-package dicroticnotch;
-
-//import mr.go.sgfilter.SGFilter;
+package preprocessing;
+import mr.go.sgfilter.SGFilter;
 
 public class DicroticNotchDetector {
 
@@ -27,16 +26,14 @@ public class DicroticNotchDetector {
         }
 
 
-    //    int nI = windowSize % 2;
-    //    int nr = windowSize % 2;
-    //    int polOrder = 2;
-    //    double[] coeffs = SGFilter.computeSGCoefficients(nI, nr, polOrder);
+        int nI = windowSize % 2;
+        int nr = windowSize % 2;
+        int polOrder = 2;
+        double[] coeffs = SGFilter.computeSGCoefficients(nI, nr, polOrder);
 
-    //    SGFilter sg = new SGFilter(nI, nr);
-    //    double[] smoothed = sg.smooth(this.pressures, coeffs);
+        SGFilter sg = new SGFilter(nI, nr);
+        double[] smoothed = sg.smooth(this.pressures, coeffs);
 
-        // TEMPORARY: bypass smoothing for integration testing
-        double[] smoothed = this.pressures;
 
 
         int n = pressures.length;
