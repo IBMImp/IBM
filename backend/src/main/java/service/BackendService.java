@@ -10,12 +10,17 @@ import preprocessing.NotchLocator;
 import preprocessing.SavitzkyGolaySmoother;
 import preprocessing.SignalSmoother;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class BackendService {
 
     // Fixed systolic rate constant (can be tuned later)
     private final double ks;
 
     private final ReservoirComputationPipeline pipeline;
+
+    private static final Logger LOGGER = Logger.getLogger(BackendService.class.getName());
 
     public BackendService(double ks) {
         if (ks <= 0) {
@@ -48,6 +53,13 @@ public class BackendService {
             double[] pressure,
             double beatDuration) {
 
-        return pipeline.run(pressure, beatDuration);
+        try {
+            return pipeline.run(pressure, beatDuration);
+        } catch (RuntimeException e) {
+            LOGGER.log(Level.SEVERE,
+                    "Pipeline execution failed (samples={0}, beatDuration={1}s): {2}",
+                    new Object[]{pressure.length, beatDuration, e.getMessage()});
+            throw e;
+        }
     }
 }

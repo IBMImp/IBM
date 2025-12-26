@@ -10,11 +10,15 @@ import preprocessing.LocalMinimaDetector;
 import preprocessing.NotchLocator;
 
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Coordinates the reservoir computation workflow using injected strategies.
  */
 public class ReservoirComputationPipeline {
+
+    private static final Logger LOGGER = Logger.getLogger(ReservoirComputationPipeline.class.getName());
 
     private final NotchLocator notchLocator;
     private final LocalMinimaDetector minimaDetector;
@@ -42,14 +46,46 @@ public class ReservoirComputationPipeline {
     public ReservoirResult run(double[] pressure, double beatDuration) {
         PressureSignal signal = new PressureSignal(pressure, beatDuration);
 
-        int notchIndex = notchLocator.locateNotch(signal);
-        DiastolicParameters diastolicParameters = estimator.estimate(signal, notchIndex);
+        int notchIndex;
+        try {
+            notchIndex = notchLocator.locateNotch(signal);
+        } catch (RuntimeException e) {
+            LOGGER.log(Level.SEVERE,
+                    "Failed to locate dicrotic notch (samples={0}, beatDuration={1}s)",
+                    new Object[]{signal.getNumSamples(), signal.getBeatDuration()});
+            throw e;
+        }
 
-        PressureSignal regularisedSignal = beatRegularizer.regularise(
-                signal,
-                diastolicParameters,
-                minimaDetector);
+        DiastolicParameters diastolicParameters;
+        try {
+            diastolicParameters = estimator.estimate(signal, notchIndex);
+        } catch (RuntimeException e) {
+            LOGGER.log(Level.SEVERE,
+                    "Diastolic estimation failed (notchIndex={0}, samples={1}, beatDuration={2}s)",
+                    new Object[]{notchIndex, signal.getNumSamples(), signal.getBeatDuration()});
+            throw e;
+        }
 
-        return reservoirCalculator.compute(regularisedSignal, diastolicParameters);
+        PressureSignal regularisedSignal;
+        try {
+            regularisedSignal = beatRegularizer.regularise(
+                    signal,
+                    diastolicParameters,
+                    minimaDetector);
+        } catch (RuntimeException e) {
+            LOGGER.log(Level.SEVERE,
+                    "Beat regularisation failed (pd={0}, kd={1}, notchIndex={2})",
+                    new Object[]{diastolicParameters.getPd(), diastolicParameters.getKd(), diastolicParameters.getNotchIndex()});
+            throw e;
+        }
+
+        try {
+            return reservoirCalculator.compute(regularisedSignal, diastolicParameters);
+        } catch (RuntimeException e) {
+            LOGGER.log(Level.SEVERE,
+                    "Reservoir calculation failed (samples={0}, beatDuration={1}s)",
+                    new Object[]{regularisedSignal.getNumSamples(), regularisedSignal.getBeatDuration()});
+            throw e;
+        }
     }
 }
