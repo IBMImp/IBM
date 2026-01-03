@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Applies beat regularisation based on diastolic pressure comparisons.
  */
-public class BeatRegularisation implements BeatRegularizer {
+public class ContinuousBeatRegulariser implements BeatRegulariser {
 
     private static final double EPSILON = 1e-9;
 
@@ -22,6 +22,13 @@ public class BeatRegularisation implements BeatRegularizer {
         double[] pressure = signal.getPressure();
         double dt = signal.getTimeStep();
         List<Integer> minimaIndices = minimaDetector.findLocalMinimaIndices(signal);
+
+        // Safety guard - use SingleBeatExtractor instead!
+        if (minimaIndices.size() < 2) {
+            // Not enough minima to define a full beat-to-beat segment.
+            // Treat the signal as a single beat and return it unchanged.
+            return signal;
+        }
 
         double[] pd = new double[minimaIndices.size()];
 

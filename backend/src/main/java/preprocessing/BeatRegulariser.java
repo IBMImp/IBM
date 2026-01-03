@@ -6,7 +6,7 @@ import model.PressureSignal;
 /**
  * Contract for algorithms that adjust beat durations to achieve consistent diastolic levels.
  */
-public interface BeatRegularizer {
+public interface BeatRegulariser {
 
     /**
      * Regularises a pressure beat based on diastolic comparisons between successive minima.
