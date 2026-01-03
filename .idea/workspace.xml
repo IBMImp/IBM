@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Reorganised repo to have separate modules for frontend and backend; Impelmented DicroticNotchDetector.java to find the intex of the dicrotic notch from a given pressure wave; no tests yet">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/backend_structure" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/backend_structure" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/calculation/ReservoirCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/calculation/ReservoirCalculator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/dicroticnotch/DicroticNotchDetector.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/preprocessing/DicroticNotchDetector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/estimation/DiastolicParameterEstimator.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/preprocessing/DiastolicParameterEstimator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/model/DiastolicParameters.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/preprocessing/DiastolicParameters.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/model/PressureSignal.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/io/PressureSignal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/model/ReservoirResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/io/ReservoirResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/service/BackendService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/service/BackendService.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FARPA" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FARPA" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FARPA" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Alexander-Golovshchinskiy&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/theMPR1/IBM.git&quot;,
+    &quot;accountId&quot;: &quot;b32db0f7-c242-496b-ac1a-712185cb68a9&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="36uwnJqt39Y4iaW1m8cT6M9yAuz" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.IBM [:backend:build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.IBM [:frontend:build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.IBM.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.idesettings.quicklists&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Alexander\IdeaProjects\IBM\frontend" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Gradle.IBM [:backend:build]">
+    <configuration name="IBM [:backend:build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":backend:build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="IBM [:frontend:build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":frontend:build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.IBM [:backend:build]" />
+        <item itemvalue="Gradle.IBM [:frontend:build]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.138" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="" />
+      <created>1765869930852</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1765869930852</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Reorganised repo to have separate modules for frontend and backend; Impelmented DicroticNotchDetector.java to find the intex of the dicrotic notch from a given pressure wave; no tests yet">
+      <option name="closed" value="true" />
+      <created>1765877316828</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1765877316828</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Reorganised repo to have separate modules for frontend and backend; Impelmented DicroticNotchDetector.java to find the intex of the dicrotic notch from a given pressure wave; no tests yet">
+      <option name="closed" value="true" />
+      <created>1766591175945</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1766591175945</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Reorganised repo to have separate modules for frontend and backend; Impelmented DicroticNotchDetector.java to find the intex of the dicrotic notch from a given pressure wave; no tests yet" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reorganised repo to have separate modules for frontend and backend; Impelmented DicroticNotchDetector.java to find the intex of the dicrotic notch from a given pressure wave; no tests yet" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

@@ -1,4 +1,6 @@
-package model;
+package io;
+
+import preprocessing.DiastolicParameters;
 
 public class ReservoirResult {
 
