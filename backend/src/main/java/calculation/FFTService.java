@@ -5,25 +5,22 @@ import org.apache.commons.math3.transform.DftNormalization;
 import org.apache.commons.math3.transform.FastFourierTransformer;
 import org.apache.commons.math3.transform.TransformType;
 
+import java.util.Arrays;
+
 public class FFTService {
 
-    // FFT engine from Apache Commons Math
     private final FastFourierTransformer transformer;
 
     public FFTService() {
-        /*
-         * STANDARD normalisation is used so that forward + inverse FFT
-         * preserves the original signal amplitude. This matches the
-         * assumptions made in Parker’s FFT-based derivation.
-         */
         this.transformer = new FastFourierTransformer(DftNormalization.STANDARD);
     }
 
     /**
      * Computes the forward FFT of a real-valued time-domain signal.
+     * Zero-pads the signal to the next power of two if necessary.
      *
-     * @param signal real-valued signal in the time domain (e.g. p(t) - Pd)
-     * @return complex frequency spectrum with the same length as the input
+     * @param signal real-valued signal in the time domain
+     * @return complex frequency spectrum
      */
     public Complex[] fft(double[] signal) {
 
@@ -33,18 +30,18 @@ public class FFTService {
             );
         }
 
-        /*
-         * The FFT library handles conversion from real input to
-         * complex frequency components internally.
-         */
-        return transformer.transform(signal, TransformType.FORWARD);
+        int paddedLength = nextPowerOfTwo(signal.length);
+        double[] paddedSignal = Arrays.copyOf(signal, paddedLength);
+
+        return transformer.transform(paddedSignal, TransformType.FORWARD);
     }
 
     /**
-     * Computes the inverse FFT to recover a real-valued time-domain signal.
+     * Computes the inverse FFT and trims padding to recover
+     * the original signal length.
      *
      * @param spectrum complex frequency-domain representation
-     * @return reconstructed real-valued signal in the time domain
+     * @return reconstructed real-valued signal
      */
     public double[] ifft(Complex[] spectrum) {
 
@@ -54,11 +51,6 @@ public class FFTService {
             );
         }
 
-        /*
-         * Inverse FFT returns complex values due to numerical error.
-         * For a physically real signal, the imaginary part should be ~0
-         * and can be safely discarded.
-         */
         Complex[] timeDomain = transformer.transform(
                 spectrum, TransformType.INVERSE
         );
@@ -69,5 +61,16 @@ public class FFTService {
         }
 
         return result;
+    }
+
+    /**
+     * Computes the smallest power of two >= n.
+     */
+    private int nextPowerOfTwo(int n) {
+        int pow = 1;
+        while (pow < n) {
+            pow <<= 1;
+        }
+        return pow;
     }
 }
