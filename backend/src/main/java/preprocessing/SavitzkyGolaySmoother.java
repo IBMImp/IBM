@@ -38,4 +38,17 @@ public class SavitzkyGolaySmoother implements SignalSmoother {
         SGFilter sgFilter = new SGFilter(nl, nr);
         return sgFilter.smooth(pressures, coeffs);
     }
+
+
+    public int getNl() {
+        return nl;
+    }
+
+    public int getNr() {
+        return nr;
+    }
+
+    public int getPolynomialOrder() {
+        return polynomialOrder;
+    }
 }
