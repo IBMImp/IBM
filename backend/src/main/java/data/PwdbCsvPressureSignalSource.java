@@ -5,6 +5,7 @@ import model.PressureSignal;
 
 import java.io.*;
 import java.nio.file.*;
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -66,7 +67,7 @@ public final class PwdbCsvPressureSignalSource implements PressureSignalSource {
                 for (int i = 1; i < parts.length; i++) {
                     samples[i - 1] = Double.parseDouble(parts[i].trim());
                 }
-                return samples;
+                return sanitizeSamples(samples, patientId, file);
             }
 
             throw new IllegalArgumentException(
@@ -83,5 +84,27 @@ public final class PwdbCsvPressureSignalSource implements PressureSignalSource {
         return s.equals("patient")
                 || s.equals("patientid")
                 || s.startsWith("#");
+    }
+    private static double[] sanitizeSamples(double[] samples, String patientId, Path file) {
+        int lastValid = samples.length - 1;
+        while (lastValid >= 0 && Double.isNaN(samples[lastValid])) {
+            lastValid--;
+        }
+        if (lastValid < 1) {
+            throw new IllegalArgumentException(
+                    "Pressure signal for patient '" + patientId + "' in " + file
+                            + " contains fewer than two valid samples"
+            );
+        }
+        double[] trimmed = Arrays.copyOf(samples, lastValid + 1);
+        for (double value : trimmed) {
+            if (Double.isNaN(value)) {
+                throw new IllegalArgumentException(
+                        "Pressure signal for patient '" + patientId + "' in " + file
+                                + " contains NaN samples"
+                );
+            }
+        }
+        return trimmed;
     }
 }
