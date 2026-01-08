@@ -2,6 +2,7 @@ package service;
 
 import calculation.ReservoirCalculator;
 import estimation.DiastolicParameterEstimator;
+import estimation.SystolicParameterEstimator;
 import model.PressureSignal;
 import model.ReservoirResult;
 import preprocessing.*;
@@ -12,21 +13,11 @@ import java.util.logging.Logger;
 
 public class BackendService {
 
-    private final double ks;
     private final ReservoirComputationPipeline pipeline;
 
     private static final Logger LOGGER = Logger.getLogger(BackendService.class.getName());
 
-    // Backwards-compatible constructor (keeps old behavior)
-//    public BackendService(double ks) {
-//        this(ks, new ContinuousBeatExtractor(), new ContinuousBeatRegulariser());
-//    }
-
-    public BackendService(double ks, BeatExtractor beatExtractor, BeatRegulariser beatRegulariser) {
-        if (ks <= 0) {
-            throw new IllegalArgumentException("ks must be positive");
-        }
-        this.ks = ks;
+    public BackendService(BeatExtractor beatExtractor, BeatRegulariser beatRegulariser) {
 
         Objects.requireNonNull(beatExtractor, "beatExtractor cannot be null");
         Objects.requireNonNull(beatRegulariser, "beatRegulariser cannot be null");
@@ -43,7 +34,8 @@ public class BackendService {
                 minimaDetector,
                 beatRegulariser,
                 new DiastolicParameterEstimator(),
-                new ReservoirCalculator(ks));
+                new SystolicParameterEstimator(),
+                new ReservoirCalculator());
     }
 
     /**
