@@ -29,6 +29,9 @@ public class DicroticNotchDetector implements LocalMinimaDetector, NotchLocator 
         double[] smoothed = smoother.smooth(signal);
 
         int n = pressures.length;
+        if (n < 3) {
+            throw new IllegalArgumentException("Pressure array must contain at least three points to locate notch");
+        }
         double[] dp = new double[n];
         double dt = beatTime / (n - 1);
 
@@ -38,10 +41,10 @@ public class DicroticNotchDetector implements LocalMinimaDetector, NotchLocator 
         }
         dp[n - 1] = (smoothed[n - 1] - smoothed[n - 2]) / dt;
 
-        int notchIndex = 0;
+        int notchIndex = 1;
         double minDerivative = Double.POSITIVE_INFINITY;
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n-1; i++) {
             if (dp[i] < minDerivative) {
                 minDerivative = dp[i];
                 notchIndex = i;

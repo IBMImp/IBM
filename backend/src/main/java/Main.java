@@ -64,7 +64,7 @@ public class Main {
         BeatRegulariser postRegulariser = new IdentityBeatRegulariser();
 
         // Notch/minima detection
-        SignalSmoother smoother = new SavitzkyGolaySmoother(5, 6, 2);
+        SignalSmoother smoother = new SavitzkyGolaySmoother(5, 5, 2);
         DicroticNotchDetector detector = new DicroticNotchDetector(smoother);
         NotchLocator notchLocator = detector;
         LocalMinimaDetector minimaDetector = detector;
