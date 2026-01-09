@@ -92,7 +92,13 @@ public class ContinuousBeatRegulariser implements BeatRegulariser {
 
         for (int i = startIndex + 1; i <= endIndex; i++) {
             if (pressure[i] <= pdCurrent) {
-                return i;
+                int previous = i - 1;
+                if (previous < startIndex) {
+                    return i;
+                }
+                double previousDelta = Math.abs(pressure[previous] - pdCurrent);
+                double currentDelta = Math.abs(pressure[i] - pdCurrent);
+                return previousDelta <= currentDelta ? previous : i;
             }
         }
         return endIndex;
@@ -116,7 +122,21 @@ public class ContinuousBeatRegulariser implements BeatRegulariser {
             return;
         }
 
-        int additionalSamples = (int) Math.ceil((targetTime - timeAtEnd) / dt);
+        double relativeTarget = targetTime - timeAtEnd;
+        int floorSamples = (int) Math.floor(relativeTarget / dt);
+        int ceilSamples = (int) Math.ceil(relativeTarget / dt);
+        int additionalSamples;
+        if (floorSamples <= 0) {
+            additionalSamples = 1;
+        } else {
+            double floorTime = timeAtEnd + floorSamples * dt;
+            double ceilTime = timeAtEnd + ceilSamples * dt;
+            double floorValue = pn * Math.exp(-kd * floorTime);
+            double ceilValue = pn * Math.exp(-kd * ceilTime);
+            double floorDelta = Math.abs(floorValue - pdCurrent);
+            double ceilDelta = Math.abs(ceilValue - pdCurrent);
+            additionalSamples = floorDelta <= ceilDelta ? floorSamples : ceilSamples;
+        }
 
         for (int i = 1; i <= additionalSamples; i++) {
             double t = timeAtEnd + i * dt;
