@@ -33,7 +33,7 @@ public class Main {
         String patientId = "1631";
         ArterySite site = ArterySite.AorticRoot;
 
-        // --- 3) Sampling rate (must match the assumptions you use for parity) ---
+        // --- 3) Sampling rate (must match the assumptions we use for parity) ---
         double sampleRateHz = 1000.0;
 
         // --- 4) Load waveform ---
