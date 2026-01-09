@@ -1,0 +1,111 @@
+package calculation;
+
+import io.PressureSignal;
+import preprocessing.DiastolicParameters;
+import io.ReservoirResult;
+import org.apache.commons.math3.complex.Complex;
+
+/**
+ * ReservoirCalculator
+ *
+ * Computes reservoir pressure and excess pressure using
+ * Parker's FFT-based reservoir pressure formulation.
+ *
+ * This class contains the physiological modelling logic and
+ * uses FFTService purely for numerical transforms.
+ */
+public class ReservoirCalculator {
+
+    // Systolic rate constant (set externally, can be tuned)
+    private final double ks;
+
+    // Numerical FFT handler
+    private final FFTService fftService;
+
+    public ReservoirCalculator(double ks) {
+        if (ks <= 0) {
+            throw new IllegalArgumentException("ks must be positive");
+        }
+        this.ks = ks;
+        this.fftService = new FFTService();
+    }
+
+    /**
+     * Computes reservoir and excess pressure for a single cardiac cycle.
+     *
+     * @param signal PressureSignal containing time-domain pressure and beat duration
+     * @param params DiastolicParameters containing Pd and kd
+     * @return ReservoirResult containing reservoir pressure and excess pressure
+     */
+    public ReservoirResult compute(
+            PressureSignal signal,
+            DiastolicParameters params) {
+
+        double[] P = signal.getPressure();
+        int n = P.length;
+        double T = signal.getBeatDuration();
+
+        double Pd = params.getPd();
+        double kd = params.getKd();
+
+        /*
+         * 1. Reference pressure to diastolic pressure:
+         *    p(t) = P(t) - Pd
+         */
+        double[] p = new double[n];
+        for (int i = 0; i < n; i++) {
+            p[i] = P[i] - Pd;
+        }
+
+        /*
+         * 2. FFT of referenced pressure signal
+         */
+        Complex[] spectrum = fftService.fft(p);
+
+        /*
+         * 3. Apply Parker transfer function in frequency domain:
+         *
+         *    Pr(ω) = [ ks / (ks + kd + iω) ] * P(ω)
+         *
+         *    ω_k = 2πk / T
+         */
+        for (int k = 0; k < spectrum.length; k++) {
+
+            double omega = 2.0 * Math.PI * k / T;
+
+            Complex denominator = new Complex(ks + kd, omega);
+
+            spectrum[k] = spectrum[k]
+                    .multiply(ks)
+                    .divide(denominator);
+        }
+
+        /*
+         * 4. Inverse FFT to recover reservoir pressure (referenced)
+         */
+        double[] prReferenced = fftService.ifft(spectrum);
+
+        /*
+         * 5. Add Pd back to obtain absolute reservoir pressure
+         */
+        double[] reservoirPressure = new double[n];
+        for (int i = 0; i < n; i++) {
+            reservoirPressure[i] = prReferenced[i] + Pd;
+        }
+
+        /*
+         * 6. Excess pressure:
+         *    Pe(t) = P(t) - Pr(t)
+         */
+        double[] excessPressure = new double[n];
+        for (int i = 0; i < n; i++) {
+            excessPressure[i] = P[i] - reservoirPressure[i];
+        }
+
+        return new ReservoirResult(
+                reservoirPressure,
+                excessPressure,
+                params
+        );
+    }
+}

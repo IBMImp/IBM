@@ -1,20 +1,20 @@
 backend/
- ├── model/
- │    ├── PressureSignal.java
- │    ├── ReservoirResult.java
- │    └── DiastolicParameters.java   
+ ├── io/
+ │    ├── PressureSignal.java                          (DONE)
+ │    ├── ReservoirResult.java                         (DONE)
+ │    └── DiastolicParameters.java                     (DONE)
  │
- ├── dicroticnotch/
- │    └── DicroticNotchDetector.java     (DONE)
+ ├── preprocessing/
+ │    └── preprocessing.DicroticNotchDetector.java     (DONE)
  │
  ├── estimation/
- │    └── DiastolicParameterEstimator.java  
+ │    └── DiastolicParameterEstimator.java             (DONE)
  │
  ├── fft/
- │    └── FFTService.java
+ │    └── FFTService.java                              (DONE)
  │
  ├── calculation/
- │    └── ReservoirCalculator.java
+ │    └── ReservoirCalculator.java                     (DONE)
  │
  └── api/
       └── BackendService.java

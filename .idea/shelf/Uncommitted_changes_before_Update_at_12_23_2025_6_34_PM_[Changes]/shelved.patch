@@ -1,0 +1,15 @@
+Index: backend/src/main/java/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>public class Main {\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/backend/src/main/java/Main.java b/backend/src/main/java/Main.java
+--- a/backend/src/main/java/Main.java	(revision be75bdb2e82d7b3b21e46d72b65f65e5f4053bdb)
++++ b/backend/src/main/java/Main.java	(date 1766095371170)
+@@ -1,4 +1,3 @@
+ public class Main {
+ 
+-
+ }
