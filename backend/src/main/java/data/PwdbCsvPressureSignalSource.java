@@ -32,9 +32,8 @@ public final class PwdbCsvPressureSignalSource implements PressureSignalSource {
         Objects.requireNonNull(patientId, "patientId");
         Objects.requireNonNull(site, "site");
 
-        Path file = csvDir.resolve(fileNameFor(site));
+        Path file = resolveCsvFile(site);
         double[] pressure = readPatientRow(file, patientId);
-        pressure = toKilopascals(pressure);
 
 
         double beatDurationSeconds = (pressure.length - 1) / sampleRateHz;
@@ -42,9 +41,17 @@ public final class PwdbCsvPressureSignalSource implements PressureSignalSource {
     }
 
     private static String fileNameFor(ArterySite site) {
-        // Assumes enum names match file tokens exactly
-        // e.g. AorticRoot -> PWs_AorticRoot_P.csv
-        return "PWs_" + site.name() + "_P.csv";
+        return site.pressureFileName();
+    }
+
+    private Path resolveCsvFile(ArterySite site) {
+        if (Files.isDirectory(csvDir)) {
+            return csvDir.resolve(fileNameFor(site));
+        }
+        if (csvDir.toString().toLowerCase().endsWith(".csv")) {
+            return csvDir;
+        }
+        throw new IllegalArgumentException("CSV path must be a directory or CSV file: " + csvDir);
     }
 
     private static double[] readPatientRow(Path file, String patientId) {
@@ -107,12 +114,5 @@ public final class PwdbCsvPressureSignalSource implements PressureSignalSource {
             }
         }
         return trimmed;
-    }
-    private static double[] toKilopascals(double[] samples) {
-        double[] scaled = new double[samples.length];
-        for (int i = 0; i < samples.length; i++) {
-            scaled[i] = samples[i] / 1000.0;
-        }
-        return scaled;
     }
 }

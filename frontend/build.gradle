@@ -4,7 +4,7 @@ plugins {
 }
 
 application {
-    mainClass = 'Main'
+    mainClass = 'ibm.gui.Main'
 }
 
 group = 'org.SEFB.IBM'
@@ -15,6 +15,7 @@ repositories {
 }
 
 dependencies {
+    implementation project(':backend')
     implementation 'org.jfree:jfreechart:1.5.5'
     implementation 'com.formdev:flatlaf:3.6.2'
     implementation "com.formdev:flatlaf-extras:3.4"
