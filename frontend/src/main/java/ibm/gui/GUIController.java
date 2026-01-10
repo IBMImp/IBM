@@ -5,6 +5,7 @@ import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.FlatPropertiesLaf;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import ibm.controller.RealtimeController;
 import ibm.gui.design.*;
 
 import javax.swing.*;
@@ -12,6 +13,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.*;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -28,6 +30,7 @@ public class GUIController {
     private JMenuBar menuBar;
     private MonitorPage monitorPage;
     private SetupPage setupPage;
+    private final ibm.controller.RealtimeController rt;
 
     //Sets default theme. True = Dark, False = Light (Not dark :) )
     private boolean dark = true;
@@ -35,8 +38,9 @@ public class GUIController {
 
     //Constructor. Doesn't create any swing components as those have to run on event thread.
     //Attaches Logger
-    public GUIController(Logger logger) {
+    public GUIController(Logger logger, RealtimeController rt1) {
         GUIController.logger = logger;
+        this.rt = rt1;
     }
 
     //Init for GUI creating gui. Called from event thread
@@ -44,6 +48,14 @@ public class GUIController {
         boolean result = false;
 
         try {
+            try {
+                Image img = Toolkit.getDefaultToolkit()
+                        .getImage(GUIController.class.getResource("/icons/app.png"));
+                Taskbar taskbar = Taskbar.getTaskbar();
+                if (taskbar.isSupported(Taskbar.Feature.ICON_IMAGE)) {
+                    taskbar.setIconImage(img);
+                }
+            } catch (Exception ignored) {}
             //Setup Frame
             UIManager.put("defaultFont", new Font(".AppleSystemUIFont", Font.PLAIN, 12));
 
@@ -54,7 +66,7 @@ public class GUIController {
 
             //Card layout for switching between pages
             cards = new JPanel(new CardLayout());
-            //Main Frame
+            //ibm.gui.Main Frame
             frame = new JFrame("Arterial Reservoir Pressure Monitor");
             //What switches the cards
             cards_switcher  = (CardLayout)cards.getLayout();
@@ -62,7 +74,7 @@ public class GUIController {
             this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             this.frame.getContentPane().add(cards);
 
-            //Add Main Pages
+            //Add ibm.gui.Main Pages
             createLandingPage();
             createSetupPage();
             createMonitorPage();
@@ -172,7 +184,7 @@ public class GUIController {
         setupItem.addActionListener(_ ->{
             if(JOptionPane.showConfirmDialog(null, "Start a New Setup?\nThis will clear all graphs", "Warning", JOptionPane.YES_NO_OPTION) == 0) {
                 showSetupPage();
-                //TODO Clear Graph and allow new Setup
+                monitorPage.clearGraphs();
             }
         });
         setupMenu.add(setupItem);
@@ -194,13 +206,13 @@ public class GUIController {
         JMenuItem helpMenu = new JMenuItem("Help");
         helpMenu.setIcon(new FlatSVGIcon("icons/help.svg",16,16));
         helpMenu.addActionListener(_->{
-           JOptionPane helpMenuOptionPane = new JOptionPane();
+            JOptionPane helpMenuOptionPane = new JOptionPane();
 
-           helpMenuOptionPane.setMessage("<html><body><p style='width: 200px;'>"+"There ain't no help where you're looking and now this is just testing if the " +
-                   "thing will wrap because it should but im not 100% sure it will because Ive never tried this before really and it would be very cool if it did." +
-                   " Obviously this is yappery and absolutely useless but ehhhhhh"+"</p></body></html>"); //TODO Actual HELP
+            helpMenuOptionPane.setMessage("<html><body><p style='width: 200px;'>"+"There ain't no help where you're looking and now this is just testing if the " +
+                    "thing will wrap because it should but im not 100% sure it will because Ive never tried this before really and it would be very cool if it did." +
+                    " Obviously this is yappery and absolutely useless but ehhhhhh"+"</p></body></html>"); //TODO Actual HELP
             helpMenuOptionPane.setFont(f);
-           JOptionPane.showMessageDialog(helpMenuOptionPane,helpMenuOptionPane.getMessage(),"Help",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(helpMenuOptionPane,helpMenuOptionPane.getMessage(),"Help",JOptionPane.INFORMATION_MESSAGE);
         });
         return helpMenu;
     }
@@ -225,8 +237,10 @@ public class GUIController {
         JMenuItem loadGraph = new JMenuItem("Load Graph");
         loadGraph.setIcon(new FlatSVGIcon("icons/load.svg",16,16));
         loadGraph.addActionListener(_-> {
-            if (JOptionPane.showConfirmDialog(null, "Do you want to load a new file? \nThis will clear all graphs.", "Warning", JOptionPane.YES_NO_OPTION) == 0)
+            if (JOptionPane.showConfirmDialog(null, "Do you want to load a new file? \nThis will clear all graphs.", "Warning", JOptionPane.YES_NO_OPTION) == 0) {
+                monitorPage.clearGraphs();
                 loadFileDialog();
+            }
         });
         monitorMenu.add(loadGraph);
         JMenuItem graphClearItem = new JMenuItem("Clear all Graphs");
@@ -236,7 +250,7 @@ public class GUIController {
                     "Clear all graphs ?",
                     "Warning",
                     JOptionPane.YES_NO_OPTION) == 0) {
-                //TODO Implement Clear Graph
+                monitorPage.clearGraphs();
             }
         });
         monitorMenu.add(graphClearItem);
@@ -271,8 +285,8 @@ public class GUIController {
         if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
             if (file.exists() && !file.isDirectory() && file.canRead() && file.getName().toLowerCase().endsWith(".csv")) {
-                loadFile(file);
-
+                //loadFile(file);
+                configureBackend(file.toPath());
             } else {
                 JOptionPane.showMessageDialog(null, "Please Select a CSV File", "Warning", JOptionPane.WARNING_MESSAGE);
                 loadFileDialog();
@@ -288,7 +302,8 @@ public class GUIController {
             String patientName = settings[0].trim();
             int numWaveForms = Integer.parseInt(settings[1]);
             int sampleRate = Integer.parseInt(settings[2]);
-            AppState.currentSettings = new SetupSettings(patientName, numWaveForms, sampleRate);
+            int patientID = Integer.parseInt(settings[3]);
+            AppState.currentSettings = new SetupSettings(patientName, numWaveForms, sampleRate, patientID);
             showMonitorPage();
             //TODO ADD File data
         } catch (Exception e) {
@@ -374,7 +389,7 @@ public class GUIController {
         //Load File Button
         setupPage.getButton_loadSetup().addActionListener(_ -> {
             if(JOptionPane.showConfirmDialog(null, "Would you like to load " +
-                    "a pre-existing file?", "Load File?",
+                            "a pre-existing file?", "Load File?",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 loadFileDialog();
             }
@@ -384,7 +399,8 @@ public class GUIController {
             try {
                 AppState.currentSettings = new SetupSettings(setupPage.getPatientName().trim(),
                         setupPage.getNumWaveForms(),
-                        setupPage.getSampleRate());
+                        setupPage.getSampleRate(),
+                        setupPage.getPatientId());
                 if(!this.showMonitorPage()) {
                     try {
                         throw new Exception("Switch to Monitor Page Failed");
@@ -408,13 +424,36 @@ public class GUIController {
         monitorPage = new MonitorPage();
         //Sets divider location at middle of the page
         monitorPage.getSplitPane().setDividerLocation(frameSize.width/2);
+        monitorPage.getPlayButton().addActionListener(_->{rt.start();});
+        monitorPage.getStopButton().addActionListener(_->{rt.pause();});
         cards.add(monitorPage.getPanel(), "monitor");
+
     }
+
+    private void configureBackend(Path csvFile) {
+
+        rt.configure(
+                csvFile,
+                AppState.currentSettings.sampleRate,
+                String.valueOf(AppState.currentSettings.patientID),
+                frame -> {
+                    monitorPage.addPoint(frame.tSec(), frame.p(), frame.pr(), frame.pe());
+
+
+                },
+                msg -> {
+                    logger.info(msg);
+                    // optional: monitorPage.setStatus(msg);
+                }
+        );
+        rt.prepare();
+    }
+
 
     //Static Class for storing App State. Used for accessing and setting current settings
     private static class AppState {
         private static SetupSettings currentSettings;
     }
     //Storage for apps settings, selected either at setup or by loading files
-    private record SetupSettings(String patientName, int numWaveForms, int sampleRate) {}
+    private record SetupSettings(String patientName, int numWaveForms, int sampleRate, int patientID) {}
 }
