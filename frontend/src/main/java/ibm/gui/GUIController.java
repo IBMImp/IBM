@@ -295,19 +295,40 @@ public class GUIController {
 
     }
     //Loads file with settings selected by load file dialog
-    private void loadFile(File file){
+    private boolean loadFile(File file){
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String settingsLine = br.readLine();
+            if (settingsLine == null || settingsLine.isBlank()) {
+                logger.warning("File is missing setup settings: " + file.getAbsolutePath());
+                return false;
+            }
             String[] settings = settingsLine.split(",");
+            if (settings.length < 3) {
+                logger.warning("File has invalid setup settings: " + file.getAbsolutePath());
+                return false;
+            }
             String patientName = settings[0].trim();
             int numWaveForms = Integer.parseInt(settings[1]);
             int sampleRate = Integer.parseInt(settings[2]);
-            int patientID = Integer.parseInt(settings[3]);
+            int patientID = 0;
+            if (settings.length > 3) {
+                try {
+                    patientID = Integer.parseInt(settings[3].trim());
+                } catch (NumberFormatException e) {
+                    logger.warning("Invalid patient ID in setup settings: " + file.getAbsolutePath());
+                }
+            }
             AppState.currentSettings = new SetupSettings(patientName, numWaveForms, sampleRate, patientID);
-            showMonitorPage();
+
+            if (!showMonitorPage()) {
+                logger.severe("Switch to Monitor Page Failed");
+                return false;
+            }
+            return true;
             //TODO ADD File data
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.log(Level.WARNING, "Failed to load setup settings from file: " + file.getAbsolutePath(), e);
+            return false;
         }
     }
 

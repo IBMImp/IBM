@@ -32,7 +32,7 @@ public final class PwdbCsvPressureSignalSource implements PressureSignalSource {
         Objects.requireNonNull(patientId, "patientId");
         Objects.requireNonNull(site, "site");
 
-        Path file = csvDir.resolve(fileNameFor(site));
+        Path file = csvDir;
         double[] pressure = readPatientRow(file, patientId);
 
 
