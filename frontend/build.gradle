@@ -4,7 +4,7 @@ plugins {
 }
 
 application {
-    mainClass = 'Main'
+    mainClass = 'ibm.gui.Main'
 }
 
 group = 'org.SEFB.IBM'
