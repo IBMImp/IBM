@@ -4,7 +4,56 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Built Project, Merged Regularization with main." />
+    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Error Fixing on my end">
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/application/ReservoirService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/preprocessing/IdentityBeatExtractor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/controller/RealtimeController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/liveCharting/LiveChartFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.2.0/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.2.0/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.2.0/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.2.0/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.2.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.2.0/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.2.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.2.0/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.2.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.2.0/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.2.0/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.2.0/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/classes/java/main/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/classes/java/main/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/classes/java/main/calculation/FFTService.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/classes/java/main/calculation/FFTService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/classes/java/main/calculation/ReservoirCalculator.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/classes/java/main/calculation/ReservoirCalculator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/classes/java/main/io/PressureSignal.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/classes/java/main/io/ReservoirResult.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/classes/java/main/preprocessing/DiastolicParameterEstimator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/classes/java/main/preprocessing/DiastolicParameters.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/classes/java/main/preprocessing/DicroticNotchDetector.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/classes/java/main/preprocessing/DicroticNotchDetector.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/classes/java/main/service/BackendService.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/classes/java/main/service/BackendService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/distributions/backend-1.0-SNAPSHOT.tar" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/distributions/backend-1.0-SNAPSHOT.tar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/distributions/backend-1.0-SNAPSHOT.zip" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/distributions/backend-1.0-SNAPSHOT.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/libs/backend-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/libs/backend-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/scripts/backend" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/scripts/backend" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/scripts/backend.bat" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/scripts/backend.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/tmp/compileJava/compileTransaction/stash-dir/DicroticNotchDetector.class.uniqueId0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/tmp/jar/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/tmp/jar/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/calculation/ReservoirCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/calculation/ReservoirCalculator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/data/PwdbCsvPressureSignalSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/data/PwdbCsvPressureSignalSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/io/PressureSignal.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/model/PressureSignal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/io/ReservoirResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/model/ReservoirResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/preprocessing/DiastolicParameterEstimator.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/estimation/DiastolicParameterEstimator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/preprocessing/DiastolicParameters.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/model/DiastolicParameters.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/reports/problems/problems-report.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/problems/problems-report.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/GUIController.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/GUIController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/MonitorPage.form" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/MonitorPage.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/MonitorPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/MonitorPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/SetupPage.form" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/SetupPage.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/SetupPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/SetupPage.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,6 +86,12 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="FARPA" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="application" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FARPA" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="build" type="c8890929:TasksNode$1" />
               </path>
               <path>
@@ -55,6 +110,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="package-info" />
         <option value="Class" />
       </list>
     </option>
@@ -62,7 +118,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="regularisation" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -87,7 +143,6 @@
     <OptionsSetting value="false" id="Update" />
   </component>
   <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
@@ -104,17 +159,17 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "Prototype",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.idesettings.quicklists",
+    "settings.editor.selected.configurable": "project.propGUI",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -122,8 +177,11 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Alexander\IdeaProjects\IBM\frontend" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="ibm.gui.liveCharting" />
+    </key>
   </component>
-  <component name="RunManager" selected="Gradle.FARPA [build]">
+  <component name="RunManager" selected="Gradle.FARPA [run]">
     <configuration name="FARPA [assemble]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -168,7 +226,7 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="FARPA [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="FARPA [run]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -179,7 +237,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="clean" />
+            <option value="run" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -236,11 +294,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.IBM [:frontend:build]" />
-        <item itemvalue="Gradle.IBM [:backend:build]" />
-        <item itemvalue="Gradle.FARPA [clean]" />
-        <item itemvalue="Gradle.FARPA [build]" />
+        <item itemvalue="Gradle.FARPA [run]" />
         <item itemvalue="Gradle.FARPA [assemble]" />
+        <item itemvalue="Gradle.IBM [:backend:build]" />
+        <item itemvalue="Gradle.FARPA [build]" />
+        <item itemvalue="Gradle.IBM [:frontend:build]" />
       </list>
     </recent_temporary>
   </component>
@@ -260,7 +318,7 @@
       <option name="presentableId" value="Default" />
       <updated>1765869930852</updated>
       <workItem from="1767991291521" duration="3095000" />
-      <workItem from="1768004952538" duration="1518000" />
+      <workItem from="1768004952538" duration="16659000" />
     </task>
     <task id="LOCAL-00001" summary="Reorganised repo to have separate modules for frontend and backend; Impelmented DicroticNotchDetector.java to find the intex of the dicrotic notch from a given pressure wave; no tests yet">
       <option name="closed" value="true" />
@@ -294,7 +352,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768005053092</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Error Fixing on my end">
+      <option name="closed" value="true" />
+      <created>1768006595184</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1768006595184</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -326,7 +392,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Reorganised repo to have separate modules for frontend and backend; Impelmented DicroticNotchDetector.java to find the intex of the dicrotic notch from a given pressure wave; no tests yet" />
     <MESSAGE value="Built Project, Merged Regularization with main." />
-    <option name="LAST_COMMIT_MESSAGE" value="Built Project, Merged Regularization with main." />
+    <MESSAGE value="Error Fixing on my end" />
+    <option name="LAST_COMMIT_MESSAGE" value="Error Fixing on my end" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

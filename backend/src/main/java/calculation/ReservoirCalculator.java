@@ -1,8 +1,8 @@
 package calculation;
 
-import io.PressureSignal;
-import preprocessing.DiastolicParameters;
-import io.ReservoirResult;
+import model.PressureSignal;
+import model.DiastolicParameters;
+import model.ReservoirResult;
 import org.apache.commons.math3.complex.Complex;
 
 /**

@@ -19,20 +19,20 @@ import java.util.Objects;
 
 public final class PwdbCsvPressureSignalSource implements PressureSignalSource {
 
-    private final Path csvDir;
+    private final Path csvPath;
     private final double sampleRateHz;
 
-    public PwdbCsvPressureSignalSource(Path csvDir, double sampleRateHz) {
-        this.csvDir = Objects.requireNonNull(csvDir, "csvDir");
+    public PwdbCsvPressureSignalSource(Path csvPath, double sampleRateHz) {
+        this.csvPath = Objects.requireNonNull(csvPath, "csvDir");
         this.sampleRateHz = sampleRateHz;
     }
 
     @Override
     public PressureSignal load(String patientId, ArterySite site) {
-        Objects.requireNonNull(patientId, "patientId");
-        Objects.requireNonNull(site, "site");
+        //Objects.requireNonNull(patientId, "patientId");
+        //Objects.requireNonNull(site, "site");
 
-        Path file = csvDir.resolve(fileNameFor(site));
+        Path file = csvPath; //.resolve(fileNameFor(site));
         double[] pressure = readPatientRow(file, patientId);
         pressure = toKilopascals(pressure);
 
