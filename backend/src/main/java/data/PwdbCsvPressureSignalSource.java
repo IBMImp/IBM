@@ -34,6 +34,7 @@ public final class PwdbCsvPressureSignalSource implements PressureSignalSource {
 
         Path file = csvDir.resolve(fileNameFor(site));
         double[] pressure = readPatientRow(file, patientId);
+        pressure = toKilopascals(pressure);
 
 
         double beatDurationSeconds = (pressure.length - 1) / sampleRateHz;
@@ -106,5 +107,12 @@ public final class PwdbCsvPressureSignalSource implements PressureSignalSource {
             }
         }
         return trimmed;
+    }
+    private static double[] toKilopascals(double[] samples) {
+        double[] scaled = new double[samples.length];
+        for (int i = 0; i < samples.length; i++) {
+            scaled[i] = samples[i] / 1000.0;
+        }
+        return scaled;
     }
 }
