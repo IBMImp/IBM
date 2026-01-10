@@ -4,28 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/9.2.0/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.2.0/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/9.2.0/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.2.0/checksums/md5-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/9.2.0/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.2.0/checksums/sha1-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/9.2.0/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.2.0/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/9.2.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.2.0/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/9.2.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.2.0/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/9.2.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.2.0/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/9.2.0/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.2.0/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/build/classes/java/main/DicroticNotchDetector.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/build/classes/java/main/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/classes/java/main/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/build/distributions/backend-1.0-SNAPSHOT.tar" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/distributions/backend-1.0-SNAPSHOT.tar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/build/distributions/backend-1.0-SNAPSHOT.zip" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/distributions/backend-1.0-SNAPSHOT.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/build/libs/backend-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/libs/backend-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/reports/problems/problems-report.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/problems/problems-report.html" afterDir="false" />
-    </list>
+    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Built Project, Merged Regularization with main." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -104,37 +83,41 @@
   &quot;associatedIndex&quot;: 7
 }</component>
   <component name="ProjectId" id="36uwnJqt39Y4iaW1m8cT6M9yAuz" />
+  <component name="ProjectLevelVcsManager">
+    <OptionsSetting value="false" id="Update" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.FARPA [assemble].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.FARPA [build].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.FARPA [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.FARPA [run].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.IBM [:backend:build].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.IBM [:frontend:build].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.IBM.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.idesettings.quicklists&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Download Sources.executor": "Run",
+    "Gradle.FARPA [assemble].executor": "Run",
+    "Gradle.FARPA [build].executor": "Run",
+    "Gradle.FARPA [clean].executor": "Run",
+    "Gradle.FARPA [run].executor": "Run",
+    "Gradle.IBM [:backend:build].executor": "Run",
+    "Gradle.IBM [:frontend:build].executor": "Run",
+    "Gradle.IBM.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.idesettings.quicklists",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Alexander\IdeaProjects\IBM\frontend" />
@@ -277,6 +260,7 @@
       <option name="presentableId" value="Default" />
       <updated>1765869930852</updated>
       <workItem from="1767991291521" duration="3095000" />
+      <workItem from="1768004952538" duration="1518000" />
     </task>
     <task id="LOCAL-00001" summary="Reorganised repo to have separate modules for frontend and backend; Impelmented DicroticNotchDetector.java to find the intex of the dicrotic notch from a given pressure wave; no tests yet">
       <option name="closed" value="true" />
@@ -294,7 +278,23 @@
       <option name="project" value="LOCAL" />
       <updated>1766591175945</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Built Project, Merged Regularization with main.">
+      <option name="closed" value="true" />
+      <created>1768005018316</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1768005018316</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Built Project, Merged Regularization with main.">
+      <option name="closed" value="true" />
+      <created>1768005053092</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1768005053092</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -325,7 +325,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Reorganised repo to have separate modules for frontend and backend; Impelmented DicroticNotchDetector.java to find the intex of the dicrotic notch from a given pressure wave; no tests yet" />
-    <option name="LAST_COMMIT_MESSAGE" value="Reorganised repo to have separate modules for frontend and backend; Impelmented DicroticNotchDetector.java to find the intex of the dicrotic notch from a given pressure wave; no tests yet" />
+    <MESSAGE value="Built Project, Merged Regularization with main." />
+    <option name="LAST_COMMIT_MESSAGE" value="Built Project, Merged Regularization with main." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
