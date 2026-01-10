@@ -11,3 +11,5 @@ backend/build/scripts/backend.bat
 backend/build/tmp/compileJava/previous-compilation-data.bin
 backend/build/tmp/jar/MANIFEST.MF
 build/reports/problems/problems-report.html
+
+virtualPatientData
