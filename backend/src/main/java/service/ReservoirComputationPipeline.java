@@ -3,6 +3,7 @@ package service;
 
 import calculation.ReservoirCalculator;
 import estimation.DiastolicParameterEstimator;
+import estimation.SystolicParameterEstimator;
 import model.DiastolicParameters;
 import model.PressureSignal;
 import model.ReservoirResult;
@@ -32,6 +33,7 @@ public class ReservoirComputationPipeline {
     private final LocalMinimaDetector minimaDetector;
     private final BeatRegulariser beatRegulariser;
     private final DiastolicParameterEstimator estimator;
+    private final SystolicParameterEstimator systolicEstimator;
     private final ReservoirCalculator reservoirCalculator;
 
     public ReservoirComputationPipeline(
@@ -40,6 +42,7 @@ public class ReservoirComputationPipeline {
             LocalMinimaDetector minimaDetector,
             BeatRegulariser beatRegulariser,
             DiastolicParameterEstimator estimator,
+            SystolicParameterEstimator systolicEstimator,
             ReservoirCalculator reservoirCalculator) {
 
         this.beatExtractor = Objects.requireNonNull(beatExtractor, "Beat extractor cannot be null");
@@ -47,6 +50,7 @@ public class ReservoirComputationPipeline {
         this.minimaDetector = Objects.requireNonNull(minimaDetector, "Minima detector cannot be null");
         this.beatRegulariser = Objects.requireNonNull(beatRegulariser, "Beat regulariser cannot be null");
         this.estimator = Objects.requireNonNull(estimator, "Diastolic estimator cannot be null");
+        this.systolicEstimator = Objects.requireNonNull(systolicEstimator, "Systolic estimator cannot be null");
         this.reservoirCalculator = Objects.requireNonNull(reservoirCalculator, "Reservoir calculator cannot be null");
     }
 
@@ -105,8 +109,19 @@ public class ReservoirComputationPipeline {
         }
 
         // (5) Reservoir computation
+        double ks;
         try {
-            return reservoirCalculator.compute(regularisedBeat, diastolicParameters);
+            ks = systolicEstimator.estimate(regularisedBeat, diastolicParameters);
+        } catch (RuntimeException e) {
+            LOGGER.log(Level.SEVERE,
+                    "Systolic estimation failed (kd={0}, pd={1}): {2}",
+                    new Object[]{diastolicParameters.getKd(), diastolicParameters.getPd(), e.getMessage()});
+            throw e;
+        }
+
+        // (6) Reservoir computation
+        try {
+            return reservoirCalculator.compute(regularisedBeat, diastolicParameters, ks);
         } catch (RuntimeException e) {
             LOGGER.log(Level.SEVERE,
                     "Reservoir calculation failed (samples={0}, beatDuration={1}s): {2}",

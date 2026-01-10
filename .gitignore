@@ -1,1 +1,15 @@
 
+.gradle/
+.idea/
+backend/logs
+backend/build/classes/java/main/Main.class
+backend/build/distributions/backend-1.0-SNAPSHOT.tar
+backend/build/distributions/backend-1.0-SNAPSHOT.zip
+backend/build/libs/backend-1.0-SNAPSHOT.jar
+backend/build/scripts/backend
+backend/build/scripts/backend.bat
+backend/build/tmp/compileJava/previous-compilation-data.bin
+backend/build/tmp/jar/MANIFEST.MF
+build/reports/problems/problems-report.html
+
+virtualPatientData

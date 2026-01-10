@@ -1,5 +1,14 @@
-import io.ReservoirResult;
-import service.BackendService;
+// src/main/java/Main.java
+import data.PressureSignalSource;
+import data.PwdbCsvPressureSignalSource;
+import model.ArterySite;
+import model.PressureSignal;
+import model.ReservoirResult;
+import preprocessing.*;
+import service.ReservoirComputationPipeline;
+import calculation.ReservoirCalculator;
+import estimation.DiastolicParameterEstimator;
+import estimation.SystolicParameterEstimator;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -56,16 +65,15 @@ public class Main {
         BeatRegulariser postRegulariser = new IdentityBeatRegulariser();
 
         // Notch/minima detection
-        SignalSmoother smoother = new SavitzkyGolaySmoother(5, 6, 2);
+        SignalSmoother smoother = new SavitzkyGolaySmoother(5, 5, 2);
         DicroticNotchDetector detector = new DicroticNotchDetector(smoother);
         NotchLocator notchLocator = detector;
         LocalMinimaDetector minimaDetector = detector;
 
         DiastolicParameterEstimator estimator = new DiastolicParameterEstimator();
 
-        // Use a fixed ks for now (later you can feed MATLAB's ksfit for parity)
-        double ks = 1.0;
-        ReservoirCalculator reservoirCalculator = new ReservoirCalculator(ks);
+        SystolicParameterEstimator systolicEstimator = new SystolicParameterEstimator();
+        ReservoirCalculator reservoirCalculator = new ReservoirCalculator();
 
         ReservoirComputationPipeline pipeline = new ReservoirComputationPipeline(
                 extractor,
@@ -73,6 +81,7 @@ public class Main {
                 minimaDetector,
                 postRegulariser,
                 estimator,
+                systolicEstimator,
                 reservoirCalculator
         );
 

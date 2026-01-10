@@ -16,17 +16,10 @@ import org.apache.commons.math3.complex.Complex;
  */
 public class ReservoirCalculator {
 
-    // Systolic rate constant (set externally, can be tuned)
-    private final double ks;
-
     // Numerical FFT handler
     private final FFTService fftService;
 
-    public ReservoirCalculator(double ks) {
-        if (ks <= 0) {
-            throw new IllegalArgumentException("ks must be positive");
-        }
-        this.ks = ks;
+    public ReservoirCalculator() {
         this.fftService = new FFTService();
     }
 
@@ -35,15 +28,22 @@ public class ReservoirCalculator {
      *
      * @param signal PressureSignal containing time-domain pressure and beat duration
      * @param params DiastolicParameters containing Pd and kd
+     * @param ks systolic rate constant
      * @return ReservoirResult containing reservoir pressure and excess pressure
      */
     public ReservoirResult compute(
             PressureSignal signal,
-            DiastolicParameters params) {
+            DiastolicParameters params,
+            double ks) {
+
+            if (ks <= 0) {
+                throw new IllegalArgumentException("ks must be positive");
+            }
 
         double[] P = signal.getPressure();
         int n = P.length;
         double T = signal.getBeatDuration();
+        double sampleRate = (n - 1) / T;
 
         double Pd = params.getPd();
         double kd = params.getKd();
@@ -71,7 +71,7 @@ public class ReservoirCalculator {
          */
         for (int k = 0; k < spectrum.length; k++) {
 
-            double omega = 2.0 * Math.PI * k / T;
+            double omega = 2.0 * Math.PI * sampleRate * k / n;
 
             Complex denominator = new Complex(ks + kd, omega);
 

@@ -1,29 +1,23 @@
 package service;
 
 import calculation.ReservoirCalculator;
-import preprocessing.DicroticNotchDetector;
-import preprocessing.DiastolicParameterEstimator;
-import preprocessing.DiastolicParameters;
-import io.PressureSignal;
-import io.ReservoirResult;
+import estimation.DiastolicParameterEstimator;
+import estimation.SystolicParameterEstimator;
+import model.PressureSignal;
+import model.ReservoirResult;
+import preprocessing.*;
+
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class BackendService {
 
-    private final double ks;
     private final ReservoirComputationPipeline pipeline;
 
     private static final Logger LOGGER = Logger.getLogger(BackendService.class.getName());
 
-    // Backwards-compatible constructor (keeps old behavior)
-//    public BackendService(double ks) {
-//        this(ks, new ContinuousBeatExtractor(), new ContinuousBeatRegulariser());
-//    }
-
-    public BackendService(double ks, BeatExtractor beatExtractor, BeatRegulariser beatRegulariser) {
-        if (ks <= 0) {
-            throw new IllegalArgumentException("ks must be positive");
-        }
-        this.ks = ks;
+    public BackendService(BeatExtractor beatExtractor, BeatRegulariser beatRegulariser) {
 
         Objects.requireNonNull(beatExtractor, "beatExtractor cannot be null");
         Objects.requireNonNull(beatRegulariser, "beatRegulariser cannot be null");
@@ -40,7 +34,8 @@ public class BackendService {
                 minimaDetector,
                 beatRegulariser,
                 new DiastolicParameterEstimator(),
-                new ReservoirCalculator(ks));
+                new SystolicParameterEstimator(),
+                new ReservoirCalculator());
     }
 
     /**
@@ -54,23 +49,13 @@ public class BackendService {
             double[] pressure,
             double beatDuration) {
 
-        // 1. Wrap raw inputs into PressureSignal io
-        PressureSignal signal = new PressureSignal(pressure, beatDuration);
-
-        // 2. Detect dicrotic notch
-        DicroticNotchDetector notchDetector =
-                new DicroticNotchDetector(
-                        signal.getPressure(),
-                        signal.getBeatDuration()
-                );
-
-        int notchIndex = notchDetector.getNotchIndex();
-
-        // 3. Estimate diastolic parameters (Pd, kd)
-        DiastolicParameters params =
-                estimator.estimate(signal, notchIndex);
-
-        // 4. Compute reservoir and excess pressure
-        return reservoirCalculator.compute(signal, params);
+        try {
+            return pipeline.run(pressure, beatDuration);
+        } catch (RuntimeException e) {
+            LOGGER.log(Level.SEVERE,
+                    "Pipeline execution failed (samples={0}, beatDuration={1}s): {2}",
+                    new Object[]{pressure.length, beatDuration, e.getMessage()});
+            throw e;
+        }
     }
 }
