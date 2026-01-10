@@ -2,6 +2,7 @@
 .gradle/
 .idea/
 backend/logs
+backend/build/
 backend/build/classes/java/main/Main.class
 backend/build/distributions/backend-1.0-SNAPSHOT.tar
 backend/build/distributions/backend-1.0-SNAPSHOT.zip
