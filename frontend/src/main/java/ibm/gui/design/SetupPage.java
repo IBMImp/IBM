@@ -75,7 +75,7 @@ public class SetupPage {
             int val = Integer.parseInt(Objects.requireNonNull(patientID.getText()));
             if (Integer.signum(val) == 1) return val;
             else throw new Exception();
-        } catch (Exception _) {
+        } catch (Exception e) {
             throw new SetupValueException("Non Integer Value Entered");
         }
     }
@@ -85,7 +85,7 @@ public class SetupPage {
             int val = Integer.parseInt(Objects.requireNonNull(sampleRateField.getText()));
             if (Integer.signum(val) == 1) return val;
             else throw new Exception();
-        } catch (Exception _) {
+        } catch (Exception e) {
             throw new SetupValueException("Non Integer Value Entered");
         }
     }

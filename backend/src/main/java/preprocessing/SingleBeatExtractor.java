@@ -16,6 +16,10 @@ public final class SingleBeatExtractor implements BeatExtractor {
         }
 
         double[] shifted = new double[n];
+
+        System.out.println(idxMin);
+
+
         System.arraycopy(p, idxMin, shifted, 0, n - idxMin);
         System.arraycopy(p, 0, shifted, n - idxMin, idxMin);
 

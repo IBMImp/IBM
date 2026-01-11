@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.StringJoiner;
+import java.util.function.Consumer;
 import java.util.logging.*;
 
 
@@ -31,6 +32,8 @@ public class GUIController {
     private MonitorPage monitorPage;
     private SetupPage setupPage;
     private final ibm.controller.RealtimeController rt;
+
+    ButtonState<Connection> connectionState;
 
     //Sets default theme. True = Dark, False = Light (Not dark :) )
     private boolean dark = true;
@@ -181,7 +184,7 @@ public class GUIController {
         JMenu setupMenu = new JMenu("Setup");
         JMenuItem setupItem = new JMenuItem("New Setup");
         setupItem.setIcon(new FlatSVGIcon("icons/newsetup.svg",16,16));
-        setupItem.addActionListener(_ ->{
+        setupItem.addActionListener(e ->{
             if(JOptionPane.showConfirmDialog(null, "Start a New Setup?\nThis will clear all graphs", "Warning", JOptionPane.YES_NO_OPTION) == 0) {
                 showSetupPage();
                 monitorPage.clearGraphs();
@@ -205,7 +208,7 @@ public class GUIController {
     private JMenuItem createHelpMenu(Font f) {
         JMenuItem helpMenu = new JMenuItem("Help");
         helpMenu.setIcon(new FlatSVGIcon("icons/help.svg",16,16));
-        helpMenu.addActionListener(_->{
+        helpMenu.addActionListener(e ->{
            JOptionPane helpMenuOptionPane = new JOptionPane();
 
            helpMenuOptionPane.setMessage("<html><body><p style='width: 200px;'>"+"There ain't no help where you're looking and now this is just testing if the " +
@@ -230,13 +233,13 @@ public class GUIController {
         );
 
         saveGraph.setAccelerator(saveKey);
-        saveGraph.addActionListener(_-> saveFileDialog());
+        saveGraph.addActionListener(e-> saveFileDialog());
         saveGraph.setIcon(new FlatSVGIcon("icons/save.svg",16,16));
         monitorMenu.add(saveGraph);
 
         JMenuItem loadGraph = new JMenuItem("Load Graph");
         loadGraph.setIcon(new FlatSVGIcon("icons/load.svg",16,16));
-        loadGraph.addActionListener(_-> {
+        loadGraph.addActionListener(e-> {
             if (JOptionPane.showConfirmDialog(null, "Do you want to load a new file? \nThis will clear all graphs.", "Warning", JOptionPane.YES_NO_OPTION) == 0) {
                 monitorPage.clearGraphs();
                 loadFileDialog();
@@ -245,7 +248,7 @@ public class GUIController {
         monitorMenu.add(loadGraph);
         JMenuItem graphClearItem = new JMenuItem("Clear all Graphs");
         graphClearItem.setIcon(new FlatSVGIcon("icons/clear.svg",16,16));
-        graphClearItem.addActionListener(_ -> {
+        graphClearItem.addActionListener(e -> {
             if(JOptionPane.showConfirmDialog(null,
                     "Clear all graphs ?",
                     "Warning",
@@ -267,7 +270,7 @@ public class GUIController {
         if(dark) lookItem.setIcon(new FlatSVGIcon("icons/dark.svg",16,16));
         else lookItem.setIcon(new FlatSVGIcon("icons/light.svg",16,16));
         //When switching themes, apply opposite them and update icon
-        lookItem.addActionListener(_ -> {
+        lookItem.addActionListener(e -> {
             dark = !dark;
             applyTheme(dark);
             if(!dark) lookItem.setIcon(new FlatSVGIcon("icons/light.svg",16,16));
@@ -369,7 +372,7 @@ public class GUIController {
         //Create and add the landing page
         LandingForm landingForm = new LandingForm();
         cards.add(landingForm.getPanel(), "landing");
-        landingForm.getStart_button().addActionListener(_ -> {
+        landingForm.getStart_button().addActionListener(e -> {
             if(!this.showSetupPage()) {
                 try {
                     throw new Exception("Switch to Startup Page Failed");
@@ -387,7 +390,7 @@ public class GUIController {
         cards.add(setupPage.getPanel(), "setup");
 
         //Load File Button
-        setupPage.getButton_loadSetup().addActionListener(_ -> {
+        setupPage.getButton_loadSetup().addActionListener(e -> {
             if(JOptionPane.showConfirmDialog(null, "Would you like to load " +
                     "a pre-existing file?", "Load File?",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
@@ -395,7 +398,7 @@ public class GUIController {
             }
         });
         //Finish Setup Button, Writes all setup settings into AppState.currentSettings Record
-        setupPage.getButton_finish_setup().addActionListener(_ -> {
+        setupPage.getButton_finish_setup().addActionListener(e -> {
             try {
                 AppState.currentSettings = new SetupSettings(setupPage.getPatientName().trim(),
                         setupPage.getNumWaveForms(),
@@ -408,7 +411,7 @@ public class GUIController {
                         logger.severe(ex.getMessage());
                     }
                 }
-            } catch (SetupValueException e) {
+            } catch (SetupValueException e1) {
                 logger.warning("The value entered for Sample Rate is Invalid. Ensure sample rate is a Positive" +
                         "Integer.");
                 JOptionPane.showMessageDialog(null, "Sample Rate must be a Positive Integer", "Sample Rate " +
@@ -424,8 +427,38 @@ public class GUIController {
         monitorPage = new MonitorPage();
         //Sets divider location at middle of the page
         monitorPage.getSplitPane().setDividerLocation(frameSize.width/2);
-        monitorPage.getPlayButton().addActionListener(_->{rt.start();});
-        monitorPage.getStopButton().addActionListener(_->{rt.pause();});
+        monitorPage.getPlayButton().addActionListener(e->{rt.start();});
+        monitorPage.getStopButton().addActionListener(e->{rt.pause();});
+        JButton connectButton =  monitorPage.getConnectButton();
+
+        connectionState = new ButtonState<>(connectButton) {
+            @Override
+            public void onStateChange() {
+                if (getState() == Connection.CONNECTED) {
+                    connectButton.setText("Disconnect");
+                } else {
+                    connectButton.setText("Connect");
+                }
+            }
+        };
+
+        connectButton.addActionListener(e->{
+            if(rt.isConnected()) {
+                try {
+                    rt.disconnect();
+                    connectionState.setState(Connection.DISCONNECTED);
+                } catch (Exception e1) {
+                    logger.severe("Could not Disconnect" + e1);
+                }
+            } else {
+                try {
+                    rt.connect();
+                    connectionState.setState(Connection.CONNECTED);
+                } catch (Exception e1) {
+                    logger.severe("Could not Disconnect:" + e1);
+                }
+            }
+        });
         cards.add(monitorPage.getPanel(), "monitor");
 
     }
@@ -448,7 +481,6 @@ public class GUIController {
         );
         rt.prepare();
     }
-
 
     //Static Class for storing App State. Used for accessing and setting current settings
     private static class AppState {

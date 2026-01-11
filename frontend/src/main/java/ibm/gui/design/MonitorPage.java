@@ -20,7 +20,7 @@ public class MonitorPage {
     private JTabbedPane tabbedPane1;
     private JButton playButton;
     private JButton stopButton;
-    private JButton button3;
+    private JButton connectButton;
     private JButton button4;
     private JLabel patientNameLabel;
     private JPanel RPPanel;
@@ -33,6 +33,7 @@ public class MonitorPage {
 
     public JButton getPlayButton(){return playButton;}
     public JButton getStopButton(){return stopButton;}
+    public JButton getConnectButton(){return connectButton;}
 
     public void clearGraphs() {
         if (reservoirSeries != null) reservoirSeries.clear();
@@ -290,10 +291,11 @@ public class MonitorPage {
         toolBar1.add(stopButton);
         final JToolBar.Separator toolBar$Separator1 = new JToolBar.Separator();
         toolBar1.add(toolBar$Separator1);
-        button3 = new JButton();
-        button3.setEnabled(false);
-        button3.setText("Button");
-        toolBar1.add(button3);
+        connectButton = new JButton();
+        connectButton.setEnabled(true);
+        connectButton.setText("Connect");
+        connectButton.setToolTipText("Connect to Server");
+        toolBar1.add(connectButton);
         button4 = new JButton();
         button4.setEnabled(false);
         button4.setText("Button");

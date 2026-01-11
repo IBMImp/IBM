@@ -5,12 +5,11 @@ import model.PressureSignal;
 public class ContinuousWaveformGenerator {
 
     private int i;
-    private double t;
+    private double t = 0.0;
     private PressureSignal beat;
 
     public ContinuousWaveformGenerator(PressureSignal beat, int fs) {
         this.beat = beat;
-        Ts = (double) 1 / fs;
 
     }
 

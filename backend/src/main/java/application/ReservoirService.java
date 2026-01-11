@@ -19,6 +19,7 @@ public final class ReservoirService {
     public ReservoirService(Path csvDir, double sampleRateHz) {
         this.sampleRateHz = sampleRateHz;
 
+        System.out.println("test");
         BeatExtractor extractor = new SingleBeatExtractor();
         BeatRegulariser postRegulariser = new IdentityBeatRegulariser();
 

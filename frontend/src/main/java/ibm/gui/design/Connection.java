@@ -1,2 +1,6 @@
-package ibm.gui.design;public enum Connection {
+package ibm.gui.design;
+
+public enum Connection {
+    CONNECTED,
+    DISCONNECTED
 }

@@ -7,6 +7,7 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.DoubleStream;
 
 /**
  * Loads PWDB pressure waveforms from CSV.
@@ -36,9 +37,9 @@ public final class PwdbCsvPressureSignalSource implements PressureSignalSource {
         double[] pressure = readPatientRow(file, patientId);
         pressure = toKilopascals(pressure);
 
+        double signalDurationSeconds = (pressure.length - 1) / sampleRateHz;
 
-        double beatDurationSeconds = (pressure.length - 1) / sampleRateHz;
-        return new PressureSignal(pressure, beatDurationSeconds);
+        return new PressureSignal(pressure, signalDurationSeconds);
     }
 
     private static String fileNameFor(ArterySite site) {

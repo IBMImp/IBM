@@ -1,4 +1,6 @@
-package data;
+package ibm.controller;
+
+import java.nio.ByteBuffer;
 
 import static java.lang.Math.abs;
 
@@ -7,6 +9,7 @@ public class PressureBuffer {
     PressurePoint[] points;
     final int SIZE;
     private int i = 0;
+    private int back = 0 ;
     private int length = 0;
 
     public PressureBuffer(int SIZE) {
@@ -20,7 +23,35 @@ public class PressureBuffer {
 
         if (length < SIZE) {
             length++;
+        } else {
+            back = ++back % SIZE;
         }
+    }
+
+    public void appendAsBytes(ByteBuffer bb) {
+
+        bb.flip();
+
+        while(bb.remaining() > 0) {
+
+            append(new PressurePoint(bb.getDouble(), bb.getDouble()));
+        }
+
+    }
+
+    public PressurePoint popBack() {
+
+        if (length == 0) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        var a = points[back];
+
+        back = ++back % SIZE;
+        length--;
+
+        return a;
+
     }
 
     public PressurePoint[] getSegment(int size) {

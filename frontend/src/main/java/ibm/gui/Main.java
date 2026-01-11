@@ -4,6 +4,11 @@ import application.ReservoirService;
 import ibm.controller.RealtimeController;
 
 import javax.swing.*;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.WebSocket;
+import java.nio.ByteBuffer;
+import java.util.concurrent.CompletionStage;
 import java.util.logging.*;
 
 public class Main {
@@ -22,7 +27,7 @@ public class Main {
                 if (!gui.init()) throw new ExceptionInInitializerError("GUI Initialization Error");
                 gui.showGUI();
             } catch (Exception e) {
-                IO.print("Failed to Initialize GUI");
+                System.out.println("Failed to Initialize GUI");
             }
         });
     }
@@ -34,4 +39,5 @@ public class Main {
         logger.setUseParentHandlers(false);
         logger.setLevel(Level.ALL);
     }
+
 }

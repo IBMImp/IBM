@@ -1,0 +1,27 @@
+import org.gradle.internal.os.OperatingSystem
+
+tasks.register("runBoth") {
+    group = "application"
+
+    doLast {
+        // Launch appA
+        def pA = new ProcessBuilder(
+                OperatingSystem.current().isWindows() ? ["cmd", "/c", "gradlew.bat", ":ap:run"] : ["bash", "-lc", "./gradlew :backend:run"],
+        )
+                .directory(rootDir)
+                .inheritIO()
+                .start()
+
+        // Launch appB
+        def pB = new ProcessBuilder(
+                OperatingSystem.current().isWindows() ? ["cmd", "/c", "gradlew.bat", ":appB:run"] : ["bash", "-lc", "./gradlew :frontend:run"],
+        )
+                .directory(rootDir)
+                .inheritIO()
+                .start()
+
+        // Wait for both (Ctrl+C will stop the Gradle wrapper; child processes may need cleanup)
+        pA.waitFor()
+        pB.waitFor()
+    }
+}

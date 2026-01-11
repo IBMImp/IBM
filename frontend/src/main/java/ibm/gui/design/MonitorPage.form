@@ -178,10 +178,11 @@
               <enabled value="false"/>
             </properties>
           </component>
-          <component id="64e6f" class="javax.swing.JButton" binding="button3" default-binding="true">
+          <component id="64e6f" class="javax.swing.JButton" binding="connectButton" default-binding="true">
             <constraints/>
             <properties>
-              <enabled value="false"/>
+              <enabled value="true"/>
+              <hideActionText value="false"/>
               <text value="Button"/>
             </properties>
           </component>
