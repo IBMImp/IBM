@@ -81,13 +81,9 @@ public class ReservoirCalculator {
         }
 
         /*
-         * 4. Inverse FFT to recover reservoir pressure (referenced)
+         * 4. Inverse FFT to recover reservoir pressure (referenced to Pd)
          */
         double[] prReferenced = fftService.ifft(spectrum);
-        double offset = prReferenced[0];
-        for (int i = 0; i < prReferenced.length; i++) {
-            prReferenced[i] -= offset;
-        }
 
         /*
          * 5. Add Pd back to obtain absolute reservoir pressure
