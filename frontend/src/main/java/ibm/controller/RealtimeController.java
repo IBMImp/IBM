@@ -75,6 +75,12 @@ public final class RealtimeController {
         w.execute();
     }
 
+    public void prepareRealTime() {
+
+
+
+    }
+
 
     public void start() {
         if (p == null || pr == null || pe == null) { onStatusEdt.accept("Not ready"); return; }
@@ -82,15 +88,12 @@ public final class RealtimeController {
         if (timer != null && timer.isRunning()) return; // already running
         onStatusEdt.accept("Running...");
 
-        int periodMs = 10;
+        int periodMs = 1 / 60;
         int step = Math.max(1, (int)Math.round(fsHz * (periodMs / 1000.0)));
 
         timer = new Timer(periodMs, e -> {
 
             if (pressureBuffer.length() > 100) {
-                for (int i = 0; i < 10; ++i) {
-                    pressureBuffer.popBack();
-                }
                 var a = pressureBuffer.popBack();
 
                 onFrameEdt.accept(new Frame(a.t(), a.p(), 0, 0));
@@ -203,7 +206,7 @@ public final class RealtimeController {
             };
 
             client.newWebSocketBuilder()
-                    .buildAsync(URI.create("ws://localhost:8080/ws"), listener)
+                    .buildAsync(URI.create("ws://localhost:8081/ws"), listener)
                     .join();
         } catch (Exception e){
             throw e;

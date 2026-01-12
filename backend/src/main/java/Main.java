@@ -29,7 +29,7 @@ public class Main {
 
         int fs = 100;
 
-        Server server = new Server(8080);
+        Server server = new Server(8081);
         ContextHandler context = new ContextHandler("/");
         server.setHandler(context);
 
