@@ -102,6 +102,20 @@ public class ReservoirCalculator {
             excessPressure[i] = P[i] - reservoirPressure[i];
         }
 
+        // Debug: Check diastolic equality
+        int notchIndex = params.getNotchIndex();
+        if (notchIndex > 0 && notchIndex < n) {
+            double maxDiastolicDiff = 0.0;
+            for (int i = notchIndex; i < n; i++) {
+                double diff = Math.abs(P[i] - reservoirPressure[i]);
+                if (diff > maxDiastolicDiff) {
+                    maxDiastolicDiff = diff;
+                }
+            }
+            System.out.println("Max diastolic difference |P - Pr|: " + maxDiastolicDiff + " mmHg");
+            System.out.println("At notch: P = " + P[notchIndex] + ", Pr = " + reservoirPressure[notchIndex]);
+        }
+
         return new ReservoirResult(
                 reservoirPressure,
                 excessPressure,
