@@ -150,6 +150,27 @@ public class ReservoirCalculator {
         System.out.println("Max |Pr - P| in diastole = " + maxErr);
         System.out.println("----------------------");
 
+        import java.io.PrintWriter;
+        
+        // --- CSV export for plotting ---
+        try (PrintWriter pw = new PrintWriter("reservoir_plot.csv")) {
+            pw.println("t,P,Pr,Pe");
+        
+            double dt = signal.getBeatDuration() / (n - 1);
+            for (int i = 0; i < n; i++) {
+                pw.printf(
+                    "%.6f,%.6f,%.6f,%.6f%n",
+                    i * dt,
+                    P[i],
+                    reservoirPressure[i],
+                    excessPressure[i]
+                );
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
         
         return new ReservoirResult(
                 reservoirPressure,
