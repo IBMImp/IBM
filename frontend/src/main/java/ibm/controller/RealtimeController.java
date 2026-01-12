@@ -1,6 +1,8 @@
 package ibm.controller;
 
 import application.ReservoirService;
+import model.PressureSignal;
+import model.ReservoirResult;
 
 import javax.swing.*;
 import java.net.URI;
@@ -73,12 +75,6 @@ public final class RealtimeController {
             }
         };
         w.execute();
-    }
-
-    public void prepareRealTime() {
-
-
-
     }
 
 

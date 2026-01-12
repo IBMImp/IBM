@@ -16,7 +16,6 @@ public class Main {
     private static final Logger guiLogger =
             Logger.getLogger(GUIController.class.getName());
 
-
     public static void main(String[] args) {
         setupLogger(guiLogger);
 
@@ -39,5 +38,4 @@ public class Main {
         logger.setUseParentHandlers(false);
         logger.setLevel(Level.ALL);
     }
-
 }

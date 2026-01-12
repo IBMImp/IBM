@@ -11,7 +11,7 @@ import org.apache.commons.math3.linear.SingularValueDecomposition;
 /**
  * Detector responsible for locating the dicrotic notch and broader minima features.
  */
-public class DicroticNotchDetector implements LocalMinimaDetector, NotchLocator {
+public class  DicroticNotchDetector implements LocalMinimaDetector, NotchLocator {
 
     private final SignalSmoother smoother;
 

@@ -2,7 +2,8 @@
 .gradle/
 .idea/
 backend/logs
-backend/build/classes/java/main/ibm.gui.Main.class
+backend/build/
+backend/build/classes/java/main/Main.class
 backend/build/distributions/backend-1.0-SNAPSHOT.tar
 backend/build/distributions/backend-1.0-SNAPSHOT.zip
 backend/build/libs/backend-1.0-SNAPSHOT.jar

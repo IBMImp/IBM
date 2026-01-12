@@ -30,10 +30,11 @@ public class FFTService {
             );
         }
 
-        int paddedLength = nextPowerOfTwo(signal.length);
-        double[] paddedSignal = Arrays.copyOf(signal, paddedLength);
+        if (isPowerOfTwo(signal.length)) {
+            return transformer.transform(signal, TransformType.FORWARD);
+        }
 
-        return transformer.transform(paddedSignal, TransformType.FORWARD);
+        return dft(signal);
     }
 
     /**
@@ -51,26 +52,52 @@ public class FFTService {
             );
         }
 
-        Complex[] timeDomain = transformer.transform(
-                spectrum, TransformType.INVERSE
-        );
+        if (isPowerOfTwo(spectrum.length)) {
+            Complex[] timeDomain = transformer.transform(
+                    spectrum, TransformType.INVERSE
+            );
 
-        double[] result = new double[timeDomain.length];
-        for (int i = 0; i < timeDomain.length; i++) {
-            result[i] = timeDomain[i].getReal();
+            double[] result = new double[timeDomain.length];
+            for (int i = 0; i < timeDomain.length; i++) {
+                result[i] = timeDomain[i].getReal();
+            }
+            return result;
         }
-
-        return result;
+        return idft(spectrum);
     }
 
-    /**
-     * Computes the smallest power of two >= n.
-     */
-    private int nextPowerOfTwo(int n) {
-        int pow = 1;
-        while (pow < n) {
-            pow <<= 1;
+    private static boolean isPowerOfTwo(int n) {
+        return (n & (n - 1)) == 0;
+    }
+
+    private static Complex[] dft(double[] signal) {
+        int n = signal.length;
+        Complex[] spectrum = new Complex[n];
+        for (int k = 0; k < n; k++) {
+            double real = 0.0;
+            double imag = 0.0;
+            for (int t = 0; t < n; t++) {
+                double angle = -2.0 * Math.PI * k * t / n;
+                real += signal[t] * Math.cos(angle);
+                imag += signal[t] * Math.sin(angle);
+            }
+            spectrum[k] = new Complex(real, imag);
         }
-        return pow;
+        return spectrum;
+    }
+
+    private static double[] idft(Complex[] spectrum) {
+        int n = spectrum.length;
+        double[] signal = new double[n];
+        for (int t = 0; t < n; t++) {
+            double real = 0.0;
+            for (int k = 0; k < n; k++) {
+                double angle = 2.0 * Math.PI * k * t / n;
+                Complex term = spectrum[k].multiply(new Complex(Math.cos(angle), Math.sin(angle)));
+                real += term.getReal();
+            }
+            signal[t] = real / n;
+        }
+        return signal;
     }
 }

@@ -310,5 +310,4 @@ public class MonitorPage {
     public JComponent $$$getRootComponent$$$() {
         return panel1;
     }
-
 }
