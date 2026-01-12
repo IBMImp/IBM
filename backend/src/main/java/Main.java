@@ -108,9 +108,6 @@ public class Main {
         System.out.println("Mean pressure: " + mean(raw.getPressure()));
         System.out.println("Mean Pr: " + mean(pr));
         System.out.println("Mean Pe: " + mean(pe));
-        System.out.println("Estimated kd: " + result.getParameters().getKd());
-        System.out.println("Estimated ks: " + ks);
-        System.out.println("Ratio ks/kd: " + (ks / params.getKd()));
     }
 
     private static double mean(double[] x) {
