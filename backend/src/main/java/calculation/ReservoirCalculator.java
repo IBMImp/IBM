@@ -100,7 +100,26 @@ public class ReservoirCalculator {
         for (int i = 0; i < n; i++) {
             reservoirPressure[i] = prReferenced[i] + Pd;
         }
-
+        
+        /*
+         * 5. Add Pd back to obtain absolute reservoir pressure
+         */
+        double[] reservoirPressure = new double[n];
+        for (int i = 0; i < n; i++) {
+            reservoirPressure[i] = prReferenced[i] + Pd;
+        }
+        
+        /*
+         * 5b. Enforce diastolic boundary condition: Pr = P after valve closure
+         *     Physiology requires Qin = 0 in diastole, therefore Pr(t) = P(t)
+         */
+        int notchIndex = params.getNotchIndex();
+        if (notchIndex >= 0 && notchIndex < n) {
+            for (int i = notchIndex; i < n; i++) {
+                reservoirPressure[i] = P[i];
+            }
+        }
+        
         /*
          * 6. Excess pressure:
          *    Pe(t) = P(t) - Pr(t)
