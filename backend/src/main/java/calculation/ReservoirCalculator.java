@@ -48,6 +48,14 @@ public class ReservoirCalculator {
         double Pd = params.getPd();
         double kd = params.getKd();
 
+        // Debug: Print estimated parameters
+        System.out.println("=== Parameter Estimates ===");
+        System.out.println("Estimated Pd: " + Pd + " mmHg");
+        System.out.println("Estimated kd: " + kd + " s^-1");
+        System.out.println("Estimated ks: " + ks + " s^-1");
+        System.out.println("Ratio ks/kd: " + (ks/kd));
+        System.out.println("========================");
+
         /*
          * 1. Reference pressure to diastolic pressure:
          *    p(t) = P(t) - Pd
