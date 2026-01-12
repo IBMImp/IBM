@@ -124,6 +124,23 @@ public class ReservoirCalculator {
             System.out.println("At notch: P = " + P[notchIndex] + ", Pr = " + reservoirPressure[notchIndex]);
         }
 
+        int ni = params.getNotchIndex();
+
+        System.out.println("----- DIAGNOSTIC -----");
+        System.out.println("kd = " + kd);
+        System.out.println("ks = " + ks);
+        System.out.println("notchIndex = " + ni);
+        System.out.println("P[notch]  = " + P[ni]);
+        System.out.println("Pr[notch] = " + reservoirPressure[ni]);
+        
+        double maxErr = 0.0;
+        for (int i = ni; i < n; i++) {
+            maxErr = Math.max(maxErr, Math.abs(reservoirPressure[i] - P[i]));
+        }
+        System.out.println("Max |Pr - P| in diastole = " + maxErr);
+        System.out.println("----------------------");
+
+        
         return new ReservoirResult(
                 reservoirPressure,
                 excessPressure,
