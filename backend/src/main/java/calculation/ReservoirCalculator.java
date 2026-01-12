@@ -4,6 +4,7 @@ import model.PressureSignal;
 import model.DiastolicParameters;
 import model.ReservoirResult;
 import org.apache.commons.math3.complex.Complex;
+import java.io.PrintWriter;
 
 /**
  * ReservoirCalculator
@@ -150,7 +151,7 @@ public class ReservoirCalculator {
         System.out.println("Max |Pr - P| in diastole = " + maxErr);
         System.out.println("----------------------");
 
-        import java.io.PrintWriter;
+    
         
         // --- CSV export for plotting ---
         try (PrintWriter pw = new PrintWriter("reservoir_plot.csv")) {
