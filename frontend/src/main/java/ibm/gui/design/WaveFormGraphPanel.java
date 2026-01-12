@@ -8,8 +8,8 @@ import java.util.List;
 public class WaveFormGraphPanel extends JPanel {
 
     private final List<Double> allSamples = new ArrayList<>();
-    private final int sampleRate = 100;      // Hz
-    private final int windowSeconds = 2;    // 10-second window
+    private final int sampleRate = 1000;      // Hz
+    private final int windowSeconds = 10;    // 10-second window
     private final int windowSize = sampleRate * windowSeconds;
 
     public WaveFormGraphPanel() {

@@ -27,7 +27,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        int fs = 100;
+        int fs = 1000;
 
         Server server = new Server(8081);
         ContextHandler context = new ContextHandler("/");
@@ -81,11 +81,10 @@ public class Main {
 
             for (int i =0; i < packetSize; ++i) {
                 var a = dat.getPoint();
+                //System.out.println(a.t());
                 bb.putDouble(a.p())
                         .putDouble(a.t());
             }
-
-            //System.out.println(bb.array().length / 16);
 
 
             for (EchoEndpoint ep : Main.CLIENTS) {

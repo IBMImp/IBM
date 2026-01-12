@@ -447,6 +447,7 @@ public class GUIController {
                 try {
                     rt.disconnect();
                     connectionState.setState(Connection.DISCONNECTED);
+                    rt.pause();
                 } catch (Exception e1) {
                     logger.severe("Could not Disconnect" + e1);
                 }
@@ -454,8 +455,11 @@ public class GUIController {
                 try {
                     rt.connect();
                     connectionState.setState(Connection.CONNECTED);
+                    configureBackend(Path.of("/Users/artem/Desktop/school_java/IBM/virtualPatientData/pwdb/PWs/CSV/PWs_Brachial_P.csv"));
+                    monitorPage.clearGraphs();
+                    rt.startRealTime();
                 } catch (Exception e1) {
-                    logger.severe("Could not Disconnect:" + e1);
+                    logger.severe("Could not Connect:" + e1);
                 }
             }
         });
@@ -476,6 +480,7 @@ public class GUIController {
                 },
                 msg -> {
                     logger.info(msg);
+                   // System.out.println("works");
                     // optional: monitorPage.setStatus(msg);
                 }
         );

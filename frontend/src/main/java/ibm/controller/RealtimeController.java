@@ -88,19 +88,10 @@ public final class RealtimeController {
         if (timer != null && timer.isRunning()) return; // already running
         onStatusEdt.accept("Running...");
 
-        int periodMs = 1 / 60;
+        int periodMs = 20;
         int step = Math.max(1, (int)Math.round(fsHz * (periodMs / 1000.0)));
 
         timer = new Timer(periodMs, e -> {
-
-            if (pressureBuffer.length() > 100) {
-                var a = pressureBuffer.popBack();
-
-                onFrameEdt.accept(new Frame(a.t(), a.p(), 0, 0));
-
-            }
-
-            /*
             if (idx >= p.length) { onStatusEdt.accept("Complete"); pause(); return; }
 
             int end = Math.min(p.length, idx + step);
@@ -108,11 +99,35 @@ public final class RealtimeController {
                 double t = i / fsHz;
                 onFrameEdt.accept(new Frame(t, p[i], pr[i], pe[i]));
             }
-
             idx = end;
-            */
         });
         timer.start();
+    }
+
+    public void startRealTime() {
+        //if (p == null || pr == null || pe == null) { onStatusEdt.accept("Not ready"); return; }
+
+        if (timer != null && timer.isRunning()) return; // already running
+        onStatusEdt.accept("Running...");
+
+        int periodMs = 1;
+
+        timer = new Timer(periodMs, e -> {
+
+            while (pressureBuffer.length() > 36) {
+
+                for (int i = 0; i < 9; ++i) {
+                    pressureBuffer.popBack();
+                }
+                var a = pressureBuffer.popBack();
+
+
+                onFrameEdt.accept(new Frame(a.t(), a.p(), 0, 0));
+            }
+
+        });
+        timer.start();
+
     }
 
 
@@ -129,7 +144,7 @@ public final class RealtimeController {
         client = HttpClient.newHttpClient();
 
         int sendRate = 60;
-        int fs = 100;
+        int fs = 1000;
 
         int packetSize = (fs / sendRate) + 1;
 

@@ -31,6 +31,8 @@ public class MonitorPage {
 
     private int sampleRate = 100;   // default sample rate
 
+    private int windowSeconds = 5;
+
     public JButton getPlayButton(){return playButton;}
     public JButton getStopButton(){return stopButton;}
     public JButton getConnectButton(){return connectButton;}
@@ -186,7 +188,7 @@ public class MonitorPage {
         reservoirSeries.add(tSec, pr);
         pressureSeries.add(tSec, p);
 
-        int maxPoints = Math.max(200, sampleRate * 10);
+        int maxPoints = Math.max(200, sampleRate * windowSeconds);
         while (reservoirSeries.getItemCount() > maxPoints) reservoirSeries.remove(0);
         while (pressureSeries.getItemCount() > maxPoints) pressureSeries.remove(0);
     }
