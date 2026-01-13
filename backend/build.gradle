@@ -1,12 +1,16 @@
 plugins {
     id 'java'
     id 'application'
+    id 'war'
 }
 
 application {
     mainClass = 'Main'
 }
 
+war {
+    archiveBaseName = 'backend'
+}
 
 group = 'org.SEFB.IBM'
 version = '1.0-SNAPSHOT'
