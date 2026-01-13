@@ -7,6 +7,15 @@ import com.intellij.uiDesigner.core.Spacer;
 import ibm.gui.liveCharting.LiveChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.data.xy.XYSeries;
+import org.jfree.chart.plot.ValueMarker;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.LegendItem;
+import org.jfree.chart.LegendItemCollection;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.LegendItemSource;
+import org.jfree.chart.title.LegendTitle;
+import org.jfree.chart.ui.RectangleEdge;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,6 +37,24 @@ public class MonitorPage {
     private JPanel OverlayPanel;
     private XYSeries reservoirSeries;
     private XYSeries pressureSeries;
+    private ChartPanel bpTabChartPanel;
+    private ChartPanel overlayChartPanel;
+    private ChartPanel rpChartPanel;
+    private ChartPanel bothPressureChartPanel;
+    private ChartPanel bothReservoirChartPanel;
+
+    // the actual vertical markers
+    private ValueMarker sdMarkerBP;
+    private ValueMarker sdMarkerOverlay;
+
+    private boolean showSdLine = true;
+    private Double lastSdTime = null;
+    private JCheckBox sdToggleOverlay;
+    private JCheckBox sdToggleBP;
+
+
+    // update marker occasionally
+    private int markerTick = 0;
 
     private int sampleRate = 100;   // default sample rate
 
@@ -58,51 +85,118 @@ public class MonitorPage {
         bppCont.setBackground(panel1.getBackground().darker());
     }
 
-    public void setCustomFields(String patientName) {
-        patientNameLabel.setText(patientName);
+    public void refreshChartTheme() {
+        applyChartTheme(bpTabChartPanel);
+        applyChartTheme(overlayChartPanel);
+        applyChartTheme(rpChartPanel);
+        applyChartTheme(bothReservoirChartPanel);
+        applyChartTheme(bothPressureChartPanel);
+
+        if (overlayChartPanel != null) addSdLegendToChart(overlayChartPanel.getChart());
+        if (bpTabChartPanel != null) addSdLegendToChart(bpTabChartPanel.getChart());
+
+        updateSdMarker(bpTabChartPanel, false);
+        updateSdMarker(overlayChartPanel, true);
+
+        styleSdMarker(sdMarkerBP);
+        styleSdMarker(sdMarkerOverlay);
+
+        if (bpTabChartPanel != null) bpTabChartPanel.repaint();
+        if (overlayChartPanel != null) overlayChartPanel.repaint();
+
+        Color t = currentChartTheme().text;
+        if (sdToggleBP != null) sdToggleBP.setForeground(t);
+        if (sdToggleOverlay != null) sdToggleOverlay.setForeground(t);
+    }
+
+    public void setCustomFields(String patientName, int patientId, int sampleRate) {
+        patientNameLabel.setText(patientName + "  |  ID: " + patientId + "  |  Sample Rate: " + sampleRate + " Hz");
         panel1.revalidate();
         panel1.repaint();
     }
 
     private void installLiveGraphs() {
-        // create series ONCE (shared across all tabs)
         reservoirSeries = new XYSeries("Reservoir Pressure (Pr)", false);
         pressureSeries  = new XYSeries("Blood Pressure (P)", false);
 
-        // ===== Both Charts tab (split pane) =====
-        ChartPanel reservoirChart = LiveChartFactory.createLiveChart(
+        // Both charts tab
+        bothReservoirChartPanel = LiveChartFactory.createLiveChart(
                 "Reservoir Pressure (Pr)", "Time (s)", "Pressure", reservoirSeries
         );
-        ChartPanel pressureChart = LiveChartFactory.createLiveChart(
+        bothPressureChartPanel = LiveChartFactory.createLiveChart(
                 "Blood Pressure (P)", "Time (s)", "Pressure", pressureSeries
         );
 
+        applyChartTheme(bothReservoirChartPanel);
+        applyChartTheme(bothPressureChartPanel);
+
+        styleSingleSeriesChart(bothPressureChartPanel, BP_COLOR);
+        styleSingleSeriesChart(bothReservoirChartPanel, RP_COLOR);
+
         arppCont.removeAll();
         arppCont.setLayout(new BorderLayout());
-        arppCont.add(reservoirChart, BorderLayout.CENTER);
+        arppCont.add(bothReservoirChartPanel, BorderLayout.CENTER);
 
         bppCont.removeAll();
         bppCont.setLayout(new BorderLayout());
-        bppCont.add(pressureChart, BorderLayout.CENTER);
+        bppCont.add(bothPressureChartPanel, BorderLayout.CENTER);
 
-        // ===== Reservoir tab =====
+        // Reservoir tab
         RPPanel.removeAll();
         RPPanel.setLayout(new BorderLayout());
-        RPPanel.add(LiveChartFactory.createLiveChart(
+
+        rpChartPanel = LiveChartFactory.createLiveChart(
                 "Reservoir Pressure (Pr)", "Time (s)", "Pressure", reservoirSeries
-        ), BorderLayout.CENTER);
+        );
+        styleSingleSeriesChart(rpChartPanel, RP_COLOR);
+        RPPanel.add(rpChartPanel, BorderLayout.CENTER);
+        applyChartTheme(rpChartPanel);
 
         // ===== Blood tab =====
         BPPanel.removeAll();
         BPPanel.setLayout(new BorderLayout());
-        BPPanel.add(LiveChartFactory.createLiveChart(
-                "Blood Pressure (P)", "Time (s)", "Pressure", pressureSeries
-        ), BorderLayout.CENTER);
 
-        // ===== Overlay tab (P + Pr on same plot) =====
+        bpTabChartPanel = LiveChartFactory.createLiveChart(
+                "Blood Pressure (P)", "Time (s)", "Pressure", pressureSeries
+        );
+
+        applyChartTheme(bpTabChartPanel);
+
+        styleSingleSeriesChart(bpTabChartPanel, BP_COLOR);
+        addSdLegendToChart(bpTabChartPanel.getChart());
+
+        BPPanel.add(bpTabChartPanel, BorderLayout.CENTER);
+
+        sdToggleBP = new JCheckBox("Show Systole/Diastole line", showSdLine);
+        sdToggleBP.setOpaque(false);
+        sdToggleBP.setForeground(currentChartTheme().text);
+        sdToggleBP.addActionListener(e -> setShowSdLine(sdToggleBP.isSelected()));
+
+        JPanel bpControls = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 4));
+        bpControls.setOpaque(false);
+        bpControls.add(sdToggleBP);
+
+        BPPanel.add(bpControls, BorderLayout.SOUTH);
+
+        // Overlay tab
         OverlayPanel.removeAll();
         OverlayPanel.setLayout(new BorderLayout());
-        OverlayPanel.add(createOverlayChartPanel(), BorderLayout.CENTER);
+        overlayChartPanel = createOverlayChartPanel();
+        OverlayPanel.add(overlayChartPanel, BorderLayout.CENTER);
+
+        sdToggleOverlay = new JCheckBox("Show Systole/Diastole line", showSdLine);
+        sdToggleOverlay.setOpaque(false);
+        sdToggleOverlay.setForeground(currentChartTheme().text);
+        sdToggleOverlay.addActionListener(e -> setShowSdLine(sdToggleOverlay.isSelected()));
+
+        JPanel overlayControls = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 4));
+        overlayControls.setOpaque(false);
+        overlayControls.add(sdToggleOverlay);
+
+        OverlayPanel.add(overlayControls, BorderLayout.SOUTH);
+
+        updateSdMarker(bpTabChartPanel, false);
+        updateSdMarker(overlayChartPanel, true);
 
         // refresh
         arppCont.revalidate(); arppCont.repaint();
@@ -121,29 +215,25 @@ public class MonitorPage {
         var xAxis = new org.jfree.chart.axis.NumberAxis("Time (s)");
         var yAxis = new org.jfree.chart.axis.NumberAxis("Pressure");
 
-        var renderer = new org.jfree.chart.renderer.xy.XYLineAndShapeRenderer(true, false);
-        renderer.setSeriesStroke(0, new BasicStroke(2.5f));
-        renderer.setSeriesStroke(1, new BasicStroke(2.5f));
-        renderer.setSeriesPaint(0, new Color(0, 220, 180));   // P
-        renderer.setSeriesPaint(1, new Color(255, 180, 0));   // Pr
+        var baseRenderer = new org.jfree.chart.renderer.xy.XYLineAndShapeRenderer(true, false);
+        baseRenderer.setSeriesStroke(0, LINE_STROKE);
+        baseRenderer.setSeriesStroke(1, LINE_STROKE);
+        baseRenderer.setSeriesPaint(0, BP_COLOR);
+        baseRenderer.setSeriesPaint(1, RP_COLOR);
 
-        var plot = new org.jfree.chart.plot.XYPlot(dataset, xAxis, yAxis, renderer);
+        var plot = new org.jfree.chart.plot.XYPlot(dataset, xAxis, yAxis, baseRenderer);
 
-        // ===== monitor-style colors (match LiveChartFactory) =====
-        Color bg   = new Color(10, 16, 28);
-        Color grid = new Color(255, 255, 255, 22);
-        Color axis = new Color(255, 255, 255, 60);
-        Color text = new Color(230, 230, 230);
+        ChartTheme theme = currentChartTheme();
 
-        plot.setBackgroundPaint(bg);
+        plot.setBackgroundPaint(theme.bg);
         plot.setOutlineVisible(false);
         plot.setDomainGridlinesVisible(true);
         plot.setRangeGridlinesVisible(true);
-        plot.setDomainGridlinePaint(grid);
-        plot.setRangeGridlinePaint(grid);
+        plot.setDomainGridlinePaint(theme.grid);
+        plot.setRangeGridlinePaint(theme.grid);
 
-        styleAxis(xAxis, text, axis);
-        styleAxis(yAxis, text, axis);
+        styleAxis(xAxis, theme.text, theme.axis);
+        styleAxis(yAxis, theme.text, theme.axis);
 
         var chart = new org.jfree.chart.JFreeChart(
                 "Overlay: P vs Pr",
@@ -151,11 +241,14 @@ public class MonitorPage {
                 plot,
                 true
         );
-        chart.setBackgroundPaint(bg);
-        chart.getTitle().setPaint(Color.WHITE);
+
+        addSdLegendToChart(chart);
+
+        chart.setBackgroundPaint(theme.bg);
+        chart.getTitle().setPaint(theme.text);
         if (chart.getLegend() != null) {
-            chart.getLegend().setItemPaint(text);   // legend text
-            chart.getLegend().setBackgroundPaint(bg);
+            chart.getLegend().setItemPaint(theme.text);
+            chart.getLegend().setBackgroundPaint(theme.bg);
         }
 
         ChartPanel panel = new ChartPanel(chart);
@@ -163,7 +256,7 @@ public class MonitorPage {
         panel.setDomainZoomable(true);
         panel.setRangeZoomable(true);
         panel.setPopupMenu(null);
-        panel.setBackground(bg);
+        panel.setBackground(theme.bg);
 
         return panel;
     }
@@ -179,6 +272,350 @@ public class MonitorPage {
     }
 
 
+    public void setShowSdLine(boolean show) {
+        this.showSdLine = show;
+
+        // ---- BP chart ----
+        if (bpTabChartPanel != null && bpTabChartPanel.getChart() != null) {
+            XYPlot p = bpTabChartPanel.getChart().getXYPlot();
+
+            // always remove old marker from plot (if any)
+            if (sdMarkerBP != null) {
+                p.removeDomainMarker(sdMarkerBP);
+            }
+            sdMarkerBP = null; // force recreate when showing
+
+            if (show) {
+                updateSdMarker(bpTabChartPanel, false); // will create+add marker
+            }
+
+            addSdLegendToChart(bpTabChartPanel.getChart());
+            setLegendVisible(bpTabChartPanel.getChart(), show);
+
+            bpTabChartPanel.getChart().fireChartChanged();
+            bpTabChartPanel.repaint();
+        }
+
+        // Overlay chart
+        if (overlayChartPanel != null && overlayChartPanel.getChart() != null) {
+            XYPlot p = overlayChartPanel.getChart().getXYPlot();
+
+            if (sdMarkerOverlay != null) {
+                p.removeDomainMarker(sdMarkerOverlay);
+            }
+            sdMarkerOverlay = null; // force recreate when showing
+
+            if (show) {
+                updateSdMarker(overlayChartPanel, true);
+            }
+
+            addSdLegendToChart(overlayChartPanel.getChart());
+
+            overlayChartPanel.getChart().fireChartChanged();
+            overlayChartPanel.repaint();
+        }
+
+        // keep checkboxes synced
+        if (sdToggleBP != null) sdToggleBP.setSelected(show);
+        if (sdToggleOverlay != null) sdToggleOverlay.setSelected(show);
+    }
+
+    private void applyChartTheme(ChartPanel panel) {
+        if (panel == null || panel.getChart() == null) return;
+
+        var theme = currentChartTheme();
+        var chart = panel.getChart();
+        var plot = chart.getXYPlot();
+
+        plot.setBackgroundPaint(theme.bg);
+        plot.setDomainGridlinePaint(theme.grid);
+        plot.setRangeGridlinePaint(theme.grid);
+
+        // axes
+        if (plot.getDomainAxis() instanceof org.jfree.chart.axis.NumberAxis dx) {
+            styleAxis(dx, theme.text, theme.axis);
+        }
+        if (plot.getRangeAxis() instanceof org.jfree.chart.axis.NumberAxis ry) {
+            styleAxis(ry, theme.text, theme.axis);
+        }
+
+        chart.setBackgroundPaint(theme.bg);
+        chart.getTitle().setPaint(theme.text);
+
+        // legend (if exists)
+        if (chart.getLegend() != null) {
+            chart.getLegend().setItemPaint(theme.text);
+            chart.getLegend().setBackgroundPaint(theme.bg);
+        }
+
+        panel.setBackground(theme.bg);
+    }
+
+
+    private static final Color BP_COLOR = new Color(220, 60, 60);   // red
+    private static final Color RP_COLOR = new Color(0, 0, 255);  // blue
+    private static final BasicStroke LINE_STROKE = new BasicStroke(2.5f);
+
+    private static class ChartTheme {
+        final Color bg, grid, axis, text;
+        ChartTheme(Color bg, Color grid, Color axis, Color text) {
+            this.bg = bg; this.grid = grid; this.axis = axis; this.text = text;
+        }
+    }
+
+    private ChartTheme currentChartTheme() {
+        // use panel background to decide light vs dark
+        Color uiBg = panel1 != null ? panel1.getBackground() : Color.DARK_GRAY;
+
+        // brightness check
+        int brightness = (uiBg.getRed() + uiBg.getGreen() + uiBg.getBlue()) / 3;
+        boolean light = brightness > 140;
+
+        if (light) {
+            return new ChartTheme(
+                    new Color(245, 245, 245),  // bg
+                    new Color(0, 0, 0, 25),  // grid
+                    new Color(0, 0, 0, 90),  // axis lines
+                    new Color(20, 20, 20) // text
+            );
+        } else {
+            return new ChartTheme(
+                    new Color(10, 16, 28),
+                    new Color(255, 255, 255, 22),
+                    new Color(255, 255, 255, 60),
+                    new Color(230, 230, 230)
+            );
+        }
+    }
+
+    private boolean isLightTheme() {
+        ChartTheme theme = currentChartTheme();
+        int b = (theme.bg.getRed() + theme.bg.getGreen() + theme.bg.getBlue()) / 3;
+        return b > 140;
+    }
+
+    private Color sdColorForCurrentTheme(int alpha) {
+        return isLightTheme()
+                ? new Color(0, 0, 0, alpha)          // light
+                : new Color(255, 255, 255, alpha);   // dark
+    }
+
+    private void styleSdMarker(ValueMarker marker) {
+        if (marker == null) return;
+
+        marker.setPaint(sdColorForCurrentTheme(220));
+        marker.setStroke(new BasicStroke(
+                3.2f,
+                BasicStroke.CAP_BUTT,
+                BasicStroke.JOIN_BEVEL,
+                1.0f,
+                new float[]{7f, 7f},
+                0.0f
+        ));
+    }
+
+    private void styleSingleSeriesChart(ChartPanel panel, Color color) {
+        if (panel == null || panel.getChart() == null) return;
+        XYPlot plot = panel.getChart().getXYPlot();
+        if (plot.getRenderer() instanceof XYLineAndShapeRenderer r) {
+            r.setSeriesPaint(0, color);
+            r.setSeriesStroke(0, LINE_STROKE);
+        }
+    }
+
+    private void addSdLegendToChart(org.jfree.chart.JFreeChart chart) {
+        if (chart == null) return;
+        if (!showSdLine) {
+            LegendTitle legend = chart.getLegend();
+            if (legend != null) {
+                legend.setSources(new LegendItemSource[]{ chart.getPlot() });
+            }
+            return;
+        }
+
+        ChartTheme theme = currentChartTheme();
+        Color text = theme.text;
+        Color bg   = theme.bg;
+
+        // Dashed-line systole/diastole legend item
+        final LegendItem sdItem = new LegendItem(
+                "Systole/Diastole",
+                null,
+                null,
+                null,
+                new java.awt.geom.Line2D.Double(0, 0, 20, 0),
+                new BasicStroke(
+                        3.2f,
+                        BasicStroke.CAP_BUTT,
+                        BasicStroke.JOIN_BEVEL,
+                        1.0f,
+                        new float[]{7f, 7f},
+                        0f
+                ),
+                sdColorForCurrentTheme(220)
+        );
+
+        LegendTitle legend = chart.getLegend();
+        if (legend == null) {
+            legend = new LegendTitle(chart.getPlot());
+            chart.addSubtitle(legend);
+        }
+
+        // styling the legend
+        legend.setItemPaint(text);      // white text
+        legend.setBackgroundPaint(bg);  // dark background
+        legend.setPosition(RectangleEdge.BOTTOM);  // below the plot
+
+        // Combine dataset legend items and systole/diastole
+        LegendItemSource combined = () -> {
+            LegendItemCollection items = new LegendItemCollection();
+
+            LegendItemCollection existing = chart.getPlot().getLegendItems();
+            if (existing != null) {
+                for (int i = 0; i < existing.getItemCount(); i++) {
+                    items.add(existing.get(i));
+                }
+            }
+
+            // prevent duplicates
+            for (int i = 0; i < items.getItemCount(); i++) {
+                if ("Systole/Diastole".equals(items.get(i).getLabel())) return items;
+            }
+
+            items.add(sdItem);
+            return items;
+        };
+
+        legend.setSources(new LegendItemSource[]{combined});
+    }
+
+
+    // Systole/diastole line
+    /**
+     * Find the systole/diastole transition time using:
+     * - last local systolic peak
+     * - first local minimum after it (dicrotic notch candidate)
+     * - inflection point before notch = max |2nd derivative| between peak and notch
+     *
+     * Returns time in seconds (x-value), or null if not enough structure yet.
+     */
+    private Double findSdTransitionTime() {
+        if (pressureSeries == null) return null;
+        int n = pressureSeries.getItemCount();
+        if (n < 20) return null;
+
+        // work only on the most recent window
+        int lookback = Math.min(n, Math.max(80, sampleRate * 3)); // ~3 seconds or at least 80 points
+        int startIdx = n - lookback;
+
+        double[] t = new double[lookback];
+        double[] p = new double[lookback];
+        for (int i = 0; i < lookback; i++) {
+            t[i] = pressureSeries.getX(startIdx + i).doubleValue();
+            p[i] = pressureSeries.getY(startIdx + i).doubleValue();
+        }
+
+        // light smoothing helps with derivatives and notch detection
+        double[] ps = movingAverage(p, 5);
+
+        // 1) find last local maximum (systolic peak)
+        int peak = findLastLocalMax(ps);
+        if (peak < 2 || peak > lookback - 3) return null;
+
+        // 2) find first local minimum after the peak (dicrotic notch candidate)
+        int notch = findFirstLocalMinAfter(ps, peak + 2);
+        if (notch == -1 || notch <= peak + 3) return null;
+
+        // 3) find inflection before notch: max abs 2nd derivative between peak and notch
+        int best = -1;
+        double bestScore = -1;
+
+        for (int i = peak + 1; i <= notch - 1; i++) {
+            if (i - 1 < 0 || i + 1 >= lookback) continue;
+            double d2 = ps[i + 1] - 2.0 * ps[i] + ps[i - 1]; // discrete second derivative
+            double score = Math.abs(d2);
+            if (score > bestScore) {
+                bestScore = score;
+                best = i;
+            }
+        }
+
+        if (best == -1) return null;
+        return t[best];
+    }
+
+    private void updateSdMarker(ChartPanel panel, boolean overlay) {
+        if (panel == null || panel.getChart() == null) return;
+        if (!showSdLine) return;
+
+        Double tSD = findSdTransitionTime();
+
+        if (tSD == null) {
+            if (lastSdTime == null) return;
+            tSD = lastSdTime;
+        } else {
+            lastSdTime = tSD;
+        }
+
+
+        XYPlot plot = panel.getChart().getXYPlot();
+        ValueMarker marker = overlay ? sdMarkerOverlay : sdMarkerBP;
+
+        if (marker == null) {
+            marker = new ValueMarker(tSD);
+            styleSdMarker(marker);
+            plot.addDomainMarker(marker);
+
+            if (overlay) sdMarkerOverlay = marker;
+            else sdMarkerBP = marker;
+        } else {
+            marker.setValue(tSD);
+            styleSdMarker(marker);
+
+            plot.removeDomainMarker(marker);
+            plot.addDomainMarker(marker);
+        }
+    }
+
+    // helpers
+
+    private void setLegendVisible(org.jfree.chart.JFreeChart chart, boolean visible) {
+        if (chart == null) return;
+        LegendTitle legend = chart.getLegend();
+        if (legend != null) legend.setVisible(visible);
+    }
+
+    private static int findLastLocalMax(double[] a) {
+        for (int i = a.length - 2; i >= 1; i--) {
+            if (a[i] > a[i - 1] && a[i] >= a[i + 1]) return i;
+        }
+        return -1;
+    }
+
+    private static int findFirstLocalMinAfter(double[] a, int from) {
+        for (int i = Math.max(from, 1); i < a.length - 1; i++) {
+            if (a[i] < a[i - 1] && a[i] <= a[i + 1]) return i;
+        }
+        return -1;
+    }
+
+    private static double[] movingAverage(double[] a, int window) {
+        if (window <= 1) return a.clone();
+        int n = a.length;
+        double[] out = new double[n];
+        int w2 = window / 2;
+
+        for (int i = 0; i < n; i++) {
+            int lo = Math.max(0, i - w2);
+            int hi = Math.min(n - 1, i + w2);
+            double sum = 0.0;
+            for (int k = lo; k <= hi; k++) sum += a[k];
+            out[i] = sum / (hi - lo + 1);
+        }
+        return out;
+    }
+
+
     public void addPoint(double tSec, double p, double pr, double pe) {
         if (reservoirSeries == null || pressureSeries == null) return;
 
@@ -188,7 +625,17 @@ public class MonitorPage {
         int maxPoints = Math.max(200, sampleRate * 10);
         while (reservoirSeries.getItemCount() > maxPoints) reservoirSeries.remove(0);
         while (pressureSeries.getItemCount() > maxPoints) pressureSeries.remove(0);
+
+        // update systole/diastole marker occasionally (not every sample for performance)
+        markerTick++;
+        if (markerTick % 10 == 0) {
+            SwingUtilities.invokeLater(() -> {
+                updateSdMarker(bpTabChartPanel, false);
+                updateSdMarker(overlayChartPanel, true);
+            });
+        }
     }
+
 
 
     // ------------------------------------------
@@ -292,12 +739,12 @@ public class MonitorPage {
         toolBar1.add(toolBar$Separator1);
         button3 = new JButton();
         button3.setEnabled(false);
-        button3.setText("Button");
-        toolBar1.add(button3);
+        //button3.setText("Button");
+        //toolBar1.add(button3);
         button4 = new JButton();
         button4.setEnabled(false);
-        button4.setText("Button");
-        toolBar1.add(button4);
+        //button4.setText("Button");
+        //toolBar1.add(button4);
     }
 
     /**
