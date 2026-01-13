@@ -1,7 +1,7 @@
 package estimation;
 
-import model.DiastolicParameters;
 import model.PressureSignal;
+import model.DiastolicParameters;
 
 public class DiastolicParameterEstimator {
 
