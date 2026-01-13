@@ -1,6 +1,10 @@
 // src/main/java/Main.java
+import calculation.ReservoirCalculator;
+import data.ContinuousSignalBuffer;
 import data.ContinuousWaveformGenerator;
 import data.PwdbCsvPressureSignalSource;
+import estimation.DiastolicParameterEstimator;
+import estimation.SystolicParameterEstimator;
 import model.ArterySite;
 import model.PressureSignal;
 
@@ -17,6 +21,8 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.websocket.server.WebSocketUpgradeHandler;
 
+import preprocessing.*;
+import service.ReservoirComputationPipeline;
 import websocket.EchoEndpoint;
 
 public class Main {
@@ -28,6 +34,20 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         int fs = 1000;
+
+        int delay = fs * 2;
+
+        DicroticNotchDetector detector = new DicroticNotchDetector(new SavitzkyGolaySmoother(5, 5, 2));
+
+        ReservoirComputationPipeline pipeline = new ReservoirComputationPipeline(
+                new SingleBeatExtractor(),
+                detector,
+                detector,
+                new IdentityBeatRegulariser(),
+                new DiastolicParameterEstimator(),
+                new SystolicParameterEstimator(),
+                new ReservoirCalculator()
+        );
 
         Server server = new Server(8081);
         ContextHandler context = new ContextHandler("/");
@@ -66,6 +86,8 @@ public class Main {
 
         ContinuousWaveformGenerator dat = new ContinuousWaveformGenerator(beat, 0);
 
+        ContinuousSignalBuffer buf = new ContinuousSignalBuffer(fs * 10); // f_s * 10 seconds
+
 
         int sendRate = 60;
 
@@ -76,14 +98,58 @@ public class Main {
 
             //package
             ByteBuffer bb = ByteBuffer
-                    .allocate(2*packetSize * Double.BYTES)
+                    .allocate(2*(((packetSize + delay )* Double.BYTES)))
                     .order(ByteOrder.BIG_ENDIAN);
 
             for (int i =0; i < packetSize; ++i) {
                 var a = dat.getPoint();
-                //System.out.println(a.t());
-                bb.putDouble(a.p())
-                        .putDouble(a.t());
+                bb.putDouble(a.p()).putDouble(a.t());
+                buf.append(a);
+            }
+
+            if (buf.length() > delay + 40) { // f_s * 2 seconds "search frame" and delay
+                var seg = buf.getSegment(delay, 40);
+
+                double[] pressures = new double[delay];
+
+                for (int i = 0; i < delay; ++i) {
+                    //System.out.println(seg[i].p());
+                    pressures[i] = seg[i].p();
+                }
+
+                PressureSignal signal = new PressureSignal(pressures, 2);
+
+                ContinuousMinimaDetector minimaDetector = new ContinuousMinimaDetector();
+                ContinuousBeatExtractor extractor = new ContinuousBeatExtractor(minimaDetector);
+
+                var bounds = extractor.findMinima(signal);
+                var beatSignal = extractor.extract(bounds, signal);
+
+                var newSignal = pipeline.runNoExtractor(beatSignal);
+
+                int beatSize = beatSignal.getNumSamples();
+                //System.out.println(beatSize + " beats");
+
+                //package
+
+                for (int i =0; i < beatSize; ++i) {
+                    var a = seg[bounds[0] + i];
+                    var b = newSignal.getReservoirPressure()[i];
+                   // System.out.println(bb.remaining());
+                    bb.putDouble(b).putDouble(a.t());
+                }
+
+                int samps = delay;
+
+                if(beatSize == 0) {
+                    samps/=2;
+                }
+
+                for (int i = 0; i < beatSize; ++i) {
+                  //  System.out.println("test:" + buf.length());
+                    buf.popBack();
+                }
+
             }
 
 

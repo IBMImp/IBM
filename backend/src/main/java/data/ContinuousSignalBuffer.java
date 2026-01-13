@@ -1,18 +1,18 @@
-package ibm.controller;
+package data;
 
 import java.nio.ByteBuffer;
 
 import static java.lang.Math.abs;
 
-public class PressureBuffer {
+public class ContinuousSignalBuffer {
 
     PressurePoint[] points;
     final int SIZE;
     private int i = 0;
-    private int back = 0 ;
+    private int back = 0;
     private int length = 0;
 
-    public PressureBuffer(int SIZE) {
+    public ContinuousSignalBuffer(int SIZE) {
         this.SIZE = SIZE;
         points = new PressurePoint[SIZE];
     }
@@ -30,32 +30,11 @@ public class PressureBuffer {
 
     public void appendAsBytes(ByteBuffer bb) {
 
-       // bb.flip();
+        bb.flip();
 
-        while(bb.remaining() > 0) {
-            var a = bb.getDouble();
-            var b = bb.getDouble();
-
-            if (a == 0.0 && b == 0.0) {
-                break;
-            }
-
-            //System.out.println(bb.remaining());
-
-            append(new PressurePoint(a,b));
-        }
-
-    }
-
-    public void appendAsBytes(ByteBuffer bb, int size) {
-
-        //bb.flip(); already done
-
-        for (int i = 0; i < size; ++i) {
-          //  System.out.println(bb.remaining());
+        while (bb.remaining() > 0) {
 
             append(new PressurePoint(bb.getDouble(), bb.getDouble()));
-
         }
 
     }
@@ -75,7 +54,7 @@ public class PressureBuffer {
 
     }
 
-    public PressurePoint[] getSegment(int size) {
+    public PressurePoint[] getSegment(int size, int delay) {
 
         size = abs(size);
 
@@ -85,18 +64,38 @@ public class PressureBuffer {
 
         PressurePoint[] segment = new PressurePoint[size];
 
-        if (i >= size) {
+        int offset = (i + SIZE - delay) % SIZE;
 
-            System.arraycopy(points, i-size, segment, 0, size);
+
+        System.out.println(offset + ", "+ length);
+        System.out.println(back + ", back");
+
+        if (offset == 0) {
+
+            System.arraycopy(points, 0, segment, 0, size);
+            System.out.println("test3");
 
         } else {
+            if (size > offset) {
 
-            System.arraycopy(points, SIZE-(size-i), segment, 0, size-i);
-            System.arraycopy(points, size-i, segment, size-i, i);
+                System.out.println(size + " size");
+                System.arraycopy(points, SIZE + offset - size, segment, 0, size - offset);
+                System.arraycopy(points, 0, segment, size - offset, offset);
 
+
+            } else {
+                System.out.println("test1");
+                System.arraycopy(points, offset - size, segment, 0, size);
+
+            }
         }
 
         return segment;
+
+    }
+
+    public PressurePoint[] getBackSegment(int size) {
+        return getSegment(size, length);
 
     }
 
@@ -104,8 +103,4 @@ public class PressureBuffer {
         return length;
     }
 
-
-
-
-    public record PressurePoint(double p, double t) {};
 }

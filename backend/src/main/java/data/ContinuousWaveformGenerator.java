@@ -21,6 +21,4 @@ public class ContinuousWaveformGenerator {
 
     }
 
-    public record PressurePoint(double p, double t) {};
-
 }

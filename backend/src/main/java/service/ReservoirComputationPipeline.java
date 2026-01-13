@@ -59,10 +59,8 @@ public class ReservoirComputationPipeline {
         return run(new PressureSignal(pressure, beatDuration));
     }
 
-    /** Executes the pipeline for an input PressureSignal. */
     public ReservoirResult run(PressureSignal input) {
         Objects.requireNonNull(input, "input signal cannot be null");
-
         // (1) Extract exactly one beat (single-beat or continuous input)
         PressureSignal beat;
         try {
@@ -73,6 +71,12 @@ public class ReservoirComputationPipeline {
                     new Object[]{input.getNumSamples(), input.getBeatDuration(), e.getMessage()});
             throw e;
         }
+        return runNoExtractor(beat);
+
+    }
+
+    /** Executes the pipeline for an input PressureSignal. */
+    public ReservoirResult runNoExtractor(PressureSignal beat) {
 
         // (2) Locate notch on extracted beat
         int notchIndex;

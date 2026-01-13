@@ -484,8 +484,8 @@ public class GUIController {
                 }
             }
         });
-        monitorPage.getPlayButton().addActionListener(_->{rt.start();});
-        monitorPage.getStopButton().addActionListener(_->{rt.pause();});
+        monitorPage.getPlayButton().addActionListener(e->{rt.start();});
+        monitorPage.getStopButton().addActionListener(e->{rt.pause();});
         cards.add(monitorPage.getPanel(), "monitor");
 
     }
@@ -497,7 +497,7 @@ public class GUIController {
                 AppState.currentSettings.sampleRate,
                 String.valueOf(AppState.currentSettings.patientID),
                 frame -> {
-                    monitorPage.addPoint(frame.tSec(), frame.p(), frame.pr(), frame.pe());
+                    monitorPage.addPoint(frame.tp(), frame.tpr(), frame.p(), frame.pr(), frame.pe());
 
 
                 },

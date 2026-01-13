@@ -182,11 +182,19 @@ public class MonitorPage {
     }
 
 
-    public void addPoint(double tSec, double p, double pr, double pe) {
+    public void addPoint(double tp, double tpr, double p, double pr, double pe) {
         if (reservoirSeries == null || pressureSeries == null) return;
 
-        reservoirSeries.add(tSec, pr);
-        pressureSeries.add(tSec, p);
+        if (pr == 0.0 && tpr == 0) {
+
+        } else {
+            reservoirSeries.add(tpr, pr);
+        }
+        if (p == 0.0 && tp == 0) {
+
+        } else {
+            pressureSeries.add(tp, p);
+        }
 
         int maxPoints = Math.max(200, sampleRate * windowSeconds);
         while (reservoirSeries.getItemCount() > maxPoints) reservoirSeries.remove(0);

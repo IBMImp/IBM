@@ -30,6 +30,7 @@ public final class RealtimeController {
     private double[] p, pr, pe;
 
     private PressureBuffer pressureBuffer;
+    private PressureBuffer reservoirBuffer;
     private ByteBuffer packetBuffer;
 
     private Consumer<Frame> onFrameEdt;
@@ -93,7 +94,7 @@ public final class RealtimeController {
             int end = Math.min(p.length, idx + step);
             for (int i = idx; i < end; i++) {
                 double t = i / fsHz;
-                onFrameEdt.accept(new Frame(t, p[i], pr[i], pe[i]));
+                onFrameEdt.accept(new Frame(t, t, p[i], pr[i], pe[i]));
             }
             idx = end;
         });
@@ -117,8 +118,23 @@ public final class RealtimeController {
                 }
                 var a = pressureBuffer.popBack();
 
+                System.out.println(a.t() + ", " + a.p());
 
-                onFrameEdt.accept(new Frame(a.t(), a.p(), 0, 0));
+
+                onFrameEdt.accept(new Frame(a.t(), 0, a.p(), 0, 0));
+            }
+
+            while (reservoirBuffer.length() > 36) {
+
+                for (int i = 0; i < 9; ++i) {
+                    reservoirBuffer.popBack();
+                }
+                var b = reservoirBuffer.popBack();
+
+
+                onFrameEdt.accept(new Frame(0, b.t(), 0, b.p(), 0));
+
+
             }
 
         });
@@ -144,11 +160,12 @@ public final class RealtimeController {
 
         int packetSize = (fs / sendRate) + 1;
 
-        packetBuffer = ByteBuffer
-                .allocate(2*packetSize * Double.BYTES)
-                .order(ByteOrder.BIG_ENDIAN);
-
         pressureBuffer = new PressureBuffer(10000);
+        reservoirBuffer = new PressureBuffer(30000);
+
+        packetBuffer = ByteBuffer
+                .allocate(2*(((packetSize+(2*fs)) * Double.BYTES)))
+                .order(ByteOrder.BIG_ENDIAN);
 
         try {
             WebSocket.Listener listener = new WebSocket.Listener() {
@@ -175,26 +192,19 @@ public final class RealtimeController {
                     byte[] bytes = new byte[data.remaining()];
                     data.get(bytes);
 
-                  //  System.out.println("length: "+ bytes.length);
-
-
+                   // System.out.println(bytes.length);
+                   // System.out.println(packetBuffer.remaining());
 
                     packetBuffer.put(bytes);
-
                    // System.out.println("test1");
 
-                    if(packetBuffer.remaining() == 0) {
-                        pressureBuffer.appendAsBytes(packetBuffer);
+                    if(last) {
+                        packetBuffer.flip();
+                     //   System.out.println("test");
+                        pressureBuffer.appendAsBytes(packetBuffer, packetSize);
+                        reservoirBuffer.appendAsBytes(packetBuffer);
                         packetBuffer.clear();
                     }
-
-                    //double p = buffer.getDouble();
-                    //double t = buffer.getDouble();
-
-
-                    System.out.println(pressureBuffer.length());
-
-
 
 
                     ws.request(1);
@@ -241,5 +251,5 @@ public final class RealtimeController {
 
 
 
-    public record Frame(double tSec, double p, double pr, double pe) {}
+    public record Frame(double tp, double tpr, double p, double pr, double pe) {}
 }
