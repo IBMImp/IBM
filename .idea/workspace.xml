@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Fallback to CSV files for now for testing deployment">
+    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Improved error-logging for debugging">
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/data/PwdbCsvPressureSignalSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/data/PwdbCsvPressureSignalSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/application/ReservoirService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/application/ReservoirService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,6 +81,24 @@
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="build" type="c8890929:TasksNode$1" />
               </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FARPA" type="f1a62948:ProjectNode" />
+                <item name="frontend" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FARPA" type="f1a62948:ProjectNode" />
+                <item name="frontend" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FARPA" type="f1a62948:ProjectNode" />
+                <item name="frontend" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="application" type="c8890929:TasksNode$1" />
+              </path>
             </expand>
             <select />
           </tree_state>
@@ -136,7 +154,9 @@
     "Gradle.IBM [:backend:bootRun].executor": "Run",
     "Gradle.IBM [:backend:build].executor": "Run",
     "Gradle.IBM [:frontend:build].executor": "Run",
+    "Gradle.IBM [:frontend:run].executor": "Run",
     "Gradle.IBM [bootJar].executor": "Run",
+    "Gradle.IBM [bootRun].executor": "Run",
     "Gradle.IBM [buildDependents].executor": "Run",
     "Gradle.IBM [build].executor": "Run",
     "Gradle.IBM [init].executor": "Run",
@@ -175,7 +195,7 @@
       <recent name="C:\Users\Alexander\IdeaProjects\IBM\frontend" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.IBM [run]">
+  <component name="RunManager" selected="Gradle.IBM [:frontend:run]">
     <configuration name="IBM [:backend:bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -201,7 +221,7 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="IBM [buildDependents]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="IBM [:frontend:run]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -212,7 +232,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="buildDependents" />
+            <option value=":frontend:run" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -226,7 +246,7 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="IBM [init]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="IBM [bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -237,7 +257,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="init" />
+            <option value="bootRun" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -310,11 +330,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.IBM [run]" />
+        <item itemvalue="Gradle.IBM [:frontend:run]" />
         <item itemvalue="Gradle.IBM [:backend:bootRun]" />
+        <item itemvalue="Gradle.IBM [run]" />
+        <item itemvalue="Gradle.IBM [bootRun]" />
         <item itemvalue="Gradle.IBM [wrapper]" />
-        <item itemvalue="Gradle.IBM [init]" />
-        <item itemvalue="Gradle.IBM [buildDependents]" />
       </list>
     </recent_temporary>
   </component>
@@ -392,7 +412,23 @@
       <option name="project" value="LOCAL" />
       <updated>1768341395817</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Fixes to CSV file parser">
+      <option name="closed" value="true" />
+      <created>1768343279118</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1768343279118</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Improved error-logging for debugging">
+      <option name="closed" value="true" />
+      <created>1768343679341</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1768343679341</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -427,7 +463,9 @@
     <MESSAGE value="Deployment to Tsuru in progress, updated API source code" />
     <MESSAGE value="Changed deploy.yml to mv the right war file" />
     <MESSAGE value="Fallback to CSV files for now for testing deployment" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fallback to CSV files for now for testing deployment" />
+    <MESSAGE value="Fixes to CSV file parser" />
+    <MESSAGE value="Improved error-logging for debugging" />
+    <option name="LAST_COMMIT_MESSAGE" value="Improved error-logging for debugging" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

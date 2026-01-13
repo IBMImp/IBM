@@ -69,7 +69,7 @@ public final class ReservoirService {
 
     private PressureSignalSource buildSource(Path dataPath, double sampleRateHz) {
         String name = dataPath.getFileName().toString().toLowerCase();
-        if (name.endsWith(".csv")) {
+        if (name.endsWith(".csv") || java.nio.file.Files.isDirectory(dataPath)) {
             return new PwdbCsvPressureSignalSource(dataPath, sampleRateHz);
         }
         String databaseUrl = System.getenv(DATABASE_URL_ENV);
