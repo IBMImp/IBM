@@ -6,18 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Deployment to Tsuru in progress, updated API source code">
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/build/libs/backend-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/libs/backend-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/application/ReservoirService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/application/ReservoirService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/deployment/ApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/deployment/ApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/model/ArterySite.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/model/ArterySite.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/ibm/controller/RealtimeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/controller/RealtimeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/GUIController.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/GUIController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/SetupPage.form" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/SetupPage.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/SetupPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/SetupPage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +53,12 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="FARPA" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build setup" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FARPA" type="f1a62948:ProjectNode" />
                 <item name="backend" type="2d1252cf:ModuleNode" />
               </path>
               <path>
@@ -83,44 +80,6 @@
                 <item name="backend" type="2d1252cf:ModuleNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="build" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="FARPA" type="f1a62948:ProjectNode" />
-                <item name="frontend" type="2d1252cf:ModuleNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="FARPA" type="f1a62948:ProjectNode" />
-                <item name="frontend" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="FARPA" type="f1a62948:ProjectNode" />
-                <item name="frontend" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="application" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="FARPA" type="f1a62948:ProjectNode" />
-                <item name="frontend" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="FARPA" type="f1a62948:ProjectNode" />
-                <item name="frontend" type="2d1252cf:ModuleNode" />
-                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="FARPA" type="f1a62948:ProjectNode" />
-                <item name="frontend" type="2d1252cf:ModuleNode" />
-                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
-                <item name="runtimeClasspath" type="62daadca:ExternalSystemViewDefaultContributor$DependencyScopeExternalSystemNode" />
               </path>
             </expand>
             <select />
@@ -209,7 +168,7 @@
       <recent name="C:\Users\Alexander\IdeaProjects\IBM\frontend" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.IBM_copy [run]">
+  <component name="RunManager" selected="Gradle.IBM_copy [:backend:bootRun]">
     <configuration name="IBM_copy [:backend:bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -344,8 +303,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.IBM_copy [run]" />
         <item itemvalue="Gradle.IBM_copy [:backend:bootRun]" />
+        <item itemvalue="Gradle.IBM_copy [run]" />
         <item itemvalue="Gradle.IBM_copy [:frontend:run]" />
         <item itemvalue="Gradle.IBM_copy [bootRun]" />
         <item itemvalue="Gradle.IBM_copy [bootJar]" />

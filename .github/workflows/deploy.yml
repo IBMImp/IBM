@@ -32,7 +32,7 @@ jobs:
 
       - name: Rename war file
         run: |
-          mv ./build/libs/backend-1.0-SNAPSHOT.war ./ROOT.war
+          mv ./backend/build/libs/backend-1.0-SNAPSHOT.war ./ROOT.war
 
       - name: Deploy to Tsuru
         env:
