@@ -4,11 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Improved error-logging for debugging">
+    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="CSV no longer triggers PostgreSQL db access">
+      <change afterPath="$PROJECT_DIR$/backend/scripts/init-postgres.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/scripts/prepare_pwdb_csv_export.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/scripts/seed-postgres-from-csv.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/deploy.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/deploy.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/application/ReservoirService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/application/ReservoirService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/deployment/AppConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/deployment/AppConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -428,7 +432,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768343679341</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="CSV no longer triggers PostgreSQL db access">
+      <option name="closed" value="true" />
+      <created>1768344075376</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1768344075376</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -465,7 +477,8 @@
     <MESSAGE value="Fallback to CSV files for now for testing deployment" />
     <MESSAGE value="Fixes to CSV file parser" />
     <MESSAGE value="Improved error-logging for debugging" />
-    <option name="LAST_COMMIT_MESSAGE" value="Improved error-logging for debugging" />
+    <MESSAGE value="CSV no longer triggers PostgreSQL db access" />
+    <option name="LAST_COMMIT_MESSAGE" value="CSV no longer triggers PostgreSQL db access" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
