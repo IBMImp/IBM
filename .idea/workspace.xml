@@ -4,9 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Built Project, Merged Regularization with main.">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Reorganisation to fit the usual backend structure">
+      <change afterPath="$PROJECT_DIR$/.github/workflows/deploy.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/scripts/convert_pwdb_csv_to_sqlite.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.2.0/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.2.0/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.2.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.2.0/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.2.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.2.0/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.2.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.2.0/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.2.0/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/9.2.0/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/distributions/backend-1.0-SNAPSHOT.tar" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/distributions/backend-1.0-SNAPSHOT.tar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/distributions/backend-1.0-SNAPSHOT.zip" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/distributions/backend-1.0-SNAPSHOT.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/libs/backend-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/libs/backend-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/scripts/backend.bat" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/scripts/backend.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/data/PwdbCsvPressureSignalSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/data/PwdbCsvPressureSignalSource.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +56,12 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="FARPA" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="application" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FARPA" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="build" type="c8890929:TasksNode$1" />
               </path>
               <path>
@@ -47,6 +69,31 @@
                 <item name="FARPA" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="build setup" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FARPA" type="f1a62948:ProjectNode" />
+                <item name="backend" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FARPA" type="f1a62948:ProjectNode" />
+                <item name="backend" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FARPA" type="f1a62948:ProjectNode" />
+                <item name="backend" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="application" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FARPA" type="f1a62948:ProjectNode" />
+                <item name="backend" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -59,6 +106,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -79,7 +127,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/theMPR1/IBM.git&quot;,
-    &quot;accountId&quot;: &quot;b1733b45-8d0b-4725-a0cf-496098c4d99d&quot;
+    &quot;accountId&quot;: &quot;2eca2551-9900-4ca5-acd5-b376945d0fd0&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -101,7 +149,9 @@
     &quot;Gradle.FARPA [clean].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.FARPA [run].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.IBM [:backend:build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.IBM [:backend:run].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.IBM [:frontend:build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.IBM [run].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.IBM.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
@@ -114,7 +164,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;reference.idesettings.quicklists&quot;,
@@ -126,7 +176,7 @@
       <recent name="C:\Users\Alexander\IdeaProjects\IBM\frontend" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.IBM [run]">
+  <component name="RunManager" selected="Gradle.IBM [:backend:build]">
     <configuration name="FARPA [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -152,7 +202,7 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="FARPA [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="IBM [:backend:build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -163,7 +213,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="clean" />
+            <option value=":backend:build" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -177,7 +227,7 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="IBM [:backend:build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="IBM [:backend:run]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -188,7 +238,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value=":backend:build" />
+            <option value=":backend:run" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -254,19 +304,18 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.IBM [:backend:build]" />
         <item itemvalue="Gradle.IBM [run]" />
         <item itemvalue="Gradle.FARPA [build]" />
+        <item itemvalue="Gradle.IBM [:backend:run]" />
         <item itemvalue="Gradle.IBM [:frontend:build]" />
-        <item itemvalue="Gradle.IBM [:backend:build]" />
-        <item itemvalue="Gradle.FARPA [clean]" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26830.84" />
-        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-IU-252.26830.84" />
+        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.138" />
       </set>
     </attachedChunks>
   </component>
@@ -312,7 +361,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768005053092</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Reorganisation to fit the usual backend structure">
+      <option name="closed" value="true" />
+      <created>1768077612973</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1768077612973</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -344,7 +401,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Reorganised repo to have separate modules for frontend and backend; Impelmented DicroticNotchDetector.java to find the intex of the dicrotic notch from a given pressure wave; no tests yet" />
     <MESSAGE value="Built Project, Merged Regularization with main." />
-    <option name="LAST_COMMIT_MESSAGE" value="Built Project, Merged Regularization with main." />
+    <MESSAGE value="Reorganisation to fit the usual backend structure" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reorganisation to fit the usual backend structure" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
