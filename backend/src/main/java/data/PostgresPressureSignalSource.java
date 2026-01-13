@@ -3,7 +3,8 @@ package data;
 import model.ArterySite;
 import model.PressureSignal;
 
-import java.nio.file.Path;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,15 +12,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Properties;
 
 /**
- * Loads pressure waveforms from a SQLite database.
+ * Loads pressure waveforms from a PostgreSQL database.
  *
  * Expected schema:
  *  - table: pressure_waveforms
  *  - columns: patient_id (TEXT), site (TEXT), samples (TEXT)
  */
-public final class SqlitePressureSignalSource implements PressureSignalSource {
+public final class PostgresPressureSignalSource implements PressureSignalSource {
 
     private static final String SQL = """
             SELECT samples
@@ -29,12 +31,45 @@ public final class SqlitePressureSignalSource implements PressureSignalSource {
             """;
 
     private final String jdbcUrl;
+    private final Properties connectionProps;
     private final double sampleRateHz;
 
-    public SqlitePressureSignalSource(Path databaseFile, double sampleRateHz) {
-        Objects.requireNonNull(databaseFile, "databaseFile");
-        this.jdbcUrl = "jdbc:sqlite:" + databaseFile.toAbsolutePath();
+    public PostgresPressureSignalSource(String jdbcUrl, String username, String password, double sampleRateHz) {
+        this.jdbcUrl = Objects.requireNonNull(jdbcUrl, "jdbcUrl");
         this.sampleRateHz = sampleRateHz;
+        this.connectionProps = new Properties();
+        if (username != null && !username.isBlank()) {
+            connectionProps.setProperty("user", username);
+        }
+        if (password != null && !password.isBlank()) {
+            connectionProps.setProperty("password", password);
+        }
+    }
+
+    public static PostgresPressureSignalSource fromDatabaseUrl(String databaseUrl, double sampleRateHz) {
+        Objects.requireNonNull(databaseUrl, "databaseUrl");
+        if (databaseUrl.startsWith("jdbc:")) {
+            return new PostgresPressureSignalSource(databaseUrl, null, null, sampleRateHz);
+        }
+        try {
+            URI uri = new URI(databaseUrl);
+            String username = null;
+            String password = null;
+            if (uri.getUserInfo() != null) {
+                String[] parts = uri.getUserInfo().split(":", 2);
+                username = parts[0];
+                if (parts.length > 1) {
+                    password = parts[1];
+                }
+            }
+            String host = uri.getHost();
+            int port = uri.getPort() == -1 ? 5432 : uri.getPort();
+            String path = uri.getPath();
+            String jdbcUrl = "jdbc:postgresql://" + host + ":" + port + path;
+            return new PostgresPressureSignalSource(jdbcUrl, username, password, sampleRateHz);
+        } catch (URISyntaxException e) {
+            throw new IllegalArgumentException("Invalid database URL: " + databaseUrl, e);
+        }
     }
 
     @Override
@@ -49,7 +84,9 @@ public final class SqlitePressureSignalSource implements PressureSignalSource {
     }
 
     private String fetchSamples(String patientId, String siteToken) {
-        try (Connection connection = DriverManager.getConnection(jdbcUrl);
+        try (Connection connection = connectionProps.isEmpty()
+                ? DriverManager.getConnection(jdbcUrl)
+                : DriverManager.getConnection(jdbcUrl, connectionProps);
              PreparedStatement statement = connection.prepareStatement(SQL)) {
             statement.setString(1, patientId);
             statement.setString(2, siteToken);

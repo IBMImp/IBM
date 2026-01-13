@@ -1,13 +1,23 @@
 plugins {
     id 'java'
-    id 'application'
+    id 'war'
+    id 'org.springframework.boot' version '3.3.2'
+    id 'io.spring.dependency-management' version '1.1.6'
 }
 
-application {
+springBoot {
     mainClass = 'Main'
 }
 
+war {
+    archiveBaseName = 'backend'
+}
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
 group = 'org.SEFB.IBM'
 version = '1.0-SNAPSHOT'
 
@@ -16,6 +26,12 @@ repositories {
 }
 
 dependencies {
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    runtimeOnly 'org.postgresql:postgresql:42.7.3'
+
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
@@ -24,9 +40,14 @@ dependencies {
     // https://mvnrepository.com/artifact/io.github.ruozhuochen/savitzky-golay-filter
     implementation 'io.github.ruozhuochen:savitzky-golay-filter:1.0.1'
     implementation 'org.apache.commons:commons-math3:3.6.1'
-    implementation 'org.xerial:sqlite-jdbc:3.46.0.0'
+    implementation 'org.postgresql:postgresql:42.7.3'
 }
 
+tasks.named('bootRun') {
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
 test {
     useJUnitPlatform()
 }

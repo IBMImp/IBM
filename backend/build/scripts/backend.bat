@@ -70,7 +70,7 @@ goto fail
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\backend-1.0-SNAPSHOT.jar;%APP_HOME%\lib\savitzky-golay-filter-1.0.1.jar;%APP_HOME%\lib\commons-math3-3.6.1.jar
+set CLASSPATH=%APP_HOME%\lib\backend-1.0-SNAPSHOT.jar;%APP_HOME%\lib\savitzky-golay-filter-1.0.1.jar;%APP_HOME%\lib\commons-math3-3.6.1.jar;%APP_HOME%\lib\postgresql-42.7.3.jar;%APP_HOME%\lib\checker-qual-3.42.0.jar
 
 
 @rem Execute backend
