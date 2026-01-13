@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import application.ReservoirService;
+import model.ArterySite;
 import model.PressureSignal;
 import model.ReservoirResult;
 
@@ -60,17 +61,29 @@ public class ApiController {
 
     @GetMapping("/compute")
     public ComputationResponse compute(@RequestParam("patientId") String patientId,
-                                       @RequestParam(value = "dataPath", required = false) String dataPath) {
+                                       @RequestParam(value = "dataPath", required = false) String dataPath,
+                                       @RequestParam(value = "arterySite", required = false) String arterySite,
+                                       @RequestParam(value = "sampleRateHz", required = false) Double sampleRateHz) {
+        ArterySite site = resolveSite(arterySite);
+        Double normalizedSampleRateHz = normalizeSampleRate(sampleRateHz);
         ReservoirService.ComputationOutput output =
-                reservoirService.compute(dataPath == null ? null : java.nio.file.Path.of(dataPath), patientId);
+                reservoirService.compute(
+                        dataPath == null ? null : java.nio.file.Path.of(dataPath),
+                        patientId,
+                        site,
+                        normalizedSampleRateHz
+                );
         PressureSignal raw = output.raw();
         ReservoirResult result = output.result();
+        double responseSampleRateHz = normalizedSampleRateHz == null
+                ? reservoirService.getSampleRateHz()
+                : normalizedSampleRateHz;
         return new ComputationResponse(
                 raw.getPressure(),
                 result.getReservoirPressure(),
                 result.getExcessPressure(),
                 raw.getBeatDuration(),
-                reservoirService.getSampleRateHz()
+                responseSampleRateHz
         );
     }
 
@@ -81,4 +94,21 @@ public class ApiController {
             double beatDurationSeconds,
             double sampleRateHz
     ) {}
+
+    private static ArterySite resolveSite(String arterySite) {
+        if (arterySite == null || arterySite.isBlank()) {
+            return ArterySite.AorticRoot;
+        }
+        return ArterySite.fromToken(arterySite);
+    }
+
+    private static Double normalizeSampleRate(Double sampleRateHz) {
+        if (sampleRateHz == null) {
+            return null;
+        }
+        if (sampleRateHz <= 0) {
+            throw new IllegalArgumentException("sampleRateHz must be positive");
+        }
+        return sampleRateHz;
+    }
 }

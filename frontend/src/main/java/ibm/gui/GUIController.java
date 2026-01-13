@@ -7,6 +7,7 @@ import com.formdev.flatlaf.FlatPropertiesLaf;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import ibm.controller.RealtimeController;
 import ibm.gui.design.*;
+import model.ArterySite;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -313,6 +314,7 @@ public class GUIController {
             int numWaveForms = Integer.parseInt(settings[1]);
             int sampleRate = Integer.parseInt(settings[2]);
             int patientID = 0;
+            ArterySite arterySite = ArterySite.AorticRoot;
             if (settings.length > 3) {
                 try {
                     patientID = Integer.parseInt(settings[3].trim());
@@ -320,7 +322,14 @@ public class GUIController {
                     logger.warning("Invalid patient ID in setup settings: " + file.getAbsolutePath());
                 }
             }
-            AppState.currentSettings = new SetupSettings(patientName, numWaveForms, sampleRate, patientID);
+            if (settings.length > 4) {
+                try {
+                    arterySite = ArterySite.fromToken(settings[4].trim());
+                } catch (IllegalArgumentException e) {
+                    logger.warning("Invalid artery site in setup settings: " + file.getAbsolutePath());
+                }
+            }
+            AppState.currentSettings = new SetupSettings(patientName, numWaveForms, sampleRate, patientID, arterySite);
 
             if (!showMonitorPage()) {
                 logger.severe("Switch to Monitor Page Failed");
@@ -376,6 +385,8 @@ public class GUIController {
             setupLine.add(AppState.currentSettings.patientName);
             setupLine.add("" + AppState.currentSettings.numWaveForms);
             setupLine.add("" + AppState.currentSettings.sampleRate);
+            setupLine.add("" + AppState.currentSettings.patientID);
+            setupLine.add(AppState.currentSettings.arterySite.token());
             setupLine.add("-->");
             bw.write(setupLine.toString());
             bw.close();
@@ -423,13 +434,16 @@ public class GUIController {
                 AppState.currentSettings = new SetupSettings(setupPage.getPatientName().trim(),
                         setupPage.getNumWaveForms(),
                         setupPage.getSampleRate(),
-                        setupPage.getPatientId());
+                        setupPage.getPatientId(),
+                        setupPage.getArterySite());
                 if(!this.showMonitorPage()) {
                     try {
                         throw new Exception("Switch to Monitor Page Failed");
                     } catch (Exception ex) {
                         logger.severe(ex.getMessage());
                     }
+                } else {
+                    configureBackend(null);
                 }
             } catch (SetupValueException e) {
                 logger.warning("The value entered for Sample Rate is Invalid. Ensure sample rate is a Positive" +
@@ -459,6 +473,7 @@ public class GUIController {
                 databaseFile,
                 AppState.currentSettings.sampleRate,
                 String.valueOf(AppState.currentSettings.patientID),
+                AppState.currentSettings.arterySite,
                 frame -> {
                     monitorPage.addPoint(frame.tSec(), frame.p(), frame.pr(), frame.pe());
 
@@ -478,5 +493,6 @@ public class GUIController {
         private static SetupSettings currentSettings;
     }
     //Storage for apps settings, selected either at setup or by loading files
-    private record SetupSettings(String patientName, int numWaveForms, int sampleRate, int patientID) {}
+    private record SetupSettings(String patientName, int numWaveForms, int sampleRate, int patientID,
+                                 ArterySite arterySite) {}
 }

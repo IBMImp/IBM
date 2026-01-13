@@ -53,8 +53,13 @@ public final class ReservoirService {
     }
 
     public ComputationOutput compute(Path dataPath, String patientId, ArterySite site) {
+        return compute(dataPath, patientId, site, null);
+    }
+
+    public ComputationOutput compute(Path dataPath, String patientId, ArterySite site, Double sampleRateOverrideHz) {
+        double rateToUse = sampleRateOverrideHz == null ? sampleRateHz : sampleRateOverrideHz;
         Path dataPathToUse = dataPath == null ? defaultDataPath : dataPath;
-        PressureSignalSource source = buildSource(dataPathToUse);
+        PressureSignalSource source = buildSource(dataPathToUse, rateToUse);
         PressureSignal raw = source.load(patientId, site);
         ReservoirResult result = pipeline.run(raw);
         return new ComputationOutput(raw, result);
@@ -62,7 +67,7 @@ public final class ReservoirService {
 
     public record ComputationOutput(PressureSignal raw, ReservoirResult result) {}
 
-    private PressureSignalSource buildSource(Path dataPath) {
+    private PressureSignalSource buildSource(Path dataPath, double sampleRateHz) {
         String name = dataPath.getFileName().toString().toLowerCase();
         if (name.endsWith(".csv")) {
             return new PwdbCsvPressureSignalSource(dataPath, sampleRateHz);
