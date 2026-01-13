@@ -124,7 +124,7 @@ public class GUIController {
             monitorPage.setSampleRate(AppState.currentSettings.sampleRate);
             menuBar.getMenu(0).setVisible(true);
             menuBar.getMenu(1).setVisible(true);
-            monitorPage.setCustomFields(AppState.currentSettings.patientName);
+            monitorPage.setCustomFields(AppState.currentSettings.patientName, AppState.currentSettings.patientID, AppState.currentSettings.sampleRate);
             cards.revalidate();
             cards.repaint();
             this.cards_switcher.show(cards, "monitor");
@@ -163,6 +163,7 @@ public class GUIController {
             }
             setupPage.darkenBackground();
             monitorPage.darkenBackground();
+            monitorPage.refreshChartTheme();
         }
         catch(Exception e) {
             logger.warning(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
@@ -264,35 +265,63 @@ public class GUIController {
         JMenu lookMenu = new JMenu("Appearance");
         JMenuItem lookItem = new JMenuItem("Theme");
         //Set icon at runtime
-        if(dark) lookItem.setIcon(new FlatSVGIcon("icons/dark.svg",16,16));
-        else lookItem.setIcon(new FlatSVGIcon("icons/light.svg",16,16));
+        if (dark)
+            lookItem.setIcon(new FlatSVGIcon("icons/light.svg", 16, 16));
+        else
+            lookItem.setIcon(new FlatSVGIcon("icons/dark.svg", 16, 16));
+
         //When switching themes, apply opposite them and update icon
         lookItem.addActionListener(_ -> {
             dark = !dark;
             applyTheme(dark);
-            if(!dark) lookItem.setIcon(new FlatSVGIcon("icons/light.svg",16,16));
-            else lookItem.setIcon(new FlatSVGIcon("icons/dark.svg",16,16));
+            if (dark)
+                lookItem.setIcon(new FlatSVGIcon("icons/light.svg", 16, 16));
+            else
+                lookItem.setIcon(new FlatSVGIcon("icons/dark.svg", 16, 16));
+
         });
         lookMenu.add(lookItem);
         return lookMenu;
     }
 
     //Opens a file chooser for loading new files
-    private void loadFileDialog(){
+    private void loadFileDialog() {
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("Load Graph");
-        chooser.setFileFilter(new FileNameExtensionFilter("CSV Files","csv"));
+        chooser.setFileFilter(new FileNameExtensionFilter("CSV Files", "csv"));
+
         if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
+
             if (file.exists() && !file.isDirectory() && file.canRead() && file.getName().toLowerCase().endsWith(".csv")) {
-                //loadFile(file);
+
+                // making sure currentSettings exists before configureBackend()
+                if (AppState.currentSettings == null) {
+                    try {
+                        AppState.currentSettings = new SetupSettings(
+                                setupPage.getPatientName().trim(),
+                                setupPage.getNumWaveForms(),
+                                setupPage.getSampleRate(),
+                                setupPage.getPatientId()
+                        );
+                    } catch (SetupValueException e) {
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Please fill Patient ID (positive integer) and Sample Rate (positive integer) before loading a file.",
+                                "Setup required",
+                                JOptionPane.WARNING_MESSAGE
+                        );
+                        return;
+                    }
+                }
+
                 configureBackend(file.toPath());
+
             } else {
                 JOptionPane.showMessageDialog(null, "Please Select a CSV File", "Warning", JOptionPane.WARNING_MESSAGE);
                 loadFileDialog();
             }
         }
-
     }
     //Loads file with settings selected by load file dialog
     private boolean loadFile(File file){
@@ -337,7 +366,7 @@ public class GUIController {
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("Save As");
         chooser.setFileFilter(new FileNameExtensionFilter("CSV Files","csv"));
-        chooser.setSelectedFile(new File(AppState.currentSettings.patientName + " ARP Plots"));
+        chooser.setSelectedFile(new File(AppState.currentSettings.patientName + " - " + AppState.currentSettings.patientID + " ARP Plots"));
 
         if(chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
