@@ -4,10 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Changed deploy.yml to mv the right war file">
+    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Fallback to CSV files for now for testing deployment">
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/libs/backend-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/libs/backend-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/data/PwdbCsvPressureSignalSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/data/PwdbCsvPressureSignalSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,8 +139,15 @@
     "Gradle.FARPA [build].executor": "Run",
     "Gradle.FARPA [clean].executor": "Run",
     "Gradle.FARPA [run].executor": "Run",
+    "Gradle.IBM [:backend:bootRun].executor": "Run",
     "Gradle.IBM [:backend:build].executor": "Run",
     "Gradle.IBM [:frontend:build].executor": "Run",
+    "Gradle.IBM [bootJar].executor": "Run",
+    "Gradle.IBM [buildDependents].executor": "Run",
+    "Gradle.IBM [build].executor": "Run",
+    "Gradle.IBM [init].executor": "Run",
+    "Gradle.IBM [run].executor": "Run",
+    "Gradle.IBM [wrapper].executor": "Run",
     "Gradle.IBM.executor": "Run",
     "Gradle.IBM_copy [:backend:bootRun].executor": "Run",
     "Gradle.IBM_copy [:backend:buildDependents].executor": "Run",
@@ -167,8 +181,8 @@
       <recent name="C:\Users\Alexander\IdeaProjects\IBM\frontend" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.IBM_copy [run]">
-    <configuration name="IBM_copy [:backend:bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Gradle.IBM [run]">
+    <configuration name="IBM [:backend:bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -193,7 +207,7 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="IBM_copy [:frontend:run]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="IBM [buildDependents]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -204,7 +218,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value=":frontend:run" />
+            <option value="buildDependents" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -218,7 +232,7 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="IBM_copy [bootJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="IBM [init]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -229,7 +243,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="bootJar" />
+            <option value="init" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -243,32 +257,7 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="IBM_copy [bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="bootRun" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <GradleProfilingDisabled>false</GradleProfilingDisabled>
-      <GradleCoverageDisabled>false</GradleCoverageDisabled>
-      <method v="2" />
-    </configuration>
-    <configuration name="IBM_copy [run]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="IBM [run]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -293,6 +282,31 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
+    <configuration name="IBM [wrapper]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="wrapper" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
+      <method v="2" />
+    </configuration>
     <configuration name="Main" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="FARPA.backend.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="deployment.Main" />
@@ -302,11 +316,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.IBM_copy [run]" />
-        <item itemvalue="Gradle.IBM_copy [:backend:bootRun]" />
-        <item itemvalue="Gradle.IBM_copy [:frontend:run]" />
-        <item itemvalue="Gradle.IBM_copy [bootRun]" />
-        <item itemvalue="Gradle.IBM_copy [bootJar]" />
+        <item itemvalue="Gradle.IBM [run]" />
+        <item itemvalue="Gradle.IBM [:backend:bootRun]" />
+        <item itemvalue="Gradle.IBM [wrapper]" />
+        <item itemvalue="Gradle.IBM [init]" />
+        <item itemvalue="Gradle.IBM [buildDependents]" />
       </list>
     </recent_temporary>
   </component>
@@ -376,7 +390,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768340697715</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Fallback to CSV files for now for testing deployment">
+      <option name="closed" value="true" />
+      <created>1768341395817</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1768341395817</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -410,7 +432,8 @@
     <MESSAGE value="Built Project, Merged Regularization with main." />
     <MESSAGE value="Deployment to Tsuru in progress, updated API source code" />
     <MESSAGE value="Changed deploy.yml to mv the right war file" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed deploy.yml to mv the right war file" />
+    <MESSAGE value="Fallback to CSV files for now for testing deployment" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fallback to CSV files for now for testing deployment" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
