@@ -24,6 +24,7 @@ dependencies {
     // https://mvnrepository.com/artifact/io.github.ruozhuochen/savitzky-golay-filter
     implementation 'io.github.ruozhuochen:savitzky-golay-filter:1.0.1'
     implementation 'org.apache.commons:commons-math3:3.6.1'
+    implementation 'org.xerial:sqlite-jdbc:3.46.0.0'
 }
 
 test {

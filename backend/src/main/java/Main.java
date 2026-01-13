@@ -1,6 +1,6 @@
 // src/main/java/Main.java
 import data.PressureSignalSource;
-import data.PwdbCsvPressureSignalSource;
+import data.SqlitePressureSignalSource;
 import model.ArterySite;
 import model.PressureSignal;
 import model.ReservoirResult;
@@ -24,9 +24,9 @@ public class Main {
 
         System.out.println("Working directory = " + System.getProperty("user.dir"));
         // --- 1) Data location ---
-        Path csvDir = Paths.get(System.getProperty("user.dir"))
+        Path databaseFile = Paths.get(System.getProperty("user.dir"))
                 .getParent()   // move from backend → IBM_copy
-                .resolve("virtualPatientData/pwdb/PWs/CSV")
+                .resolve("virtualPatientData/pwdb/PWs/SQL/pressure_waveforms.db")
                 .toAbsolutePath();
 
         // --- 2) Choose case ---
@@ -37,15 +37,15 @@ public class Main {
         double sampleRateHz = 1000.0;
 
         // --- 4) Load waveform ---
-        PressureSignalSource source = new PwdbCsvPressureSignalSource(csvDir, sampleRateHz);
+        PressureSignalSource source = new SqlitePressureSignalSource(databaseFile, sampleRateHz);
 
         PressureSignal raw;
         try {
             raw = source.load(patientId, site);
         } catch (RuntimeException e) {
             LOGGER.log(Level.SEVERE,
-                    "Failed to load PWDB pressure waveform (patient={0}, site={1}, dir={2}): {3}",
-                    new Object[]{patientId, site, csvDir, e.getMessage()});
+                    "Failed to load PWDB pressure waveform (patient={0}, site={1}, db={2}): {3}",
+                    new Object[]{patientId, site, databaseFile, e.getMessage()});
             e.printStackTrace();
             return;
         }

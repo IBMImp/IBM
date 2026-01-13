@@ -281,14 +281,16 @@ public class GUIController {
     private void loadFileDialog(){
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("Load Graph");
-        chooser.setFileFilter(new FileNameExtensionFilter("CSV Files","csv"));
+        chooser.setFileFilter(new FileNameExtensionFilter("CSV or SQLite Database","csv", "db"));
         if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
-            if (file.exists() && !file.isDirectory() && file.canRead() && file.getName().toLowerCase().endsWith(".csv")) {
+            String lowerName = file.getName().toLowerCase();
+            if (file.exists() && !file.isDirectory() && file.canRead()
+                    && (lowerName.endsWith(".csv") || lowerName.endsWith(".db"))) {
                 //loadFile(file);
                 configureBackend(file.toPath());
             } else {
-                JOptionPane.showMessageDialog(null, "Please Select a CSV File", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Please Select a CSV or SQLite Database File", "Warning", JOptionPane.WARNING_MESSAGE);
                 loadFileDialog();
             }
         }
@@ -451,10 +453,10 @@ public class GUIController {
 
     }
 
-    private void configureBackend(Path csvFile) {
+    private void configureBackend(Path databaseFile) {
 
         rt.configure(
-                csvFile,
+                databaseFile,
                 AppState.currentSettings.sampleRate,
                 String.valueOf(AppState.currentSettings.patientID),
                 frame -> {

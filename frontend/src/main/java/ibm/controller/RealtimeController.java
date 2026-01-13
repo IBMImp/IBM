@@ -9,7 +9,7 @@ import java.nio.file.Path;
 import java.util.function.Consumer;
 
 public final class RealtimeController {
-    private Path csvFile;
+    private Path databaseFile;
     private double fsHz;
     private String patientId;
 
@@ -23,31 +23,31 @@ public final class RealtimeController {
     private Consumer<Frame> onFrameEdt;
     private Consumer<String> onStatusEdt;
 
-    public void configure(Path csvFile,
+    public void configure(Path databaseFile,
                           double fsHz,
                           String patientId,
                           Consumer<Frame> onFrameEdt,
                           Consumer<String> onStatusEdt) {
         reset();
-        this.csvFile = csvFile;
+        this.databaseFile = databaseFile;
         this.fsHz = fsHz;
         this.patientId = patientId;
         this.onFrameEdt = onFrameEdt;
         this.onStatusEdt = onStatusEdt;
         // IMPORTANT: this matches your current backend constructor
-        service = new ReservoirService(csvFile, fsHz);
+        service = new ReservoirService(databaseFile, fsHz);
     }
 
     public void prepare() {
-        if (csvFile == null || fsHz <= 0 || patientId == null || patientId.isBlank()) return;
+        if (databaseFile == null || fsHz <= 0 || patientId == null || patientId.isBlank()) return;
 
         pause();
         onStatusEdt.accept("Computing...");
 
         SwingWorker<ReservoirService.ComputationOutput, Void> w = new SwingWorker<>() {
             @Override protected ReservoirService.ComputationOutput doInBackground() {
-                ReservoirService service = new ReservoirService(csvFile, fsHz);
-                return service.compute(csvFile, patientId);
+                ReservoirService service = new ReservoirService(databaseFile, fsHz);
+                return service.compute(databaseFile, patientId);
             }
             @Override protected void done() {
                 try {

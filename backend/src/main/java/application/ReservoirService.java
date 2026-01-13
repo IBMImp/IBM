@@ -1,6 +1,8 @@
 package application;
 
+import data.PressureSignalSource;
 import data.PwdbCsvPressureSignalSource;
+import data.SqlitePressureSignalSource;
 import model.ArterySite;
 import model.PressureSignal;
 import model.ReservoirResult;
@@ -17,12 +19,12 @@ public final class ReservoirService {
     private final double sampleRateHz;
     private static final ArterySite DEFAULT_SITE = ArterySite.AorticRoot;
 
-    private final Path csvDir;
+    private final Path defaultDataPath;
     private final ReservoirComputationPipeline pipeline;
 
-    public ReservoirService(Path csvDir, double sampleRateHz) {
+    public ReservoirService(Path defaultDataPath, double sampleRateHz) {
         this.sampleRateHz = sampleRateHz;
-        this.csvDir = Objects.requireNonNull(csvDir, "csvDir");
+        this.defaultDataPath = Objects.requireNonNull(defaultDataPath, "defaultDataPath");
         BeatExtractor extractor = new SingleBeatExtractor();
         BeatRegulariser postRegulariser = new IdentityBeatRegulariser();
 
@@ -41,13 +43,21 @@ public final class ReservoirService {
         );
     }
 
-    public ComputationOutput compute(Path pwdbCsvFile, String patientId) {
-        Path csvDirToUse = pwdbCsvFile == null ? csvDir : pwdbCsvFile;
-        var source = new PwdbCsvPressureSignalSource(csvDirToUse, sampleRateHz);
+    public ComputationOutput compute(Path dataPath, String patientId) {
+        Path dataPathToUse = dataPath == null ? defaultDataPath : dataPath;
+        PressureSignalSource source = buildSource(dataPathToUse);
         PressureSignal raw = source.load(patientId, DEFAULT_SITE);
         ReservoirResult result = pipeline.run(raw);
         return new ComputationOutput(raw, result);
     }
 
     public record ComputationOutput(PressureSignal raw, ReservoirResult result) {}
+
+    private PressureSignalSource buildSource(Path dataPath) {
+        String name = dataPath.getFileName().toString().toLowerCase();
+        if (name.endsWith(".db")) {
+            return new SqlitePressureSignalSource(dataPath, sampleRateHz);
+        }
+        return new PwdbCsvPressureSignalSource(dataPath, sampleRateHz);
+    }
 }
