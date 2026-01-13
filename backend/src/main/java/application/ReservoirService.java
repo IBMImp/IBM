@@ -23,6 +23,10 @@ public final class ReservoirService {
     private final Path defaultDataPath;
     private final ReservoirComputationPipeline pipeline;
 
+    public double getSampleRateHz() {
+        return sampleRateHz;
+    }
+
     public ReservoirService(Path defaultDataPath, double sampleRateHz) {
         this.sampleRateHz = sampleRateHz;
         this.defaultDataPath = Objects.requireNonNull(defaultDataPath, "defaultDataPath");

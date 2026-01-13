@@ -75,7 +75,7 @@ public final class RealtimeController {
         int periodMs = 20;
         int step = Math.max(1, (int)Math.round(fsHz * (periodMs / 1000.0)));
 
-        timer = new Timer(periodMs, _ -> {
+        timer = new Timer(periodMs, event-> {
             if (idx >= p.length) { onStatusEdt.accept("Complete"); pause(); return; }
 
             int end = Math.min(p.length, idx + step);

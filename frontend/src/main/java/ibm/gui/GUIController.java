@@ -181,7 +181,7 @@ public class GUIController {
         JMenu setupMenu = new JMenu("Setup");
         JMenuItem setupItem = new JMenuItem("New Setup");
         setupItem.setIcon(new FlatSVGIcon("icons/newsetup.svg",16,16));
-        setupItem.addActionListener(_ ->{
+        setupItem.addActionListener(event ->{
             if(JOptionPane.showConfirmDialog(null, "Start a New Setup?\nThis will clear all graphs", "Warning", JOptionPane.YES_NO_OPTION) == 0) {
                 showSetupPage();
                 monitorPage.clearGraphs();
@@ -205,7 +205,7 @@ public class GUIController {
     private JMenuItem createHelpMenu(Font f) {
         JMenuItem helpMenu = new JMenuItem("Help");
         helpMenu.setIcon(new FlatSVGIcon("icons/help.svg",16,16));
-        helpMenu.addActionListener(_->{
+        helpMenu.addActionListener(event->{
             JOptionPane helpMenuOptionPane = new JOptionPane();
 
             helpMenuOptionPane.setMessage("<html><body><p style='width: 200px;'>"+"There ain't no help where you're looking and now this is just testing if the " +
@@ -230,13 +230,13 @@ public class GUIController {
         );
 
         saveGraph.setAccelerator(saveKey);
-        saveGraph.addActionListener(_-> saveFileDialog());
+        saveGraph.addActionListener(event-> saveFileDialog());
         saveGraph.setIcon(new FlatSVGIcon("icons/save.svg",16,16));
         monitorMenu.add(saveGraph);
 
         JMenuItem loadGraph = new JMenuItem("Load Graph");
         loadGraph.setIcon(new FlatSVGIcon("icons/load.svg",16,16));
-        loadGraph.addActionListener(_-> {
+        loadGraph.addActionListener(event-> {
             if (JOptionPane.showConfirmDialog(null, "Do you want to load a new file? \nThis will clear all graphs.", "Warning", JOptionPane.YES_NO_OPTION) == 0) {
                 monitorPage.clearGraphs();
                 loadFileDialog();
@@ -245,7 +245,7 @@ public class GUIController {
         monitorMenu.add(loadGraph);
         JMenuItem graphClearItem = new JMenuItem("Clear all Graphs");
         graphClearItem.setIcon(new FlatSVGIcon("icons/clear.svg",16,16));
-        graphClearItem.addActionListener(_ -> {
+        graphClearItem.addActionListener(event -> {
             if(JOptionPane.showConfirmDialog(null,
                     "Clear all graphs ?",
                     "Warning",
@@ -267,7 +267,7 @@ public class GUIController {
         if(dark) lookItem.setIcon(new FlatSVGIcon("icons/dark.svg",16,16));
         else lookItem.setIcon(new FlatSVGIcon("icons/light.svg",16,16));
         //When switching themes, apply opposite them and update icon
-        lookItem.addActionListener(_ -> {
+        lookItem.addActionListener(event -> {
             dark = !dark;
             applyTheme(dark);
             if(!dark) lookItem.setIcon(new FlatSVGIcon("icons/light.svg",16,16));
@@ -392,7 +392,7 @@ public class GUIController {
         //Create and add the landing page
         LandingForm landingForm = new LandingForm();
         cards.add(landingForm.getPanel(), "landing");
-        landingForm.getStart_button().addActionListener(_ -> {
+        landingForm.getStart_button().addActionListener(event -> {
             if(!this.showSetupPage()) {
                 try {
                     throw new Exception("Switch to Startup Page Failed");
@@ -410,7 +410,7 @@ public class GUIController {
         cards.add(setupPage.getPanel(), "setup");
 
         //Load File Button
-        setupPage.getButton_loadSetup().addActionListener(_ -> {
+        setupPage.getButton_loadSetup().addActionListener(event -> {
             if(JOptionPane.showConfirmDialog(null, "Would you like to load " +
                             "a pre-existing file?", "Load File?",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
@@ -418,7 +418,7 @@ public class GUIController {
             }
         });
         //Finish Setup Button, Writes all setup settings into AppState.currentSettings Record
-        setupPage.getButton_finish_setup().addActionListener(_ -> {
+        setupPage.getButton_finish_setup().addActionListener(event -> {
             try {
                 AppState.currentSettings = new SetupSettings(setupPage.getPatientName().trim(),
                         setupPage.getNumWaveForms(),
@@ -447,8 +447,8 @@ public class GUIController {
         monitorPage = new MonitorPage();
         //Sets divider location at middle of the page
         monitorPage.getSplitPane().setDividerLocation(frameSize.width/2);
-        monitorPage.getPlayButton().addActionListener(_->{rt.start();});
-        monitorPage.getStopButton().addActionListener(_->{rt.pause();});
+        monitorPage.getPlayButton().addActionListener(event->{rt.start();});
+        monitorPage.getStopButton().addActionListener(event->{rt.pause();});
         cards.add(monitorPage.getPanel(), "monitor");
 
     }

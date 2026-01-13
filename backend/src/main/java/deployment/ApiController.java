@@ -70,7 +70,7 @@ public class ApiController {
                 result.getReservoirPressure(),
                 result.getExcessPressure(),
                 raw.getBeatDuration(),
-                raw.getSampleRateHz()
+                reservoirService.getSampleRateHz()
         );
     }
 
