@@ -29,6 +29,13 @@ jobs:
           TSURU_HOST: ${{ secrets.TSURU_HOST }}
         run: |
           tsuru target-add default $TSURU_HOST -s
+      - name: Configure app environment
+        env:
+          TSURU_TOKEN: ${{ secrets.TSURU_TOKEN }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          tsuru env-set -a bioeng-ibm-app DATABASE_URL="$DATABASE_URL"
+          tsuru env-set -a bioeng-ibm-app SPRING_APPLICATION_JSON='{"app":{"data":{"mode":"postgres"}}}'
 
       - name: Rename war file
         run: |
@@ -39,3 +46,13 @@ jobs:
           TSURU_TOKEN: ${{ secrets.TSURU_TOKEN }}
         run: |
           tsuru app-deploy -a bioeng-ibm-app ROOT.war
+
+      - name: Show database env (redacted)
+        env:
+          TSURU_TOKEN: ${{ secrets.TSURU_TOKEN }}
+        run: |
+          echo "Fetching env vars from Tsuru (redacted)..."
+          tsuru env-get -a bioeng-ibm-app \
+            | sed -E 's#(postgres|postgresql|mysql)://[^:@]+:([^@]+)@#\1://***:***@#g' \
+            | sed -E 's/(PASSWORD|PASS|SECRET|TOKEN)=.*/\1=***REDACTED***/g' \
+            | grep -Ei 'DATABASE_URL|POSTGRES|PG|MYSQL|MONGO|REDIS|DB_' || true

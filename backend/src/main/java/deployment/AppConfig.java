@@ -12,8 +12,10 @@ public class AppConfig {
     @Bean
     public ReservoirService reservoirService(
             @Value("${app.data.path:../virtualPatientData/pwdb/PWs/CSV}") String dataPath,
-            @Value("${app.sample-rate-hz:1000}") double sampleRateHz
+            @Value("${app.sample-rate-hz:1000}") double sampleRateHz,
+            @Value("${app.data.mode:auto}") String dataMode
     ) {
-        return new ReservoirService(Path.of(dataPath), sampleRateHz);
+        ReservoirService.DataSourceMode sourceMode = ReservoirService.DataSourceMode.fromString(dataMode);
+        return new ReservoirService(Path.of(dataPath), sampleRateHz, sourceMode);
     }
 }

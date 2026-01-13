@@ -16,11 +16,30 @@ import java.nio.file.Path;
 import java.util.Objects;
 
 public final class ReservoirService {
+    public enum DataSourceMode {
+        AUTO,
+        CSV,
+        POSTGRES;
+
+        public static DataSourceMode fromString(String raw) {
+            if (raw == null || raw.isBlank()) {
+                return AUTO;
+            }
+            return switch (raw.trim().toLowerCase()) {
+                case "auto" -> AUTO;
+                case "csv" -> CSV;
+                case "postgres", "postgresql", "pg" -> POSTGRES;
+                default -> throw new IllegalArgumentException("Unsupported data mode: " + raw);
+            };
+        }
+    }
+
     private final double sampleRateHz;
     private static final ArterySite DEFAULT_SITE = ArterySite.AorticRoot;
     private static final String DATABASE_URL_ENV = "DATABASE_URL";
 
     private final Path defaultDataPath;
+    private final DataSourceMode dataSourceMode;
     private final ReservoirComputationPipeline pipeline;
 
     public double getSampleRateHz() {
@@ -28,8 +47,13 @@ public final class ReservoirService {
     }
 
     public ReservoirService(Path defaultDataPath, double sampleRateHz) {
+        this(defaultDataPath, sampleRateHz, DataSourceMode.AUTO);
+    }
+
+    public ReservoirService(Path defaultDataPath, double sampleRateHz, DataSourceMode dataSourceMode) {
         this.sampleRateHz = sampleRateHz;
         this.defaultDataPath = Objects.requireNonNull(defaultDataPath, "defaultDataPath");
+        this.dataSourceMode = Objects.requireNonNull(dataSourceMode, "dataSourceMode");
         BeatExtractor extractor = new SingleBeatExtractor();
         BeatRegulariser postRegulariser = new IdentityBeatRegulariser();
 
@@ -68,10 +92,20 @@ public final class ReservoirService {
     public record ComputationOutput(PressureSignal raw, ReservoirResult result) {}
 
     private PressureSignalSource buildSource(Path dataPath, double sampleRateHz) {
+        if (dataSourceMode == DataSourceMode.POSTGRES) {
+            return buildPostgresSource(sampleRateHz);
+        }
+        if (dataSourceMode == DataSourceMode.CSV) {
+            return new PwdbCsvPressureSignalSource(dataPath, sampleRateHz);
+        }
         String name = dataPath.getFileName().toString().toLowerCase();
         if (name.endsWith(".csv") || java.nio.file.Files.isDirectory(dataPath)) {
             return new PwdbCsvPressureSignalSource(dataPath, sampleRateHz);
         }
+        return buildPostgresSource(sampleRateHz);
+    }
+
+    private static PostgresPressureSignalSource buildPostgresSource(double sampleRateHz) {
         String databaseUrl = System.getenv(DATABASE_URL_ENV);
         if (databaseUrl == null || databaseUrl.isBlank()) {
             throw new IllegalStateException(
