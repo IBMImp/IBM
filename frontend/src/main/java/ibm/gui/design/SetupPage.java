@@ -10,6 +10,7 @@ import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.util.Locale;
 import java.util.Objects;
+import model.ArterySite;
 
 public class SetupPage {
     private JPanel panel1;
@@ -27,6 +28,8 @@ public class SetupPage {
     private JTextField sampleRateField;
     private JTextField patientID;
     private JLabel patientIdLabel;
+    private JLabel arterySiteLabel;
+    private JComboBox<ArterySite> arterySiteBox;
     private ButtonGroup input_num_select;
 
     public JPanel getPanel() {
@@ -59,6 +62,7 @@ public class SetupPage {
         radioLabel.setFont(f1);
         sampleLabel.setFont(f1);
         patientIdLabel.setFont(f1);
+        arterySiteLabel.setFont(f1);
         Font f2 = new Font(".AppleSystemUIFont", Font.BOLD, 16);
         button_finish_setup.setFont(f2);
         button_loadSetup.setFont(f2);
@@ -75,7 +79,7 @@ public class SetupPage {
             int val = Integer.parseInt(Objects.requireNonNull(patientID.getText()));
             if (Integer.signum(val) == 1) return val;
             else throw new Exception();
-        } catch (Exception _) {
+        } catch (Exception ex) {
             throw new SetupValueException("Non Integer Value Entered");
         }
     }
@@ -85,9 +89,14 @@ public class SetupPage {
             int val = Integer.parseInt(Objects.requireNonNull(sampleRateField.getText()));
             if (Integer.signum(val) == 1) return val;
             else throw new Exception();
-        } catch (Exception _) {
+        } catch (Exception ex) {
             throw new SetupValueException("Non Integer Value Entered");
         }
+    }
+
+    public ArterySite getArterySite() {
+        ArterySite selected = (ArterySite) arterySiteBox.getSelectedItem();
+        return selected == null ? ArterySite.AorticRoot : selected;
     }
 
     public SetupPage() {
@@ -121,7 +130,7 @@ public class SetupPage {
         final Spacer spacer3 = new Spacer();
         input_number_panel.add(spacer3, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, new Dimension(-1, 15), null, null, 0, false));
         final JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayoutManager(4, 2, new Insets(0, 0, 0, 0), -1, -1));
+        panel2.setLayout(new GridLayoutManager(5, 2, new Insets(0, 0, 0, 0), -1, -1));
         panel2.setFocusable(false);
         panel2.setOpaque(false);
         input_number_panel.add(panel2, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(613, 71), null, 0, false));
@@ -175,6 +184,14 @@ public class SetupPage {
         if (patientIdLabelFont != null) patientIdLabel.setFont(patientIdLabelFont);
         patientIdLabel.setText("Patient ID");
         panel2.add(patientIdLabel, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        arterySiteLabel = new JLabel();
+        Font arterySiteLabelFont = this.$$$getFont$$$(".AppleSystemUIFont", Font.BOLD, 14, arterySiteLabel.getFont());
+        if (arterySiteLabelFont != null) arterySiteLabel.setFont(arterySiteLabelFont);
+        arterySiteLabel.setText("Artery Site");
+        panel2.add(arterySiteLabel, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        arterySiteBox = new JComboBox<>();
+        arterySiteBox.setModel(new DefaultComboBoxModel<>(ArterySite.values()));
+        panel2.add(arterySiteBox, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(200, 30), new Dimension(200, 30), 0, false));
         final JPanel panel3 = new JPanel();
         panel3.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
         panel3.setOpaque(false);

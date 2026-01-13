@@ -7,6 +7,7 @@ import com.formdev.flatlaf.FlatPropertiesLaf;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import ibm.controller.RealtimeController;
 import ibm.gui.design.*;
+import model.ArterySite;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -182,7 +183,7 @@ public class GUIController {
         JMenu setupMenu = new JMenu("Setup");
         JMenuItem setupItem = new JMenuItem("New Setup");
         setupItem.setIcon(new FlatSVGIcon("icons/newsetup.svg",16,16));
-        setupItem.addActionListener(_ ->{
+        setupItem.addActionListener(event ->{
             if(JOptionPane.showConfirmDialog(null, "Start a New Setup?\nThis will clear all graphs", "Warning", JOptionPane.YES_NO_OPTION) == 0) {
                 showSetupPage();
                 monitorPage.clearGraphs();
@@ -206,7 +207,7 @@ public class GUIController {
     private JMenuItem createHelpMenu(Font f) {
         JMenuItem helpMenu = new JMenuItem("Help");
         helpMenu.setIcon(new FlatSVGIcon("icons/help.svg",16,16));
-        helpMenu.addActionListener(_->{
+        helpMenu.addActionListener(event->{
             JOptionPane helpMenuOptionPane = new JOptionPane();
 
             helpMenuOptionPane.setMessage("<html><body><p style='width: 200px;'>"+"There ain't no help where you're looking and now this is just testing if the " +
@@ -231,13 +232,13 @@ public class GUIController {
         );
 
         saveGraph.setAccelerator(saveKey);
-        saveGraph.addActionListener(_-> saveFileDialog());
+        saveGraph.addActionListener(event-> saveFileDialog());
         saveGraph.setIcon(new FlatSVGIcon("icons/save.svg",16,16));
         monitorMenu.add(saveGraph);
 
         JMenuItem loadGraph = new JMenuItem("Load Graph");
         loadGraph.setIcon(new FlatSVGIcon("icons/load.svg",16,16));
-        loadGraph.addActionListener(_-> {
+        loadGraph.addActionListener(event-> {
             if (JOptionPane.showConfirmDialog(null, "Do you want to load a new file? \nThis will clear all graphs.", "Warning", JOptionPane.YES_NO_OPTION) == 0) {
                 monitorPage.clearGraphs();
                 loadFileDialog();
@@ -246,7 +247,7 @@ public class GUIController {
         monitorMenu.add(loadGraph);
         JMenuItem graphClearItem = new JMenuItem("Clear all Graphs");
         graphClearItem.setIcon(new FlatSVGIcon("icons/clear.svg",16,16));
-        graphClearItem.addActionListener(_ -> {
+        graphClearItem.addActionListener(event -> {
             if(JOptionPane.showConfirmDialog(null,
                     "Clear all graphs ?",
                     "Warning",
@@ -271,7 +272,7 @@ public class GUIController {
             lookItem.setIcon(new FlatSVGIcon("icons/dark.svg", 16, 16));
 
         //When switching themes, apply opposite them and update icon
-        lookItem.addActionListener(_ -> {
+        lookItem.addActionListener(event -> {
             dark = !dark;
             applyTheme(dark);
             if (dark)
@@ -288,37 +289,17 @@ public class GUIController {
     private void loadFileDialog() {
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("Load Graph");
-        chooser.setFileFilter(new FileNameExtensionFilter("CSV Files", "csv"));
-
+        chooser.setFileFilter(new FileNameExtensionFilter("CSV or SQLite Database","csv", "db"));
         if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
-
-            if (file.exists() && !file.isDirectory() && file.canRead() && file.getName().toLowerCase().endsWith(".csv")) {
-
-                // making sure currentSettings exists before configureBackend()
-                if (AppState.currentSettings == null) {
-                    try {
-                        AppState.currentSettings = new SetupSettings(
-                                setupPage.getPatientName().trim(),
-                                setupPage.getNumWaveForms(),
-                                setupPage.getSampleRate(),
-                                setupPage.getPatientId()
-                        );
-                    } catch (SetupValueException e) {
-                        JOptionPane.showMessageDialog(
-                                null,
-                                "Please fill Patient ID (positive integer) and Sample Rate (positive integer) before loading a file.",
-                                "Setup required",
-                                JOptionPane.WARNING_MESSAGE
-                        );
-                        return;
-                    }
-                }
-
+            String lowerName = file.getName().toLowerCase();
+            if (file.exists() && !file.isDirectory() && file.canRead()
+                    && (lowerName.endsWith(".csv") || lowerName.endsWith(".db"))) {
+                //loadFile(file);
                 configureBackend(file.toPath());
 
             } else {
-                JOptionPane.showMessageDialog(null, "Please Select a CSV File", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Please Select a CSV or SQLite Database File", "Warning", JOptionPane.WARNING_MESSAGE);
                 loadFileDialog();
             }
         }
@@ -340,6 +321,7 @@ public class GUIController {
             int numWaveForms = Integer.parseInt(settings[1]);
             int sampleRate = Integer.parseInt(settings[2]);
             int patientID = 0;
+            ArterySite arterySite = ArterySite.AorticRoot;
             if (settings.length > 3) {
                 try {
                     patientID = Integer.parseInt(settings[3].trim());
@@ -347,7 +329,14 @@ public class GUIController {
                     logger.warning("Invalid patient ID in setup settings: " + file.getAbsolutePath());
                 }
             }
-            AppState.currentSettings = new SetupSettings(patientName, numWaveForms, sampleRate, patientID);
+            if (settings.length > 4) {
+                try {
+                    arterySite = ArterySite.fromToken(settings[4].trim());
+                } catch (IllegalArgumentException e) {
+                    logger.warning("Invalid artery site in setup settings: " + file.getAbsolutePath());
+                }
+            }
+            AppState.currentSettings = new SetupSettings(patientName, numWaveForms, sampleRate, patientID, arterySite);
 
             if (!showMonitorPage()) {
                 logger.severe("Switch to Monitor Page Failed");
@@ -403,6 +392,8 @@ public class GUIController {
             setupLine.add(AppState.currentSettings.patientName);
             setupLine.add("" + AppState.currentSettings.numWaveForms);
             setupLine.add("" + AppState.currentSettings.sampleRate);
+            setupLine.add("" + AppState.currentSettings.patientID);
+            setupLine.add(AppState.currentSettings.arterySite.token());
             setupLine.add("-->");
             bw.write(setupLine.toString());
             bw.close();
@@ -419,7 +410,7 @@ public class GUIController {
         //Create and add the landing page
         LandingForm landingForm = new LandingForm();
         cards.add(landingForm.getPanel(), "landing");
-        landingForm.getStart_button().addActionListener(_ -> {
+        landingForm.getStart_button().addActionListener(event -> {
             if(!this.showSetupPage()) {
                 try {
                     throw new Exception("Switch to Startup Page Failed");
@@ -437,7 +428,7 @@ public class GUIController {
         cards.add(setupPage.getPanel(), "setup");
 
         //Load File Button
-        setupPage.getButton_loadSetup().addActionListener(_ -> {
+        setupPage.getButton_loadSetup().addActionListener(event -> {
             if(JOptionPane.showConfirmDialog(null, "Would you like to load " +
                             "a pre-existing file?", "Load File?",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
@@ -445,18 +436,21 @@ public class GUIController {
             }
         });
         //Finish Setup Button, Writes all setup settings into AppState.currentSettings Record
-        setupPage.getButton_finish_setup().addActionListener(_ -> {
+        setupPage.getButton_finish_setup().addActionListener(event -> {
             try {
                 AppState.currentSettings = new SetupSettings(setupPage.getPatientName().trim(),
                         setupPage.getNumWaveForms(),
                         setupPage.getSampleRate(),
-                        setupPage.getPatientId());
+                        setupPage.getPatientId(),
+                        setupPage.getArterySite());
                 if(!this.showMonitorPage()) {
                     try {
                         throw new Exception("Switch to Monitor Page Failed");
                     } catch (Exception ex) {
                         logger.severe(ex.getMessage());
                     }
+                } else {
+                    configureBackend(null);
                 }
             } catch (SetupValueException e) {
                 logger.warning("The value entered for Sample Rate is Invalid. Ensure sample rate is a Positive" +
@@ -474,18 +468,19 @@ public class GUIController {
         monitorPage = new MonitorPage();
         //Sets divider location at middle of the page
         monitorPage.getSplitPane().setDividerLocation(frameSize.width/2);
-        monitorPage.getPlayButton().addActionListener(_->{rt.start();});
-        monitorPage.getStopButton().addActionListener(_->{rt.pause();});
+        monitorPage.getPlayButton().addActionListener(event->{rt.start();});
+        monitorPage.getStopButton().addActionListener(event->{rt.pause();});
         cards.add(monitorPage.getPanel(), "monitor");
 
     }
 
-    private void configureBackend(Path csvFile) {
+    private void configureBackend(Path databaseFile) {
 
         rt.configure(
-                csvFile,
+                databaseFile,
                 AppState.currentSettings.sampleRate,
                 String.valueOf(AppState.currentSettings.patientID),
+                AppState.currentSettings.arterySite,
                 frame -> {
                     monitorPage.addPoint(frame.tSec(), frame.p(), frame.pr(), frame.pe());
 
@@ -505,5 +500,6 @@ public class GUIController {
         private static SetupSettings currentSettings;
     }
     //Storage for apps settings, selected either at setup or by loading files
-    private record SetupSettings(String patientName, int numWaveForms, int sampleRate, int patientID) {}
+    private record SetupSettings(String patientName, int numWaveForms, int sampleRate, int patientID,
+                                 ArterySite arterySite) {}
 }

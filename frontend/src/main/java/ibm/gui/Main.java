@@ -22,7 +22,7 @@ public class Main {
                 if (!gui.init()) throw new ExceptionInInitializerError("GUI Initialization Error");
                 gui.showGUI();
             } catch (Exception e) {
-                IO.print("Failed to Initialize GUI");
+                guiLogger.log(Level.SEVERE,  "GUI Initialization Error", e);
             }
         });
     }
