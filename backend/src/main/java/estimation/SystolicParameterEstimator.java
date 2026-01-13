@@ -33,50 +33,52 @@ public class SystolicParameterEstimator {
         }
 
         Complex[] spectrum = fftService.fft(p);
-        int spectrumLength = spectrum.length;
-        double[] omega = new double[spectrumLength];
-        for (int k = 0; k < spectrumLength; k++) {
-            omega[k] = 2.0 * Math.PI * sampleRate * k / spectrumLength;
+        double[] omega = new double[n];
+        for (int k = 0; k < n; k++) {
+            omega[k] = 2.0 * Math.PI * sampleRate * k / n;
         }
-
-        double bestKs = selectInitialKs(p, spectrum, omega, kd, fftService);
-
-        return refineKs(p, spectrum, omega, kd, bestKs, fftService);
+        double seedKappa = coarseKappaSweep(p, spectrum, omega, kd, fftService);
+        double kappa = refineKappa(p, spectrum, omega, kd, seedKappa, fftService);
+        return kappa * kd;
     }
 
-    private static double selectInitialKs(
-            double[] p,
-            Complex[] spectrum,
-            double[] omega,
-            double kd,
-            FFTService fftService) {
-        double bestKs = kd * 5.0;
+
+
+        private static double coarseKappaSweep(
+                double[] p,
+        Complex[] spectrum,
+        double[] omega,
+        double kd,
+        FFTService fftService) {
+        double bestKappa = 5.0;
         double bestArea = Double.NEGATIVE_INFINITY;
 
-        for (int ratio = 5; ratio <= 25; ratio += 2) {
-            double ks = kd * ratio;
-            double area = loopArea(p, spectrum, omega, kd, ks, fftService);
+
+        for (double kappa = 5.0; kappa <= 25.0; kappa += 2.0) {
+            double area = loopArea(p, spectrum, omega, kd, kappa, fftService);
             if (area > bestArea) {
                 bestArea = area;
-                bestKs = ks;
+                bestKappa = kappa;
             }
         }
 
-        return bestKs;
-    }
+        return bestKappa;
 
-    private static double refineKs(
+        }
+
+
+    private static double refineKappa(
             double[] p,
             Complex[] spectrum,
             double[] omega,
             double kd,
-            double seed,
+            double seedKappa,
             FFTService fftService) {
         double dk = 2.0;
         int iter = 0;
         int iterMax = 30;
 
-        double ka = Math.max(1.0, seed - dk);
+        double ka = Math.max(1.0, seedKappa - dk);
         double kb = ka + dk;
 
         double areaA = loopArea(p, spectrum, omega, kd, ka, fftService);
@@ -136,8 +138,9 @@ public class SystolicParameterEstimator {
             Complex[] spectrum,
             double[] omega,
             double kd,
-            double ks,
+            double kappa,
             FFTService fftService) {
+        double ks = kappa * kd;
         Complex[] prSpectrum = new Complex[spectrum.length];
         for (int i = 0; i < spectrum.length; i++) {
             Complex denominator = new Complex(ks + kd, omega[i]);

@@ -1,6 +1,8 @@
 package application;
 
+import data.PressureSignalSource;
 import data.PwdbCsvPressureSignalSource;
+import data.PostgresPressureSignalSource;
 import model.ArterySite;
 import model.PressureSignal;
 import model.ReservoirResult;
@@ -16,13 +18,18 @@ import java.util.Objects;
 public final class ReservoirService {
     private final double sampleRateHz;
     private static final ArterySite DEFAULT_SITE = ArterySite.AorticRoot;
+    private static final String DATABASE_URL_ENV = "DATABASE_URL";
 
-    private final Path csvDir;
+    private final Path defaultDataPath;
     private final ReservoirComputationPipeline pipeline;
 
-    public ReservoirService(Path csvDir, double sampleRateHz) {
+    public double getSampleRateHz() {
+        return sampleRateHz;
+    }
+
+    public ReservoirService(Path defaultDataPath, double sampleRateHz) {
         this.sampleRateHz = sampleRateHz;
-        this.csvDir = Objects.requireNonNull(csvDir, "csvDir");
+        this.defaultDataPath = Objects.requireNonNull(defaultDataPath, "defaultDataPath");
         BeatExtractor extractor = new SingleBeatExtractor();
         BeatRegulariser postRegulariser = new IdentityBeatRegulariser();
 
@@ -41,13 +48,35 @@ public final class ReservoirService {
         );
     }
 
-    public ComputationOutput compute(Path pwdbCsvFile, String patientId) {
-        Path csvDirToUse = pwdbCsvFile == null ? csvDir : pwdbCsvFile;
-        var source = new PwdbCsvPressureSignalSource(csvDirToUse, sampleRateHz);
-        PressureSignal raw = source.load(patientId, DEFAULT_SITE);
+    public ComputationOutput compute(Path dataPath, String patientId) {
+        return compute(dataPath, patientId, DEFAULT_SITE);
+    }
+
+    public ComputationOutput compute(Path dataPath, String patientId, ArterySite site) {
+        return compute(dataPath, patientId, site, null);
+    }
+
+    public ComputationOutput compute(Path dataPath, String patientId, ArterySite site, Double sampleRateOverrideHz) {
+        double rateToUse = sampleRateOverrideHz == null ? sampleRateHz : sampleRateOverrideHz;
+        Path dataPathToUse = dataPath == null ? defaultDataPath : dataPath;
+        PressureSignalSource source = buildSource(dataPathToUse, rateToUse);
+        PressureSignal raw = source.load(patientId, site);
         ReservoirResult result = pipeline.run(raw);
         return new ComputationOutput(raw, result);
     }
 
     public record ComputationOutput(PressureSignal raw, ReservoirResult result) {}
+
+    private PressureSignalSource buildSource(Path dataPath, double sampleRateHz) {
+        String name = dataPath.getFileName().toString().toLowerCase();
+        if (name.endsWith(".csv")) {
+            return new PwdbCsvPressureSignalSource(dataPath, sampleRateHz);
+        }
+        String databaseUrl = System.getenv(DATABASE_URL_ENV);
+        if (databaseUrl == null || databaseUrl.isBlank()) {
+            throw new IllegalStateException(
+                    "DATABASE_URL must be set for PostgreSQL waveform access");
+        }
+        return PostgresPressureSignalSource.fromDatabaseUrl(databaseUrl, sampleRateHz);
+    }
 }

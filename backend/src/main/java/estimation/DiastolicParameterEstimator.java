@@ -24,7 +24,7 @@ public class DiastolicParameterEstimator {
 
         // 2. Estimate kd from log-linear fit on the last half of the beat.
         int nHalf = (int) Math.round(n / 2.0);
-        int startIndex = Math.max(nHalf - 1, 0);
+        int startIndex = Math.min(Math.max(nHalf, 0), n - 1);
 
         double sumT = 0.0;
         double sumY = 0.0;
