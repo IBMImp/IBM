@@ -135,7 +135,9 @@ public final class RealtimeController {
         HttpRequest request = HttpRequest.newBuilder(uri).GET().build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() != 200) {
-            throw new IllegalStateException("Backend compute failed: HTTP " + response.statusCode());
+            String body = response.body();
+            String detail = (body == null || body.isBlank()) ? "" : " - " + body.trim();
+            throw new IllegalStateException("Backend compute failed: HTTP " + response.statusCode() + detail);
         }
         return objectMapper.readValue(response.body(), ComputeResponse.class);
     }
