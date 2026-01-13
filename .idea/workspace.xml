@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Deployment to Tsuru in progress, updated API source code">
+    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Changed deploy.yml to mv the right war file">
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
@@ -98,7 +97,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="regularisation" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -149,7 +148,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
@@ -168,7 +167,7 @@
       <recent name="C:\Users\Alexander\IdeaProjects\IBM\frontend" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.IBM_copy [:backend:bootRun]">
+  <component name="RunManager" selected="Gradle.IBM_copy [run]">
     <configuration name="IBM_copy [:backend:bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -303,8 +302,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.IBM_copy [:backend:bootRun]" />
         <item itemvalue="Gradle.IBM_copy [run]" />
+        <item itemvalue="Gradle.IBM_copy [:backend:bootRun]" />
         <item itemvalue="Gradle.IBM_copy [:frontend:run]" />
         <item itemvalue="Gradle.IBM_copy [bootRun]" />
         <item itemvalue="Gradle.IBM_copy [bootJar]" />
@@ -369,7 +368,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768337792663</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Changed deploy.yml to mv the right war file">
+      <option name="closed" value="true" />
+      <created>1768340697715</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1768340697715</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -402,7 +409,8 @@
     <MESSAGE value="Reorganised repo to have separate modules for frontend and backend; Impelmented DicroticNotchDetector.java to find the intex of the dicrotic notch from a given pressure wave; no tests yet" />
     <MESSAGE value="Built Project, Merged Regularization with main." />
     <MESSAGE value="Deployment to Tsuru in progress, updated API source code" />
-    <option name="LAST_COMMIT_MESSAGE" value="Deployment to Tsuru in progress, updated API source code" />
+    <MESSAGE value="Changed deploy.yml to mv the right war file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed deploy.yml to mv the right war file" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

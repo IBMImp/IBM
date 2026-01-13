@@ -11,7 +11,7 @@ import java.nio.file.Path;
 public class AppConfig {
     @Bean
     public ReservoirService reservoirService(
-            @Value("${app.data.path:../virtualPatientData/pwdb/PWs/SQL/pressure_waveforms.db}") String dataPath,
+            @Value("${app.data.path:../virtualPatientData/pwdb/PWs/CSV}") String dataPath,
             @Value("${app.sample-rate-hz:1000}") double sampleRateHz
     ) {
         return new ReservoirService(Path.of(dataPath), sampleRateHz);
