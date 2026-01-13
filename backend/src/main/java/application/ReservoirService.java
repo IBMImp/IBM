@@ -37,6 +37,11 @@ public final class ReservoirService {
     private final double sampleRateHz;
     private static final ArterySite DEFAULT_SITE = ArterySite.AorticRoot;
     private static final String DATABASE_URL_ENV = "DATABASE_URL";
+    private static final String PGHOST_ENV = "PGHOST";
+    private static final String PGPORT_ENV = "PGPORT";
+    private static final String PGDATABASE_ENV = "PGDATABASE";
+    private static final String PGUSER_ENV = "PGUSER";
+    private static final String PGPASSWORD_ENV = "PGPASSWORD";
 
     private final Path defaultDataPath;
     private final DataSourceMode dataSourceMode;
@@ -107,10 +112,26 @@ public final class ReservoirService {
 
     private static PostgresPressureSignalSource buildPostgresSource(double sampleRateHz) {
         String databaseUrl = System.getenv(DATABASE_URL_ENV);
-        if (databaseUrl == null || databaseUrl.isBlank()) {
-            throw new IllegalStateException(
-                    "DATABASE_URL must be set for PostgreSQL waveform access");
+        if (databaseUrl != null && !databaseUrl.isBlank()) {
+            return PostgresPressureSignalSource.fromDatabaseUrl(databaseUrl, sampleRateHz);
         }
-        return PostgresPressureSignalSource.fromDatabaseUrl(databaseUrl, sampleRateHz);
+        String host = System.getenv(PGHOST_ENV);
+        String database = System.getenv(PGDATABASE_ENV);
+        if (host == null || host.isBlank() || database == null || database.isBlank()) {
+            throw new IllegalStateException(
+                    "DATABASE_URL or PGHOST/PGDATABASE must be set for PostgreSQL waveform access");
+        }
+        String port = System.getenv(PGPORT_ENV);
+        String username = System.getenv(PGUSER_ENV);
+        String password = System.getenv(PGPASSWORD_ENV);
+        String jdbcUrl = "jdbc:postgresql://" + host + ":" + normalizePort(port) + "/" + database;
+        return new PostgresPressureSignalSource(jdbcUrl, username, password, sampleRateHz);
+    }
+
+    private static String normalizePort(String port) {
+        if (port == null || port.isBlank()) {
+            return "5432";
+        }
+        return port.trim();
     }
 }

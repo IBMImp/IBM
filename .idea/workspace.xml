@@ -4,15 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="CSV no longer triggers PostgreSQL db access">
-      <change afterPath="$PROJECT_DIR$/backend/scripts/init-postgres.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/scripts/prepare_pwdb_csv_export.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/scripts/seed-postgres-from-csv.sh" afterDir="false" />
+    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Changes to yml file again">
       <change beforePath="$PROJECT_DIR$/.github/workflows/deploy.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/deploy.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/application/ReservoirService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/application/ReservoirService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/deployment/AppConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/deployment/AppConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -440,7 +436,23 @@
       <option name="project" value="LOCAL" />
       <updated>1768344075376</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Update yml script to give PostgreSQL connection string">
+      <option name="closed" value="true" />
+      <created>1768345572473</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1768345572473</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Changes to yml file again">
+      <option name="closed" value="true" />
+      <created>1768345829457</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1768345829457</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -478,7 +490,9 @@
     <MESSAGE value="Fixes to CSV file parser" />
     <MESSAGE value="Improved error-logging for debugging" />
     <MESSAGE value="CSV no longer triggers PostgreSQL db access" />
-    <option name="LAST_COMMIT_MESSAGE" value="CSV no longer triggers PostgreSQL db access" />
+    <MESSAGE value="Update yml script to give PostgreSQL connection string" />
+    <MESSAGE value="Changes to yml file again" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changes to yml file again" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
