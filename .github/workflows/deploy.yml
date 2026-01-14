@@ -37,6 +37,9 @@ jobs:
       - name: Deploy to Tsuru
         env:
           TSURU_TOKEN: ${{ secrets.TSURU_TOKEN }}
+          TSURU_HOST: ${{ secrets.TSURU_HOST }}
         run: |
+          tsuru target-add default "$TSURU_HOST" -s || true
+          tsuru target-set default
           tsuru app-deploy -a bioeng-ibm-app app.jar
 
