@@ -10,11 +10,18 @@ springBoot {
 }
 
 bootJar {
+    enabled = true
     archiveFileName = 'backend.jar'
 }
 
+bootWar {
+    enabled = false
+}
+
 war {
+    enabled = true
     archiveBaseName = 'backend'
+    dependsOn bootJar
 }
 
 java {
