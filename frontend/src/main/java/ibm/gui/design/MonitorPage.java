@@ -125,10 +125,10 @@ public class MonitorPage {
 
         // Both charts tab
         bothReservoirChartPanel = LiveChartFactory.createLiveChart(
-                "Reservoir Pressure (Pr)", "Time (s)", "Pressure", reservoirSeries
+                "Reservoir Pressure (Pr)", "Time (s)", "Pressure (mmHg)", reservoirSeries
         );
         bothPressureChartPanel = LiveChartFactory.createLiveChart(
-                "Blood Pressure (P)", "Time (s)", "Pressure", pressureSeries
+                "Blood Pressure (P)", "Time (s)", "Pressure (mmHg)", pressureSeries
         );
 
         applyChartTheme(bothReservoirChartPanel);
@@ -150,7 +150,7 @@ public class MonitorPage {
         RPPanel.setLayout(new BorderLayout());
 
         rpChartPanel = LiveChartFactory.createLiveChart(
-                "Reservoir Pressure (Pr)", "Time (s)", "Pressure", reservoirSeries
+                "Reservoir Pressure (Pr)", "Time (s)", "Pressure (mmHg)", reservoirSeries
         );
         styleSingleSeriesChart(rpChartPanel, RP_COLOR);
         RPPanel.add(rpChartPanel, BorderLayout.CENTER);
@@ -161,7 +161,7 @@ public class MonitorPage {
         BPPanel.setLayout(new BorderLayout());
 
         bpTabChartPanel = LiveChartFactory.createLiveChart(
-                "Blood Pressure (P)", "Time (s)", "Pressure", pressureSeries
+                "Blood Pressure (P)", "Time (s)", "Pressure (mmHg)", pressureSeries
         );
 
         applyChartTheme(bpTabChartPanel);
@@ -218,7 +218,7 @@ public class MonitorPage {
         dataset.addSeries(reservoirSeries);  // 1 = Pr
 
         var xAxis = new org.jfree.chart.axis.NumberAxis("Time (s)");
-        var yAxis = new org.jfree.chart.axis.NumberAxis("Pressure");
+        var yAxis = new org.jfree.chart.axis.NumberAxis("Pressure (mmHg)");
 
         var baseRenderer = new org.jfree.chart.renderer.xy.XYLineAndShapeRenderer(true, false);
         baseRenderer.setSeriesStroke(0, LINE_STROKE);
@@ -274,6 +274,7 @@ public class MonitorPage {
 
         axis.setAutoRange(true);
         axis.setAutoRangeIncludesZero(false);
+        axis.setAutoTickUnitSelection(true);
     }
 
 

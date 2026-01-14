@@ -86,5 +86,6 @@ public final class LiveChartFactory {
 
         axis.setAutoRange(true);
         axis.setAutoRangeIncludesZero(false);
+        axis.setAutoTickUnitSelection(true);
     }
 }

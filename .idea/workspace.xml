@@ -4,16 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Reogranisation of backend for clearer structure; Now defaults to localhost for backend calculation; Allows for choosing arterial site">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Updated email for the help page">
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/build/libs/backend-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/libs/backend-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/GUIController.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/GUIController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/MonitorPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/MonitorPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/SetupPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/SetupPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/liveCharting/LiveChartFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/liveCharting/LiveChartFactory.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -667,7 +662,23 @@
       <option name="project" value="LOCAL" />
       <updated>1768370939295</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Error-handling for frontend and the help menu">
+      <option name="closed" value="true" />
+      <created>1768375764499</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1768375764499</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Updated email for the help page">
+      <option name="closed" value="true" />
+      <created>1768376093642</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1768376093643</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -697,8 +708,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Update yml script to give PostgreSQL connection string" />
-    <MESSAGE value="Changes to yml file again" />
     <MESSAGE value="application.properties changes to build up the jdbc url for sql integration" />
     <MESSAGE value="Created a PwdbImportJob class to have a command line interface for SQL database creation" />
     <MESSAGE value="Deploy backend plain war" />
@@ -722,7 +731,9 @@
     <MESSAGE value="Deleted Root.war" />
     <MESSAGE value="Another deploy.yml" />
     <MESSAGE value="Reogranisation of backend for clearer structure; Now defaults to localhost for backend calculation; Allows for choosing arterial site" />
-    <option name="LAST_COMMIT_MESSAGE" value="Reogranisation of backend for clearer structure; Now defaults to localhost for backend calculation; Allows for choosing arterial site" />
+    <MESSAGE value="Error-handling for frontend and the help menu" />
+    <MESSAGE value="Updated email for the help page" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated email for the help page" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
