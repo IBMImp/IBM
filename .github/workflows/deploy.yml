@@ -3,43 +3,53 @@ name: Deploy to Tsuru
 on:
   push:
     branches:
-      - master  # Trigger on push to the main branch. Change this as needed.
+      - master   # change to main if needed
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Build
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'   # if your course requires 11, change to 11
+
+      - name: Build backend WAR (bootWar)
         run: |
           chmod +x gradlew
-          ./gradlew :backend:clean :backend:bootJar
+          ./gradlew :backend:clean :backend:bootWar
+          ls -lh backend/build/libs
+
+      - name: Prepare deploy folder (ROOT.war only)
+        run: |
+          rm -rf deploy
+          mkdir -p deploy
+          # pick the boot war (NOT the plain war)
+          cp backend/build/libs/backend-1.0-SNAPSHOT.war deploy/ROOT.war
+          ls -lh deploy
+          # sanity: ensure controllers are inside the WAR
+          jar tf deploy/ROOT.war | grep -E 'deployment/ApiController.class|deployment/Main.class' | head -n 20
 
       - name: Install Tsuru CLI
         run: |
           curl -fsSL https://raw.githubusercontent.com/tsuru/tsuru-client/master/install.sh | sh
-          echo "Tsuru CLI installed"
+          tsuru version || true
 
-      - name: Add Target
+      - name: Configure Tsuru target
         env:
-          TSURU_TOKEN: ${{ secrets.TSURU_TOKEN }}
-          TSURU_HOST: ${{ secrets.TSURU_HOST }}
-        run: |
-          tsuru target-add default $TSURU_HOST -s
-
-      - name: Prepare artifact
-        run: |
-          cp backend/build/libs/backend-1.0-SNAPSHOT.jar app.jar
-
-      - name: Deploy to Tsuru
-        env:
-          TSURU_TOKEN: ${{ secrets.TSURU_TOKEN }}
           TSURU_HOST: ${{ secrets.TSURU_HOST }}
         run: |
           tsuru target-add default "$TSURU_HOST" -s || true
           tsuru target-set default
-          tsuru app-deploy -a bioeng-ibm-app app.jar
+          tsuru target-list
 
+      - name: Deploy to Tsuru (Tomcat ROOT)
+        env:
+          TSURU_TOKEN: ${{ secrets.TSURU_TOKEN }}
+        run: |
+          tsuru app-deploy -a bioeng-ibm-app deploy
