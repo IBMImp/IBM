@@ -55,8 +55,8 @@ public final class RealtimeController {
         if (fsHz <= 0 || patientId == null || patientId.isBlank()) return;
 
         pause();
-        onStatusEdt.accept("Using backend: " + backendBaseUrl);
-        onStatusEdt.accept("Computing...");
+        postStatus("Using backend: " + backendBaseUrl);
+        postStatus("Computing...");
 
         SwingWorker<WaveformPayload, Void> w = new SwingWorker<>() {
             @Override protected WaveformPayload doInBackground() throws Exception {
@@ -133,6 +133,7 @@ public final class RealtimeController {
 
     private ComputeResponse fetchRemoteCompute(ArterySite site) throws Exception {
         URI uri = buildComputeUri(site);
+        postStatus("Compute URL: " + uri);
         HttpRequest request = HttpRequest.newBuilder(uri).GET().build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() != 200) {
@@ -168,6 +169,13 @@ public final class RealtimeController {
         query.append(URLEncoder.encode(name, StandardCharsets.UTF_8));
         query.append('=');
         query.append(URLEncoder.encode(value, StandardCharsets.UTF_8));
+    }
+
+    private void postStatus(String message) {
+        if (onStatusEdt == null) {
+            return;
+        }
+        SwingUtilities.invokeLater(() -> onStatusEdt.accept(message));
     }
 
     private static String resolveBackendBaseUrl() {
