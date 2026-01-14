@@ -16,7 +16,7 @@ jobs:
       - name: Build
         run: |
           chmod +x gradlew
-          ./gradlew backend/build
+          ./gradlew build
       - name: Install Tsuru CLI
         run: |
           curl -fsSL https://raw.githubusercontent.com/tsuru/tsuru-client/master/install.sh | sh

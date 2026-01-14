@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Server port is 8888">
+    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Another deploy.yml">
       <change beforePath="$PROJECT_DIR$/.github/workflows/deploy.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/deploy.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Procfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -623,7 +621,31 @@
       <option name="project" value="LOCAL" />
       <updated>1768364060482</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Fallback to previous deploy files">
+      <option name="closed" value="true" />
+      <created>1768367462781</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1768367462781</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Deleted Root.war">
+      <option name="closed" value="true" />
+      <created>1768367709271</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1768367709272</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Another deploy.yml">
+      <option name="closed" value="true" />
+      <created>1768367974910</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1768367974910</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -653,9 +675,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fallback to CSV files for now for testing deployment" />
-    <MESSAGE value="Fixes to CSV file parser" />
-    <MESSAGE value="Improved error-logging for debugging" />
     <MESSAGE value="CSV no longer triggers PostgreSQL db access" />
     <MESSAGE value="Update yml script to give PostgreSQL connection string" />
     <MESSAGE value="Changes to yml file again" />
@@ -678,7 +697,10 @@
     <MESSAGE value="Trying to find the file" />
     <MESSAGE value="Fixes in build.gradle" />
     <MESSAGE value="Server port is 8888" />
-    <option name="LAST_COMMIT_MESSAGE" value="Server port is 8888" />
+    <MESSAGE value="Fallback to previous deploy files" />
+    <MESSAGE value="Deleted Root.war" />
+    <MESSAGE value="Another deploy.yml" />
+    <option name="LAST_COMMIT_MESSAGE" value="Another deploy.yml" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
