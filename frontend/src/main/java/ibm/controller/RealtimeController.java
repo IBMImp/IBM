@@ -1,6 +1,6 @@
 package ibm.controller;
 
-import application.ReservoirService;
+import service.FrontendService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import model.ArterySite;
 
@@ -18,7 +18,10 @@ import java.util.function.Consumer;
 public final class RealtimeController {
     private static final String BACKEND_URL_ENV = "BACKEND_BASE_URL";
     private static final String BACKEND_URL_PROPERTY = "backend.base.url";
-    private static final String DEFAULT_BACKEND_BASE_URL = "http://localhost:8080";
+    private static final String BACKEND_API_PATH_ENV = "BACKEND_API_PATH";
+    private static final String BACKEND_API_PATH_PROPERTY = "backend.api.path";
+    private static final String DEFAULT_BACKEND_BASE_URL = "http://localhost:8888";
+    private static final String DEFAULT_BACKEND_API_PATH = "/api/compute";
 
     private Path databaseFile;
     private double fsHz;
@@ -55,14 +58,15 @@ public final class RealtimeController {
         if (fsHz <= 0 || patientId == null || patientId.isBlank()) return;
 
         pause();
-        onStatusEdt.accept("Computing...");
+        postStatus("Using backend: " + backendBaseUrl);
+        postStatus("Computing...");
 
         SwingWorker<WaveformPayload, Void> w = new SwingWorker<>() {
             @Override protected WaveformPayload doInBackground() throws Exception {
                 ArterySite site = arterySite == null ? ArterySite.AorticRoot : arterySite;
                 if (databaseFile != null) {
-                    ReservoirService localService = new ReservoirService(databaseFile, fsHz);
-                    ReservoirService.ComputationOutput output = localService.compute(databaseFile, patientId, site);
+                    FrontendService localService = new FrontendService(databaseFile, fsHz);
+                    FrontendService.ComputationOutput output = localService.compute(databaseFile, patientId, site);
                     return new WaveformPayload(
                             output.raw().getPressure(),
                             output.result().getReservoirPressure(),
@@ -132,28 +136,36 @@ public final class RealtimeController {
 
     private ComputeResponse fetchRemoteCompute(ArterySite site) throws Exception {
         URI uri = buildComputeUri(site);
+        postStatus("Compute URL: " + uri);
         HttpRequest request = HttpRequest.newBuilder(uri).GET().build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() != 200) {
-            throw new IllegalStateException("Backend compute failed: HTTP " + response.statusCode());
+            String body = response.body();
+            String detail = (body == null || body.isBlank()) ? "" : " - " + body.trim();
+            throw new IllegalStateException("Backend compute failed: HTTP " + response.statusCode() + detail);
         }
         return objectMapper.readValue(response.body(), ComputeResponse.class);
     }
 
     private URI buildComputeUri(ArterySite site) {
         String base = backendBaseUrl.endsWith("/") ? backendBaseUrl.substring(0, backendBaseUrl.length() - 1) : backendBaseUrl;
+        String apiPath = resolveBackendApiPath();
         StringBuilder query = new StringBuilder();
         appendQueryParam(query, "patientId", patientId);
         appendQueryParam(query, "arterySite", site.token());
         appendQueryParam(query, "sampleRateHz", Double.toString(fsHz));
-        return URI.create(base + "/api/compute?" + query);
+        if (apiPath.startsWith("http://") || apiPath.startsWith("https://")) {
+            return URI.create(apiPath + "?" + query);
+        }
+        String normalizedPath = apiPath.startsWith("/") ? apiPath : "/" + apiPath;
+        return URI.create(base + normalizedPath + "?" + query);
     }
 
     private String buildErrorMessage(Exception ex) {
         Throwable cause = ex instanceof ConnectException ? ex : ex.getCause();
         if (cause instanceof ConnectException) {
             return "Error: Unable to reach backend at " + backendBaseUrl
-                    + ". Set BACKEND_BASE_URL or -Dbackend.base.url.";
+                    + ". Set BACKEND_BASE_URL/BACKEND_API_PATH or -Dbackend.base.url/-Dbackend.api.path.";
         }
         return "Error: " + ex.getMessage();
     }
@@ -167,6 +179,13 @@ public final class RealtimeController {
         query.append(URLEncoder.encode(value, StandardCharsets.UTF_8));
     }
 
+    private void postStatus(String message) {
+        if (onStatusEdt == null) {
+            return;
+        }
+        SwingUtilities.invokeLater(() -> onStatusEdt.accept(message));
+    }
+
     private static String resolveBackendBaseUrl() {
         String fromProperty = System.getProperty(BACKEND_URL_PROPERTY);
         if (fromProperty != null && !fromProperty.isBlank()) {
@@ -177,6 +196,18 @@ public final class RealtimeController {
             return fromEnv;
         }
         return DEFAULT_BACKEND_BASE_URL;
+    }
+
+    private static String resolveBackendApiPath() {
+        String fromProperty = System.getProperty(BACKEND_API_PATH_PROPERTY);
+        if (fromProperty != null && !fromProperty.isBlank()) {
+            return fromProperty;
+        }
+        String fromEnv = System.getenv(BACKEND_API_PATH_ENV);
+        if (fromEnv != null && !fromEnv.isBlank()) {
+            return fromEnv;
+        }
+        return DEFAULT_BACKEND_API_PATH;
     }
 
     private record WaveformPayload(double[] pressure, double[] reservoirPressure, double[] excessPressure,

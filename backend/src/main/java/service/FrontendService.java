@@ -1,4 +1,4 @@
-package application;
+package service;
 
 import data.PressureSignalSource;
 import data.PwdbCsvPressureSignalSource;
@@ -10,12 +10,11 @@ import preprocessing.*;
 import calculation.ReservoirCalculator;
 import estimation.DiastolicParameterEstimator;
 import estimation.SystolicParameterEstimator;
-import service.ReservoirComputationPipeline;
 
 import java.nio.file.Path;
 import java.util.Objects;
 
-public final class ReservoirService {
+public final class FrontendService {
     private final double sampleRateHz;
     private static final ArterySite DEFAULT_SITE = ArterySite.AorticRoot;
     private static final String DATABASE_URL_ENV = "DATABASE_URL";
@@ -27,7 +26,7 @@ public final class ReservoirService {
         return sampleRateHz;
     }
 
-    public ReservoirService(Path defaultDataPath, double sampleRateHz) {
+    public FrontendService(Path defaultDataPath, double sampleRateHz) {
         this.sampleRateHz = sampleRateHz;
         this.defaultDataPath = Objects.requireNonNull(defaultDataPath, "defaultDataPath");
         BeatExtractor extractor = new SingleBeatExtractor();

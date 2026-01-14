@@ -4,20 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Deployment to Tsuru in progress, updated API source code">
+    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Another deploy.yml">
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/build/libs/backend-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/libs/backend-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/application/ReservoirService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/application/ReservoirService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/tmp/jar/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/tmp/jar/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/application/ReservoirService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/service/FrontendService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/deployment/ApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/deployment/ApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/model/ArterySite.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/model/ArterySite.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/deployment/AppConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/deployment/AppConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/service/BackendService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/service/PipelineRun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/main/java/ibm/controller/RealtimeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/controller/RealtimeController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/GUIController.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/GUIController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/SetupPage.form" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/SetupPage.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/SetupPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/SetupPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +62,12 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="FARPA" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build setup" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FARPA" type="f1a62948:ProjectNode" />
                 <item name="backend" type="2d1252cf:ModuleNode" />
               </path>
               <path>
@@ -108,19 +114,6 @@
                 <item name="frontend" type="2d1252cf:ModuleNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="build" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="FARPA" type="f1a62948:ProjectNode" />
-                <item name="frontend" type="2d1252cf:ModuleNode" />
-                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="FARPA" type="f1a62948:ProjectNode" />
-                <item name="frontend" type="2d1252cf:ModuleNode" />
-                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
-                <item name="runtimeClasspath" type="62daadca:ExternalSystemViewDefaultContributor$DependencyScopeExternalSystemNode" />
               </path>
             </expand>
             <select />
@@ -139,7 +132,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="regularisation" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -174,8 +167,20 @@
     "Gradle.FARPA [build].executor": "Run",
     "Gradle.FARPA [clean].executor": "Run",
     "Gradle.FARPA [run].executor": "Run",
+    "Gradle.IBM [:backend:bootRun].executor": "Run",
+    "Gradle.IBM [:backend:bootWar].executor": "Run",
     "Gradle.IBM [:backend:build].executor": "Run",
+    "Gradle.IBM [:backend:clean].executor": "Run",
+    "Gradle.IBM [:backend:war].executor": "Run",
     "Gradle.IBM [:frontend:build].executor": "Run",
+    "Gradle.IBM [:frontend:run].executor": "Run",
+    "Gradle.IBM [bootJar].executor": "Run",
+    "Gradle.IBM [bootRun].executor": "Run",
+    "Gradle.IBM [buildDependents].executor": "Run",
+    "Gradle.IBM [build].executor": "Run",
+    "Gradle.IBM [init].executor": "Run",
+    "Gradle.IBM [run].executor": "Run",
+    "Gradle.IBM [wrapper].executor": "Run",
     "Gradle.IBM.executor": "Run",
     "Gradle.IBM_copy [:backend:bootRun].executor": "Run",
     "Gradle.IBM_copy [:backend:buildDependents].executor": "Run",
@@ -209,8 +214,8 @@
       <recent name="C:\Users\Alexander\IdeaProjects\IBM\frontend" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.IBM_copy [run]">
-    <configuration name="IBM_copy [:backend:bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Gradle.IBM [run]">
+    <configuration name="IBM [:backend:bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -235,7 +240,32 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="IBM_copy [:frontend:run]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="IBM [:frontend:build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":frontend:build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="IBM [:frontend:run]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -260,32 +290,7 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="IBM_copy [bootJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="bootJar" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <GradleProfilingDisabled>false</GradleProfilingDisabled>
-      <GradleCoverageDisabled>false</GradleCoverageDisabled>
-      <method v="2" />
-    </configuration>
-    <configuration name="IBM_copy [bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="IBM [bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -310,7 +315,7 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="IBM_copy [run]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="IBM [run]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -344,11 +349,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.IBM_copy [run]" />
-        <item itemvalue="Gradle.IBM_copy [:backend:bootRun]" />
-        <item itemvalue="Gradle.IBM_copy [:frontend:run]" />
-        <item itemvalue="Gradle.IBM_copy [bootRun]" />
-        <item itemvalue="Gradle.IBM_copy [bootJar]" />
+        <item itemvalue="Gradle.IBM [run]" />
+        <item itemvalue="Gradle.IBM [:frontend:run]" />
+        <item itemvalue="Gradle.IBM [:backend:bootRun]" />
+        <item itemvalue="Gradle.IBM [bootRun]" />
+        <item itemvalue="Gradle.IBM [:frontend:build]" />
       </list>
     </recent_temporary>
   </component>
@@ -410,7 +415,255 @@
       <option name="project" value="LOCAL" />
       <updated>1768337792663</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Changed deploy.yml to mv the right war file">
+      <option name="closed" value="true" />
+      <created>1768340697715</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1768340697715</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Fallback to CSV files for now for testing deployment">
+      <option name="closed" value="true" />
+      <created>1768341395817</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1768341395817</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Fixes to CSV file parser">
+      <option name="closed" value="true" />
+      <created>1768343279118</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1768343279118</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Improved error-logging for debugging">
+      <option name="closed" value="true" />
+      <created>1768343679341</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1768343679341</updated>
+    </task>
+    <task id="LOCAL-00010" summary="CSV no longer triggers PostgreSQL db access">
+      <option name="closed" value="true" />
+      <created>1768344075376</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1768344075376</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Update yml script to give PostgreSQL connection string">
+      <option name="closed" value="true" />
+      <created>1768345572473</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1768345572473</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Changes to yml file again">
+      <option name="closed" value="true" />
+      <created>1768345829457</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1768345829457</updated>
+    </task>
+    <task id="LOCAL-00013" summary="application.properties changes to build up the jdbc url for sql integration">
+      <option name="closed" value="true" />
+      <created>1768347501771</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1768347501771</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Created a PwdbImportJob class to have a command line interface for SQL database creation">
+      <option name="closed" value="true" />
+      <created>1768352381944</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1768352381945</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Deploy backend plain war">
+      <option name="closed" value="true" />
+      <created>1768353483657</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1768353483657</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Some more error logging in main and PwdbImportJob">
+      <option name="closed" value="true" />
+      <created>1768353798980</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1768353798980</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Changes to deploy.yml">
+      <option name="closed" value="true" />
+      <created>1768354188764</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1768354188764</updated>
+    </task>
+    <task id="LOCAL-00018" summary="bootRun before deploying implemented">
+      <option name="closed" value="true" />
+      <created>1768354752232</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1768354752232</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Changed main for starting Spring">
+      <option name="closed" value="true" />
+      <created>1768355290147</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1768355290147</updated>
+    </task>
+    <task id="LOCAL-00020" summary="PingServlet for debugging">
+      <option name="closed" value="true" />
+      <created>1768355884816</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1768355884816</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Changed port number">
+      <option name="closed" value="true" />
+      <created>1768356143725</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1768356143725</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Trying to switch to procfile and jar builds">
+      <option name="closed" value="true" />
+      <created>1768356766340</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1768356766340</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Changed deploy file">
+      <option name="closed" value="true" />
+      <created>1768357064435</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1768357064435</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Make sure Tomcat works">
+      <option name="closed" value="true" />
+      <created>1768358249087</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1768358249087</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Another deploy">
+      <option name="closed" value="true" />
+      <created>1768359657262</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1768359657262</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Deleted Procfile">
+      <option name="closed" value="true" />
+      <created>1768359944655</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1768359944655</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Another deploy">
+      <option name="closed" value="true" />
+      <created>1768360171616</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1768360171616</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Updated procfile">
+      <option name="closed" value="true" />
+      <created>1768362070994</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1768362070994</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Rollback to one of the first deploy">
+      <option name="closed" value="true" />
+      <created>1768362415061</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1768362415061</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Trying to find the file">
+      <option name="closed" value="true" />
+      <created>1768362721152</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1768362721152</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Fixes in build.gradle">
+      <option name="closed" value="true" />
+      <created>1768362987526</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1768362987526</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Fixes in build.gradle">
+      <option name="closed" value="true" />
+      <created>1768363155506</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1768363155506</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Server port is 8888">
+      <option name="closed" value="true" />
+      <created>1768364060482</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1768364060482</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Fallback to previous deploy files">
+      <option name="closed" value="true" />
+      <created>1768367462781</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1768367462781</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Deleted Root.war">
+      <option name="closed" value="true" />
+      <created>1768367709271</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1768367709272</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Another deploy.yml">
+      <option name="closed" value="true" />
+      <created>1768367974910</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1768367974910</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -440,10 +693,32 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Reorganised repo to have separate modules for frontend and backend; Impelmented DicroticNotchDetector.java to find the intex of the dicrotic notch from a given pressure wave; no tests yet" />
-    <MESSAGE value="Built Project, Merged Regularization with main." />
-    <MESSAGE value="Deployment to Tsuru in progress, updated API source code" />
-    <option name="LAST_COMMIT_MESSAGE" value="Deployment to Tsuru in progress, updated API source code" />
+    <MESSAGE value="CSV no longer triggers PostgreSQL db access" />
+    <MESSAGE value="Update yml script to give PostgreSQL connection string" />
+    <MESSAGE value="Changes to yml file again" />
+    <MESSAGE value="application.properties changes to build up the jdbc url for sql integration" />
+    <MESSAGE value="Created a PwdbImportJob class to have a command line interface for SQL database creation" />
+    <MESSAGE value="Deploy backend plain war" />
+    <MESSAGE value="Some more error logging in main and PwdbImportJob" />
+    <MESSAGE value="Changes to deploy.yml" />
+    <MESSAGE value="bootRun before deploying implemented" />
+    <MESSAGE value="Changed main for starting Spring" />
+    <MESSAGE value="PingServlet for debugging" />
+    <MESSAGE value="Changed port number" />
+    <MESSAGE value="Trying to switch to procfile and jar builds" />
+    <MESSAGE value="Changed deploy file" />
+    <MESSAGE value="Make sure Tomcat works" />
+    <MESSAGE value="Deleted Procfile" />
+    <MESSAGE value="Another deploy" />
+    <MESSAGE value="Updated procfile" />
+    <MESSAGE value="Rollback to one of the first deploy" />
+    <MESSAGE value="Trying to find the file" />
+    <MESSAGE value="Fixes in build.gradle" />
+    <MESSAGE value="Server port is 8888" />
+    <MESSAGE value="Fallback to previous deploy files" />
+    <MESSAGE value="Deleted Root.war" />
+    <MESSAGE value="Another deploy.yml" />
+    <option name="LAST_COMMIT_MESSAGE" value="Another deploy.yml" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

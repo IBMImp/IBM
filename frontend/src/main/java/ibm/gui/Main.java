@@ -1,6 +1,5 @@
 package ibm.gui;
 
-import application.ReservoirService;
 import ibm.controller.RealtimeController;
 
 import javax.swing.*;

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import application.ReservoirService;
+import service.FrontendService;
 import model.ArterySite;
 import model.PressureSignal;
 import model.ReservoirResult;
@@ -24,11 +24,11 @@ import java.util.Map;
 @RequestMapping("/api")
 public class ApiController {
     private final DataSource dataSource;
-    private final ReservoirService reservoirService;
+    private final FrontendService frontendService;
 
-    public ApiController(DataSource dataSource, ReservoirService reservoirService) {
+    public ApiController(DataSource dataSource, FrontendService frontendService) {
         this.dataSource = dataSource;
-        this.reservoirService = reservoirService;
+        this.frontendService = frontendService;
     }
 
     @GetMapping("/health")
@@ -66,8 +66,8 @@ public class ApiController {
                                        @RequestParam(value = "sampleRateHz", required = false) Double sampleRateHz) {
         ArterySite site = resolveSite(arterySite);
         Double normalizedSampleRateHz = normalizeSampleRate(sampleRateHz);
-        ReservoirService.ComputationOutput output =
-                reservoirService.compute(
+        FrontendService.ComputationOutput output =
+                frontendService.compute(
                         dataPath == null ? null : java.nio.file.Path.of(dataPath),
                         patientId,
                         site,
@@ -76,7 +76,7 @@ public class ApiController {
         PressureSignal raw = output.raw();
         ReservoirResult result = output.result();
         double responseSampleRateHz = normalizedSampleRateHz == null
-                ? reservoirService.getSampleRateHz()
+                ? frontendService.getSampleRateHz()
                 : normalizedSampleRateHz;
         return new ComputationResponse(
                 raw.getPressure(),

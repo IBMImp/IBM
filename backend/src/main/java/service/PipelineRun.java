@@ -3,7 +3,6 @@ package service;
 import calculation.ReservoirCalculator;
 import estimation.DiastolicParameterEstimator;
 import estimation.SystolicParameterEstimator;
-import model.PressureSignal;
 import model.ReservoirResult;
 import preprocessing.*;
 
@@ -11,13 +10,13 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class BackendService {
+public class PipelineRun {
 
     private final ReservoirComputationPipeline pipeline;
 
-    private static final Logger LOGGER = Logger.getLogger(BackendService.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(PipelineRun.class.getName());
 
-    public BackendService(BeatExtractor beatExtractor, BeatRegulariser beatRegulariser) {
+    public PipelineRun(BeatExtractor beatExtractor, BeatRegulariser beatRegulariser) {
 
         Objects.requireNonNull(beatExtractor, "beatExtractor cannot be null");
         Objects.requireNonNull(beatRegulariser, "beatRegulariser cannot be null");

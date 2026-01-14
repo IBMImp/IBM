@@ -14,6 +14,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Objects;
@@ -22,6 +23,9 @@ import java.util.logging.*;
 
 
 public class GUIController {
+    private static final String DEFAULT_DATA_DIR = "../virtualPatientData/pwdb/PWs/CSV";
+    private static final String DATA_PATH_ENV = "APP_DATA_PATH";
+    private static final String DATA_PATH_PROPERTY = "app.data.path";
 
     private static Logger logger;
     private JPanel cards;
@@ -450,7 +454,7 @@ public class GUIController {
                         logger.severe(ex.getMessage());
                     }
                 } else {
-                    configureBackend(null);
+                    configureBackend(resolveDefaultDatabaseFile(AppState.currentSettings.arterySite));
                 }
             } catch (SetupValueException e) {
                 logger.warning("The value entered for Sample Rate is Invalid. Ensure sample rate is a Positive" +
@@ -492,6 +496,30 @@ public class GUIController {
                 }
         );
         rt.prepare();
+    }
+
+    private Path resolveDefaultDatabaseFile(ArterySite arterySite) {
+        ArterySite selectedSite = arterySite == null ? ArterySite.AorticRoot : arterySite;
+        String fromProperty = System.getProperty(DATA_PATH_PROPERTY);
+        if (fromProperty != null && !fromProperty.isBlank()) {
+            Path path = Path.of(fromProperty);
+            return resolveCsvPath(path, selectedSite);
+        }
+        String fromEnv = System.getenv(DATA_PATH_ENV);
+        if (fromEnv != null && !fromEnv.isBlank()) {
+            Path path = Path.of(fromEnv);
+            return resolveCsvPath(path, selectedSite);
+        }
+        Path defaultDir = Path.of(DEFAULT_DATA_DIR);
+        return resolveCsvPath(defaultDir, selectedSite);
+    }
+
+    private Path resolveCsvPath(Path basePath, ArterySite arterySite) {
+        if (Files.isDirectory(basePath)) {
+            Path candidate = basePath.resolve(arterySite.pressureFileName());
+            return Files.exists(candidate) ? candidate : null;
+        }
+        return Files.exists(basePath) ? basePath : null;
     }
 
 
