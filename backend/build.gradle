@@ -10,7 +10,7 @@ springBoot {
 }
 
 bootWar {
-    enabled = false
+    enabled = true
 }
 
 war {
