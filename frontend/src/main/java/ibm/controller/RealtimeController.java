@@ -18,7 +18,10 @@ import java.util.function.Consumer;
 public final class RealtimeController {
     private static final String BACKEND_URL_ENV = "BACKEND_BASE_URL";
     private static final String BACKEND_URL_PROPERTY = "backend.base.url";
+    private static final String BACKEND_API_PATH_ENV = "BACKEND_API_PATH";
+    private static final String BACKEND_API_PATH_PROPERTY = "backend.api.path";
     private static final String DEFAULT_BACKEND_BASE_URL = "http://localhost:8888";
+    private static final String DEFAULT_BACKEND_API_PATH = "/api/compute";
 
     private Path databaseFile;
     private double fsHz;
@@ -146,18 +149,23 @@ public final class RealtimeController {
 
     private URI buildComputeUri(ArterySite site) {
         String base = backendBaseUrl.endsWith("/") ? backendBaseUrl.substring(0, backendBaseUrl.length() - 1) : backendBaseUrl;
+        String apiPath = resolveBackendApiPath();
         StringBuilder query = new StringBuilder();
         appendQueryParam(query, "patientId", patientId);
         appendQueryParam(query, "arterySite", site.token());
         appendQueryParam(query, "sampleRateHz", Double.toString(fsHz));
-        return URI.create(base + "/api/compute?" + query);
+        if (apiPath.startsWith("http://") || apiPath.startsWith("https://")) {
+            return URI.create(apiPath + "?" + query);
+        }
+        String normalizedPath = apiPath.startsWith("/") ? apiPath : "/" + apiPath;
+        return URI.create(base + normalizedPath + "?" + query);
     }
 
     private String buildErrorMessage(Exception ex) {
         Throwable cause = ex instanceof ConnectException ? ex : ex.getCause();
         if (cause instanceof ConnectException) {
             return "Error: Unable to reach backend at " + backendBaseUrl
-                    + ". Set BACKEND_BASE_URL or -Dbackend.base.url.";
+                    + ". Set BACKEND_BASE_URL/BACKEND_API_PATH or -Dbackend.base.url/-Dbackend.api.path.";
         }
         return "Error: " + ex.getMessage();
     }
@@ -188,6 +196,18 @@ public final class RealtimeController {
             return fromEnv;
         }
         return DEFAULT_BACKEND_BASE_URL;
+    }
+
+    private static String resolveBackendApiPath() {
+        String fromProperty = System.getProperty(BACKEND_API_PATH_PROPERTY);
+        if (fromProperty != null && !fromProperty.isBlank()) {
+            return fromProperty;
+        }
+        String fromEnv = System.getenv(BACKEND_API_PATH_ENV);
+        if (fromEnv != null && !fromEnv.isBlank()) {
+            return fromEnv;
+        }
+        return DEFAULT_BACKEND_API_PATH;
     }
 
     private record WaveformPayload(double[] pressure, double[] reservoirPressure, double[] excessPressure,
