@@ -19,11 +19,15 @@ jobs:
           distribution: temurin
           java-version: '17'   # if your course requires 11, change to 11
 
-      - name: Build backend WAR (bootWar)
+      - name: Build
         run: |
           chmod +x gradlew
-          ./gradlew :backend:clean :backend:bootWar
-          ls -lh backend/build/libs
+          ./gradlew :backend:clean :backend:war
+
+      - name: Rename war file (use plain WAR for external Tomcat)
+        run: |
+          ls -lah backend/build/libs
+          mv backend/build/libs/*-plain.war ROOT.war
 
       - name: Prepare deploy folder (ROOT.war only)
         run: |
