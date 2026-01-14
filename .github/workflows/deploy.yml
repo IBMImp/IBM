@@ -16,7 +16,7 @@ jobs:
       - name: Build
         run: |
           chmod +x gradlew
-          ./gradlew build
+          ./gradlew :backend:clean :backend:bootJar
 
       - name: Install Tsuru CLI
         run: |
@@ -30,14 +30,13 @@ jobs:
         run: |
           tsuru target-add default $TSURU_HOST -s
 
-      - name: Rename war file
+      - name: Prepare artifact
         run: |
-          mv ./backend/build/libs/backend-1.0-SNAPSHOT.war ./ROOT.war
+          cp backend/build/libs/backend-1.0-SNAPSHOT.jar app.jar
 
       - name: Deploy to Tsuru
         env:
           TSURU_TOKEN: ${{ secrets.TSURU_TOKEN }}
-          GODEBUG: http2client=0
         run: |
-          tsuru app-deploy -a bioeng-ibm-app ROOT.war
+          tsuru app-deploy -a bioeng-ibm-app app.jar
 
