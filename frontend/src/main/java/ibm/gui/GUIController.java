@@ -17,6 +17,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.logging.*;
@@ -202,25 +203,35 @@ public class GUIController {
         JMenuItem lookMenu = createLookMenu();
         menuBar.add(lookMenu);
 
-        JMenuItem helpMenu = createHelpMenu(f);
+        JMenu helpMenu = createHelpMenu(f);
         menuBar.add(helpMenu);
         return menuBar;
     }
 
     //Creates the help menu with all the help text in HTML format for text wrapping
-    private JMenuItem createHelpMenu(Font f) {
-        JMenuItem helpMenu = new JMenuItem("Help");
+    private JMenu createHelpMenu(Font f) {
+        JMenu helpMenu = new JMenu("Help");
         helpMenu.setIcon(new FlatSVGIcon("icons/help.svg",16,16));
-        helpMenu.addActionListener(event->{
-            JOptionPane helpMenuOptionPane = new JOptionPane();
 
-            helpMenuOptionPane.setMessage("<html><body><p style='width: 200px;'>"+"There ain't no help where you're looking and now this is just testing if the " +
-                    "thing will wrap because it should but im not 100% sure it will because Ive never tried this before really and it would be very cool if it did." +
-                    " Obviously this is yappery and absolutely useless but ehhhhhh"+"</p></body></html>"); //TODO Actual HELP
-            helpMenuOptionPane.setFont(f);
-            JOptionPane.showMessageDialog(helpMenuOptionPane,helpMenuOptionPane.getMessage(),"Help",JOptionPane.INFORMATION_MESSAGE);
-        });
+        JMenuItem showHelpItem = new JMenuItem("Show Help");
+        showHelpItem.addActionListener(event -> SwingUtilities.invokeLater(() -> showHelpDialog(f)));
+        helpMenu.add(showHelpItem);
         return helpMenu;
+    }
+
+    private void showHelpDialog(Font f) {
+        JOptionPane helpMenuOptionPane = new JOptionPane();
+
+        helpMenuOptionPane.setMessage("<html><body><p style='width: 280px;'>" +
+                "<strong>Important information:</strong><br>" +
+                "The systole\u2013diastole dashed line is identified using waveform features (inflection points). " +
+                "For very smooth or low-feature data, where these features cannot be reliably detected, the software " +
+                "may not display the dashed line.<br><br>" +
+                "If you encounter any other issues or unexpected behavior, please contact " +
+                "acertainemail@example.com." +
+                "</p></body></html>");
+        helpMenuOptionPane.setFont(f);
+        JOptionPane.showMessageDialog(helpMenuOptionPane,helpMenuOptionPane.getMessage(),"Help",JOptionPane.INFORMATION_MESSAGE);
     }
 
     //Creates the monitor menu with save graph, load graph, and clear graph
@@ -442,11 +453,13 @@ public class GUIController {
         //Finish Setup Button, Writes all setup settings into AppState.currentSettings Record
         setupPage.getButton_finish_setup().addActionListener(event -> {
             try {
-                AppState.currentSettings = new SetupSettings(setupPage.getPatientName().trim(),
-                        setupPage.getNumWaveForms(),
-                        setupPage.getSampleRate(),
-                        setupPage.getPatientId(),
-                        setupPage.getArterySite());
+                String patientName = setupPage.getPatientName().trim();
+                int numWaveForms = setupPage.getNumWaveForms();
+                int sampleRate = setupPage.getSampleRate();
+                int patientId = setupPage.getPatientId();
+                ArterySite arterySite = setupPage.getArterySite();
+                validatePatientIdRange(resolveDefaultDatabaseFile(arterySite), patientId);
+                AppState.currentSettings = new SetupSettings(patientName, numWaveForms, sampleRate, patientId, arterySite);
                 if(!this.showMonitorPage()) {
                     try {
                         throw new Exception("Switch to Monitor Page Failed");
@@ -457,10 +470,8 @@ public class GUIController {
                     configureBackend(resolveDefaultDatabaseFile(AppState.currentSettings.arterySite));
                 }
             } catch (SetupValueException e) {
-                logger.warning("The value entered for Sample Rate is Invalid. Ensure sample rate is a Positive" +
-                        "Integer.");
-                JOptionPane.showMessageDialog(null, "Sample Rate must be a Positive Integer", "Sample Rate " +
-                        "Error", JOptionPane.ERROR_MESSAGE);
+                logger.warning("Setup validation failed: " + e.getMessage());
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Setup Error", JOptionPane.ERROR_MESSAGE);
             }
 
         });
@@ -479,6 +490,13 @@ public class GUIController {
     }
 
     private void configureBackend(Path databaseFile) {
+        try {
+            validatePatientIdRange(databaseFile, AppState.currentSettings.patientID);
+        } catch (SetupValueException e) {
+            logger.warning("Setup validation failed: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Setup Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         rt.configure(
                 databaseFile,
@@ -496,6 +514,55 @@ public class GUIController {
                 }
         );
         rt.prepare();
+    }
+
+    private void validatePatientIdRange(Path databaseFile, int patientId) throws SetupValueException {
+        if (databaseFile == null || patientId <= 0) {
+            return;
+        }
+        String fileName = databaseFile.getFileName().toString().toLowerCase(Locale.ROOT);
+        if (!fileName.endsWith(".csv")) {
+            return;
+        }
+        int totalPatients = countPatientRows(databaseFile);
+        if (totalPatients <= 0) {
+            throw new SetupValueException("No patient rows found in " + databaseFile.getFileName() + ".");
+        }
+        if (patientId > totalPatients) {
+            throw new SetupValueException("Patient ID is out of bounds. Enter a value between 1 and " + totalPatients + ".");
+        }
+    }
+
+    private int countPatientRows(Path csvFile) throws SetupValueException {
+        try (BufferedReader br = Files.newBufferedReader(csvFile)) {
+            String line;
+            int count = 0;
+            while ((line = br.readLine()) != null) {
+                if (line.isBlank()) {
+                    continue;
+                }
+                String[] parts = line.split(",");
+                if (parts.length < 2) {
+                    continue;
+                }
+                String id = parts[0].trim();
+                if (looksLikeHeader(id)) {
+                    continue;
+                }
+                count++;
+            }
+            return count;
+        } catch (IOException e) {
+            throw new SetupValueException("Unable to read patient data from " + csvFile.getFileName() + ".");
+        }
+    }
+
+    private boolean looksLikeHeader(String cell) {
+        String normalized = cell.toLowerCase(Locale.ROOT);
+        return normalized.equals("patient")
+                || normalized.equals("patientid")
+                || normalized.equals("subject number")
+                || normalized.startsWith("#");
     }
 
     private Path resolveDefaultDatabaseFile(ArterySite arterySite) {

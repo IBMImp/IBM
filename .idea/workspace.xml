@@ -4,20 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Another deploy.yml">
+    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Reogranisation of backend for clearer structure; Now defaults to localhost for backend calculation; Allows for choosing arterial site">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/build/tmp/jar/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/tmp/jar/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/application/ReservoirService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/service/FrontendService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/deployment/ApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/deployment/ApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/deployment/AppConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/deployment/AppConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/service/BackendService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/service/PipelineRun.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/ibm/controller/RealtimeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/controller/RealtimeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/libs/backend-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build/libs/backend-1.0-SNAPSHOT.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/GUIController.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/GUIController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/MonitorPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/MonitorPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/SetupPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main/java/ibm/gui/design/SetupPage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -215,56 +211,6 @@
     </key>
   </component>
   <component name="RunManager" selected="Gradle.IBM [run]">
-    <configuration name="IBM [:backend:bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":backend:bootRun" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <GradleProfilingDisabled>false</GradleProfilingDisabled>
-      <GradleCoverageDisabled>false</GradleCoverageDisabled>
-      <method v="2" />
-    </configuration>
-    <configuration name="IBM [:frontend:build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":frontend:build" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <GradleProfilingDisabled>false</GradleProfilingDisabled>
-      <GradleCoverageDisabled>false</GradleCoverageDisabled>
-      <method v="2" />
-    </configuration>
     <configuration name="IBM [:frontend:run]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -290,6 +236,31 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
+    <configuration name="IBM [bootJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="bootJar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
+      <method v="2" />
+    </configuration>
     <configuration name="IBM [bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -302,6 +273,31 @@
         <option name="taskNames">
           <list>
             <option value="bootRun" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="IBM [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -350,10 +346,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.IBM [run]" />
-        <item itemvalue="Gradle.IBM [:frontend:run]" />
-        <item itemvalue="Gradle.IBM [:backend:bootRun]" />
         <item itemvalue="Gradle.IBM [bootRun]" />
-        <item itemvalue="Gradle.IBM [:frontend:build]" />
+        <item itemvalue="Gradle.IBM [build]" />
+        <item itemvalue="Gradle.IBM [bootJar]" />
+        <item itemvalue="Gradle.IBM [:frontend:run]" />
       </list>
     </recent_temporary>
   </component>
@@ -663,7 +659,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768367974910</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Reogranisation of backend for clearer structure; Now defaults to localhost for backend calculation; Allows for choosing arterial site">
+      <option name="closed" value="true" />
+      <created>1768370939295</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1768370939295</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -693,7 +697,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="CSV no longer triggers PostgreSQL db access" />
     <MESSAGE value="Update yml script to give PostgreSQL connection string" />
     <MESSAGE value="Changes to yml file again" />
     <MESSAGE value="application.properties changes to build up the jdbc url for sql integration" />
@@ -718,7 +721,8 @@
     <MESSAGE value="Fallback to previous deploy files" />
     <MESSAGE value="Deleted Root.war" />
     <MESSAGE value="Another deploy.yml" />
-    <option name="LAST_COMMIT_MESSAGE" value="Another deploy.yml" />
+    <MESSAGE value="Reogranisation of backend for clearer structure; Now defaults to localhost for backend calculation; Allows for choosing arterial site" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reogranisation of backend for clearer structure; Now defaults to localhost for backend calculation; Allows for choosing arterial site" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

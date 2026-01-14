@@ -77,20 +77,30 @@ public class SetupPage {
     public int getPatientId() throws SetupValueException {
         try {
             int val = Integer.parseInt(Objects.requireNonNull(patientID.getText()));
-            if (Integer.signum(val) == 1) return val;
-            else throw new Exception();
+            if (val > 0) {
+                return val;
+            }
+            throw new SetupValueException("Patient ID must be a positive integer.");
         } catch (Exception ex) {
-            throw new SetupValueException("Non Integer Value Entered");
+            if (ex instanceof SetupValueException) {
+                throw (SetupValueException) ex;
+            }
+            throw new SetupValueException("Patient ID must be a positive integer.");
         }
     }
 
     public int getSampleRate() throws SetupValueException {
         try {
             int val = Integer.parseInt(Objects.requireNonNull(sampleRateField.getText()));
-            if (Integer.signum(val) == 1) return val;
-            else throw new Exception();
+            if (val > 0) {
+                return val;
+            }
+            throw new SetupValueException("Sample Rate must be a positive integer.");
         } catch (Exception ex) {
-            throw new SetupValueException("Non Integer Value Entered");
+            if (ex instanceof SetupValueException) {
+                throw (SetupValueException) ex;
+            }
+            throw new SetupValueException("Sample Rate must be a positive integer.");
         }
     }
 

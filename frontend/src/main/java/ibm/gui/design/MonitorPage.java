@@ -46,6 +46,7 @@ public class MonitorPage {
     // the actual vertical markers
     private ValueMarker sdMarkerBP;
     private ValueMarker sdMarkerOverlay;
+    private ValueMarker sdMarkerBoth;
 
     private boolean showSdLine = true;
     private Double lastSdTime = null;
@@ -95,14 +96,17 @@ public class MonitorPage {
         if (overlayChartPanel != null) addSdLegendToChart(overlayChartPanel.getChart());
         if (bpTabChartPanel != null) addSdLegendToChart(bpTabChartPanel.getChart());
 
-        updateSdMarker(bpTabChartPanel, false);
-        updateSdMarker(overlayChartPanel, true);
+        updateSdMarker(bpTabChartPanel, SdMarkerTarget.BP_TAB);
+        updateSdMarker(overlayChartPanel, SdMarkerTarget.OVERLAY);
+        updateSdMarker(bothPressureChartPanel, SdMarkerTarget.BOTH);
 
         styleSdMarker(sdMarkerBP);
         styleSdMarker(sdMarkerOverlay);
+        styleSdMarker(sdMarkerBoth);
 
         if (bpTabChartPanel != null) bpTabChartPanel.repaint();
         if (overlayChartPanel != null) overlayChartPanel.repaint();
+        if (bothPressureChartPanel != null) bothPressureChartPanel.repaint();
 
         Color t = currentChartTheme().text;
         if (sdToggleBP != null) sdToggleBP.setForeground(t);
@@ -195,8 +199,9 @@ public class MonitorPage {
 
         OverlayPanel.add(overlayControls, BorderLayout.SOUTH);
 
-        updateSdMarker(bpTabChartPanel, false);
-        updateSdMarker(overlayChartPanel, true);
+        updateSdMarker(bpTabChartPanel, SdMarkerTarget.BP_TAB);
+        updateSdMarker(overlayChartPanel, SdMarkerTarget.OVERLAY);
+        updateSdMarker(bothPressureChartPanel, SdMarkerTarget.BOTH);
 
         // refresh
         arppCont.revalidate(); arppCont.repaint();
@@ -286,7 +291,7 @@ public class MonitorPage {
             sdMarkerBP = null; // force recreate when showing
 
             if (show) {
-                updateSdMarker(bpTabChartPanel, false); // will create+add marker
+                updateSdMarker(bpTabChartPanel, SdMarkerTarget.BP_TAB); // will create+add marker
             }
 
             addSdLegendToChart(bpTabChartPanel.getChart());
@@ -306,13 +311,30 @@ public class MonitorPage {
             sdMarkerOverlay = null; // force recreate when showing
 
             if (show) {
-                updateSdMarker(overlayChartPanel, true);
+                updateSdMarker(overlayChartPanel, SdMarkerTarget.OVERLAY);
             }
 
             addSdLegendToChart(overlayChartPanel.getChart());
 
             overlayChartPanel.getChart().fireChartChanged();
             overlayChartPanel.repaint();
+        }
+
+        // Both charts tab - BP plot
+        if (bothPressureChartPanel != null && bothPressureChartPanel.getChart() != null) {
+            XYPlot p = bothPressureChartPanel.getChart().getXYPlot();
+
+            if (sdMarkerBoth != null) {
+                p.removeDomainMarker(sdMarkerBoth);
+            }
+            sdMarkerBoth = null;
+
+            if (show) {
+                updateSdMarker(bothPressureChartPanel, SdMarkerTarget.BOTH);
+            }
+
+            bothPressureChartPanel.getChart().fireChartChanged();
+            bothPressureChartPanel.repaint();
         }
 
         // keep checkboxes synced
@@ -544,7 +566,7 @@ public class MonitorPage {
         return t[best];
     }
 
-    private void updateSdMarker(ChartPanel panel, boolean overlay) {
+    private void updateSdMarker(ChartPanel panel, SdMarkerTarget target) {
         if (panel == null || panel.getChart() == null) return;
         if (!showSdLine) return;
 
@@ -559,15 +581,22 @@ public class MonitorPage {
 
 
         XYPlot plot = panel.getChart().getXYPlot();
-        ValueMarker marker = overlay ? sdMarkerOverlay : sdMarkerBP;
+        ValueMarker marker = switch (target) {
+            case OVERLAY -> sdMarkerOverlay;
+            case BOTH -> sdMarkerBoth;
+            case BP_TAB -> sdMarkerBP;
+        };
 
         if (marker == null) {
             marker = new ValueMarker(tSD);
             styleSdMarker(marker);
             plot.addDomainMarker(marker);
 
-            if (overlay) sdMarkerOverlay = marker;
-            else sdMarkerBP = marker;
+            switch (target) {
+                case OVERLAY -> sdMarkerOverlay = marker;
+                case BOTH -> sdMarkerBoth = marker;
+                case BP_TAB -> sdMarkerBP = marker;
+            }
         } else {
             marker.setValue(tSD);
             styleSdMarker(marker);
@@ -583,6 +612,12 @@ public class MonitorPage {
         if (chart == null) return;
         LegendTitle legend = chart.getLegend();
         if (legend != null) legend.setVisible(visible);
+    }
+
+    private enum SdMarkerTarget {
+        BP_TAB,
+        OVERLAY,
+        BOTH
     }
 
     private static int findLastLocalMax(double[] a) {
@@ -630,8 +665,9 @@ public class MonitorPage {
         markerTick++;
         if (markerTick % 10 == 0) {
             SwingUtilities.invokeLater(() -> {
-                updateSdMarker(bpTabChartPanel, false);
-                updateSdMarker(overlayChartPanel, true);
+                updateSdMarker(bpTabChartPanel, SdMarkerTarget.BP_TAB);
+                updateSdMarker(overlayChartPanel, SdMarkerTarget.OVERLAY);
+                updateSdMarker(bothPressureChartPanel, SdMarkerTarget.BOTH);
             });
         }
     }
