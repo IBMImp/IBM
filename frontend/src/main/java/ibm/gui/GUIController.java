@@ -228,7 +228,7 @@ public class GUIController {
                 "For very smooth or low-feature data, where these features cannot be reliably detected, the software " +
                 "may not display the dashed line.<br><br>" +
                 "If you encounter any other issues or unexpected behavior, please contact " +
-                "acertainemail@example.com." +
+                "ibmgroup.help@gmail.com." +
                 "</p></body></html>");
         helpMenuOptionPane.setFont(f);
         JOptionPane.showMessageDialog(helpMenuOptionPane,helpMenuOptionPane.getMessage(),"Help",JOptionPane.INFORMATION_MESSAGE);
