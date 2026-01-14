@@ -13,54 +13,45 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "17"
-
-      - name: Build backend WAR (Tomcat-compatible)
+      - name: Build backend WAR
         run: |
           chmod +x gradlew
           ./gradlew :backend:clean :backend:war
 
-      - name: Install Tsuru CLI
-        run: |
-          curl -fsSL https://raw.githubusercontent.com/tsuru/tsuru-client/master/install.sh | sh
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-          echo "Tsuru CLI installed"
-          tsuru version || true
-
-      - name: Add Target
-        env:
-          TSURU_HOST: ${{ secrets.TSURU_HOST }}
-        run: |
-          tsuru target-add default "$TSURU_HOST" -s
-          tsuru target-set default
-
-      - name: Prepare deploy artifact (ROOT.war)
+      - name: Stage ROOT.war
         run: |
           rm -rf deploy
           mkdir -p deploy
 
-          echo "Artifacts in backend/build/libs:"
+          echo "=== backend/build/libs ==="
           ls -lah backend/build/libs || true
 
-          # Prefer plain WAR (external Tomcat deployment)
+          # Prefer Tomcat-friendly "plain" war if present
           WAR="$(ls -1 backend/build/libs/*-plain.war 2>/dev/null | head -n 1)"
           if [ -z "$WAR" ]; then
-            # Fallback: any WAR
             WAR="$(ls -1 backend/build/libs/*.war 2>/dev/null | head -n 1)"
           fi
 
           if [ -z "$WAR" ]; then
-            echo "No .war produced in backend/build/libs"
+            echo "ERROR: No WAR produced"
             exit 1
           fi
 
           echo "Using WAR: $WAR"
           cp "$WAR" deploy/ROOT.war
           ls -lah deploy/ROOT.war
+
+      - name: Install Tsuru CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/tsuru/tsuru-client/master/install.sh | sh
+          tsuru version || true
+
+      - name: Add target
+        env:
+          TSURU_HOST: ${{ secrets.TSURU_HOST }}
+        run: |
+          tsuru target-add default "$TSURU_HOST" -s || true
+          tsuru target-set default
 
       - name: Deploy to Tsuru
         env:
