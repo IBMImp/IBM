@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Changed deploy file">
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Make sure Tomcat works">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/deploy.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/deploy.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -539,7 +539,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768357064435</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Make sure Tomcat works">
+      <option name="closed" value="true" />
+      <created>1768358249087</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1768358249087</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -590,7 +598,8 @@
     <MESSAGE value="Changed port number" />
     <MESSAGE value="Trying to switch to procfile and jar builds" />
     <MESSAGE value="Changed deploy file" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed deploy file" />
+    <MESSAGE value="Make sure Tomcat works" />
+    <option name="LAST_COMMIT_MESSAGE" value="Make sure Tomcat works" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
