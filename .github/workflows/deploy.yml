@@ -19,25 +19,32 @@ jobs:
           distribution: temurin
           java-version: '17'   # if your course requires 11, change to 11
 
-      - name: Build
+      - name: Build backend
         run: |
           chmod +x gradlew
           ./gradlew :backend:clean :backend:war
 
-      - name: Rename war file (use plain WAR for external Tomcat)
-        run: |
-          ls -lah backend/build/libs
-          mv backend/build/libs/*-plain.war ROOT.war
-
-      - name: Prepare deploy folder (ROOT.war only)
+      - name: Prepare deploy artifact
         run: |
           rm -rf deploy
           mkdir -p deploy
-          # pick the boot war (NOT the plain war)
-          cp backend/build/libs/backend-1.0-SNAPSHOT.war deploy/ROOT.war
-          ls -lh deploy
-          # sanity: ensure controllers are inside the WAR
-          jar tf deploy/ROOT.war | grep -E 'deployment/ApiController.class|deployment/Main.class' | head -n 20
+          echo "Artifacts in backend/build/libs:"
+          ls -lah backend/build/libs
+
+          # Prefer plain WAR (external Tomcat deployment)
+          WAR="$(ls -1 backend/build/libs/*-plain.war 2>/dev/null | head -n 1)"
+          if [ -z "$WAR" ]; then
+            # Fallback: any WAR
+            WAR="$(ls -1 backend/build/libs/*.war 2>/dev/null | head -n 1)"
+          fi
+
+          if [ -z "$WAR" ]; then
+            echo "No .war produced in backend/build/libs"
+            exit 1
+          fi
+
+          echo "Using WAR: $WAR"
+          cp "$WAR" deploy/ROOT.war
 
       - name: Install Tsuru CLI
         run: |
