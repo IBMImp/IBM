@@ -1,66 +1,26 @@
-name: Deploy to Tsuru
+- name: Build backend
+  run: |
+    chmod +x gradlew
+    ./gradlew :backend:clean :backend:war
 
-on:
-  push:
-    branches:
-      - master   # change to main if needed
+- name: Prepare deploy artifact
+  run: |
+    rm -rf deploy
+    mkdir -p deploy
+    echo "Artifacts in backend/build/libs:"
+    ls -lah backend/build/libs
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
+    # Prefer plain WAR (external Tomcat deployment)
+    WAR="$(ls -1 backend/build/libs/*-plain.war 2>/dev/null | head -n 1)"
+    if [ -z "$WAR" ]; then
+      # Fallback: any WAR
+      WAR="$(ls -1 backend/build/libs/*.war 2>/dev/null | head -n 1)"
+    fi
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    if [ -z "$WAR" ]; then
+      echo "No .war produced in backend/build/libs"
+      exit 1
+    fi
 
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'   # if your course requires 11, change to 11
-
-      - name: Build backend
-        run: |
-          chmod +x gradlew
-          ./gradlew :backend:clean :backend:war
-
-      - name: Prepare deploy artifact
-        run: |
-          rm -rf deploy
-          mkdir -p deploy
-          echo "Artifacts in backend/build/libs:"
-          ls -lah backend/build/libs
-
-          # Prefer plain WAR (external Tomcat deployment)
-          WAR="$(ls -1 backend/build/libs/*-plain.war 2>/dev/null | head -n 1)"
-          if [ -z "$WAR" ]; then
-            # Fallback: any WAR
-            WAR="$(ls -1 backend/build/libs/*.war 2>/dev/null | head -n 1)"
-          fi
-
-          if [ -z "$WAR" ]; then
-            echo "No .war produced in backend/build/libs"
-            exit 1
-          fi
-
-          echo "Using WAR: $WAR"
-          cp "$WAR" deploy/ROOT.war
-
-      - name: Install Tsuru CLI
-        run: |
-          curl -fsSL https://raw.githubusercontent.com/tsuru/tsuru-client/master/install.sh | sh
-          tsuru version || true
-
-      - name: Configure Tsuru target
-        env:
-          TSURU_HOST: ${{ secrets.TSURU_HOST }}
-        run: |
-          tsuru target-add default "$TSURU_HOST" -s || true
-          tsuru target-set default
-          tsuru target-list
-
-      - name: Deploy to Tsuru (Tomcat ROOT)
-        env:
-          TSURU_TOKEN: ${{ secrets.TSURU_TOKEN }}
-        run: |
-          tsuru app-deploy -a bioeng-ibm-app deploy
+    echo "Using WAR: $WAR"
+    cp "$WAR" deploy/ROOT.war
