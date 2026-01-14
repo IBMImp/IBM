@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 public final class RealtimeController {
     private static final String BACKEND_URL_ENV = "BACKEND_BASE_URL";
     private static final String BACKEND_URL_PROPERTY = "backend.base.url";
-    private static final String DEFAULT_BACKEND_BASE_URL = "http://localhost:8080";
+    private static final String DEFAULT_BACKEND_BASE_URL = "http://localhost:8888";
 
     private Path databaseFile;
     private double fsHz;
