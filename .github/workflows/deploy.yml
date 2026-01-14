@@ -37,6 +37,7 @@ jobs:
       - name: Deploy to Tsuru
         env:
           TSURU_TOKEN: ${{ secrets.TSURU_TOKEN }}
+          GODEBUG: http2client=0
         run: |
           tsuru app-deploy -a bioeng-ibm-app ROOT.war
 
