@@ -4,11 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Changes to yml file again">
+    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Created a PwdbImportJob class to have a command line interface for SQL database creation">
       <change beforePath="$PROJECT_DIR$/.github/workflows/deploy.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/deploy.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/application/ReservoirService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/application/ReservoirService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/distributions/backend-1.0-SNAPSHOT.tar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/distributions/backend-1.0-SNAPSHOT.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/libs/backend-1.0-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/scripts/backend" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/scripts/backend.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build/tmp/jar/MANIFEST.MF" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,6 +159,8 @@
     "Gradle.FARPA [run].executor": "Run",
     "Gradle.IBM [:backend:bootRun].executor": "Run",
     "Gradle.IBM [:backend:build].executor": "Run",
+    "Gradle.IBM [:backend:clean].executor": "Run",
+    "Gradle.IBM [:backend:war].executor": "Run",
     "Gradle.IBM [:frontend:build].executor": "Run",
     "Gradle.IBM [:frontend:run].executor": "Run",
     "Gradle.IBM [bootJar].executor": "Run",
@@ -195,7 +203,7 @@
       <recent name="C:\Users\Alexander\IdeaProjects\IBM\frontend" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.IBM [:frontend:run]">
+  <component name="RunManager" selected="Gradle.IBM [:backend:war]">
     <configuration name="IBM [:backend:bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -208,6 +216,56 @@
         <option name="taskNames">
           <list>
             <option value=":backend:bootRun" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="IBM [:backend:clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":backend:clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="IBM [:backend:war]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":backend:war" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -246,31 +304,6 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="IBM [bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="bootRun" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <GradleProfilingDisabled>false</GradleProfilingDisabled>
-      <GradleCoverageDisabled>false</GradleCoverageDisabled>
-      <method v="2" />
-    </configuration>
     <configuration name="IBM [run]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -296,31 +329,6 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="IBM [wrapper]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="wrapper" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <GradleProfilingDisabled>false</GradleProfilingDisabled>
-      <GradleCoverageDisabled>false</GradleCoverageDisabled>
-      <method v="2" />
-    </configuration>
     <configuration name="Main" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="FARPA.backend.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="deployment.Main" />
@@ -330,11 +338,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.IBM [:frontend:run]" />
+        <item itemvalue="Gradle.IBM [:backend:war]" />
+        <item itemvalue="Gradle.IBM [:backend:clean]" />
         <item itemvalue="Gradle.IBM [:backend:bootRun]" />
+        <item itemvalue="Gradle.IBM [:frontend:run]" />
         <item itemvalue="Gradle.IBM [run]" />
-        <item itemvalue="Gradle.IBM [bootRun]" />
-        <item itemvalue="Gradle.IBM [wrapper]" />
       </list>
     </recent_temporary>
   </component>
@@ -452,7 +460,23 @@
       <option name="project" value="LOCAL" />
       <updated>1768345829457</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="application.properties changes to build up the jdbc url for sql integration">
+      <option name="closed" value="true" />
+      <created>1768347501771</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1768347501771</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Created a PwdbImportJob class to have a command line interface for SQL database creation">
+      <option name="closed" value="true" />
+      <created>1768352381944</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1768352381945</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -492,7 +516,9 @@
     <MESSAGE value="CSV no longer triggers PostgreSQL db access" />
     <MESSAGE value="Update yml script to give PostgreSQL connection string" />
     <MESSAGE value="Changes to yml file again" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changes to yml file again" />
+    <MESSAGE value="application.properties changes to build up the jdbc url for sql integration" />
+    <MESSAGE value="Created a PwdbImportJob class to have a command line interface for SQL database creation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Created a PwdbImportJob class to have a command line interface for SQL database creation" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
