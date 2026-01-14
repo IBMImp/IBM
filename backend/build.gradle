@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'war'
     id 'org.springframework.boot' version '2.7.18'
     id 'io.spring.dependency-management' version '1.1.4'
 }
@@ -9,8 +8,8 @@ springBoot {
     mainClass = 'deployment.Main'
 }
 
-war {
-    archiveBaseName = 'backend'
+bootJar {
+    archiveFileName = 'backend.jar'
 }
 
 java {
@@ -29,7 +28,7 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    implementation 'org.springframework.boot:spring-boot-starter-tomcat'
     runtimeOnly 'org.postgresql:postgresql:42.7.3'
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
