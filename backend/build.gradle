@@ -9,10 +9,6 @@ springBoot {
     mainClass = 'deployment.Main'
 }
 
-bootWar {
-    enabled = true
-}
-
 war {
     enabled = true
 }

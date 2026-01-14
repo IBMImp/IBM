@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Rollback to one of the first deploy">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/deploy.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/deploy.yml" afterDir="false" />
+    <list default="true" id="7c6d248e-9287-4bbb-b170-c5e9d1cd873d" name="Changes" comment="Fixes in build.gradle">
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/application/ReservoirService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/application/ReservoirService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,6 +100,13 @@
                 <item name="frontend" type="2d1252cf:ModuleNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="application" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="FARPA" type="f1a62948:ProjectNode" />
+                <item name="frontend" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -197,7 +207,7 @@
       <recent name="C:\Users\Alexander\IdeaProjects\IBM\frontend" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.IBM [:backend:bootRun]">
+  <component name="RunManager" selected="Gradle.IBM [:frontend:build]">
     <configuration name="IBM [:backend:bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -248,7 +258,7 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="IBM [:backend:clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="IBM [:backend:war]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -259,7 +269,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value=":backend:clean" />
+            <option value=":backend:war" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -273,7 +283,7 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="IBM [:backend:war]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="IBM [:frontend:build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -284,7 +294,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value=":backend:war" />
+            <option value=":frontend:build" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -332,11 +342,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.IBM [:frontend:build]" />
         <item itemvalue="Gradle.IBM [:backend:bootRun]" />
-        <item itemvalue="Gradle.IBM [:backend:bootWar]" />
         <item itemvalue="Gradle.IBM [:frontend:run]" />
+        <item itemvalue="Gradle.IBM [:backend:bootWar]" />
         <item itemvalue="Gradle.IBM [:backend:war]" />
-        <item itemvalue="Gradle.IBM [:backend:clean]" />
       </list>
     </recent_temporary>
   </component>
@@ -590,7 +600,31 @@
       <option name="project" value="LOCAL" />
       <updated>1768362415061</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Trying to find the file">
+      <option name="closed" value="true" />
+      <created>1768362721152</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1768362721152</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Fixes in build.gradle">
+      <option name="closed" value="true" />
+      <created>1768362987526</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1768362987526</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Fixes in build.gradle">
+      <option name="closed" value="true" />
+      <created>1768363155506</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1768363155506</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -620,8 +654,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Built Project, Merged Regularization with main." />
-    <MESSAGE value="Deployment to Tsuru in progress, updated API source code" />
     <MESSAGE value="Changed deploy.yml to mv the right war file" />
     <MESSAGE value="Fallback to CSV files for now for testing deployment" />
     <MESSAGE value="Fixes to CSV file parser" />
@@ -645,7 +677,9 @@
     <MESSAGE value="Another deploy" />
     <MESSAGE value="Updated procfile" />
     <MESSAGE value="Rollback to one of the first deploy" />
-    <option name="LAST_COMMIT_MESSAGE" value="Rollback to one of the first deploy" />
+    <MESSAGE value="Trying to find the file" />
+    <MESSAGE value="Fixes in build.gradle" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixes in build.gradle" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

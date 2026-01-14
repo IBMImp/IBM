@@ -130,7 +130,7 @@ public final class ReservoirService {
 
     private static String normalizePort(String port) {
         if (port == null || port.isBlank()) {
-            return "5432";
+            return "8888";
         }
         return port.trim();
     }
