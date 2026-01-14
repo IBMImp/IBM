@@ -3,7 +3,7 @@ name: Deploy to Tsuru
 on:
   push:
     branches:
-      - master
+      - master  # Trigger on push to the main branch. Change this as needed.
 
 jobs:
   deploy:
@@ -13,48 +13,29 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Build backend WAR
+      - name: Build
         run: |
           chmod +x gradlew
-          ./gradlew :backend:clean :backend:war
-
-      - name: Stage ROOT.war
-        run: |
-          rm -rf deploy
-          mkdir -p deploy
-
-          echo "=== backend/build/libs ==="
-          ls -lah backend/build/libs || true
-
-          # Prefer Tomcat-friendly "plain" war if present
-          WAR="$(ls -1 backend/build/libs/*-plain.war 2>/dev/null | head -n 1)"
-          if [ -z "$WAR" ]; then
-            WAR="$(ls -1 backend/build/libs/*.war 2>/dev/null | head -n 1)"
-          fi
-
-          if [ -z "$WAR" ]; then
-            echo "ERROR: No WAR produced"
-            exit 1
-          fi
-
-          echo "Using WAR: $WAR"
-          cp "$WAR" deploy/ROOT.war
-          ls -lah deploy/ROOT.war
+          ./gradlew build
 
       - name: Install Tsuru CLI
         run: |
           curl -fsSL https://raw.githubusercontent.com/tsuru/tsuru-client/master/install.sh | sh
-          tsuru version || true
+          echo "Tsuru CLI installed"
 
-      - name: Add target
+      - name: Add Target
         env:
+          TSURU_TOKEN: ${{ secrets.TSURU_TOKEN }}
           TSURU_HOST: ${{ secrets.TSURU_HOST }}
         run: |
-          tsuru target-add default "$TSURU_HOST" -s || true
-          tsuru target-set default
+          tsuru target-add default $TSURU_HOST -s
+
+      - name: Rename war file
+        run: |
+          mv ./backend/build/libs/backend-1.0-SNAPSHOT.war ./ROOT.war
 
       - name: Deploy to Tsuru
         env:
           TSURU_TOKEN: ${{ secrets.TSURU_TOKEN }}
         run: |
-          tsuru app-deploy -a bioeng-ibm-app deploy/ROOT.war
+          tsuru app-deploy -a bioeng-ibm-app ROOT.war
