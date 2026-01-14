@@ -1,26 +1,69 @@
-- name: Build backend
-  run: |
-    chmod +x gradlew
-    ./gradlew :backend:clean :backend:war
+name: Deploy to Tsuru
 
-- name: Prepare deploy artifact
-  run: |
-    rm -rf deploy
-    mkdir -p deploy
-    echo "Artifacts in backend/build/libs:"
-    ls -lah backend/build/libs
+on:
+  push:
+    branches:
+      - master
 
-    # Prefer plain WAR (external Tomcat deployment)
-    WAR="$(ls -1 backend/build/libs/*-plain.war 2>/dev/null | head -n 1)"
-    if [ -z "$WAR" ]; then
-      # Fallback: any WAR
-      WAR="$(ls -1 backend/build/libs/*.war 2>/dev/null | head -n 1)"
-    fi
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
 
-    if [ -z "$WAR" ]; then
-      echo "No .war produced in backend/build/libs"
-      exit 1
-    fi
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    echo "Using WAR: $WAR"
-    cp "$WAR" deploy/ROOT.war
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Build backend WAR (Tomcat-compatible)
+        run: |
+          chmod +x gradlew
+          ./gradlew :backend:clean :backend:war
+
+      - name: Install Tsuru CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/tsuru/tsuru-client/master/install.sh | sh
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          echo "Tsuru CLI installed"
+          tsuru version || true
+
+      - name: Add Target
+        env:
+          TSURU_HOST: ${{ secrets.TSURU_HOST }}
+        run: |
+          tsuru target-add default "$TSURU_HOST" -s
+          tsuru target-set default
+
+      - name: Prepare deploy artifact (ROOT.war)
+        run: |
+          rm -rf deploy
+          mkdir -p deploy
+
+          echo "Artifacts in backend/build/libs:"
+          ls -lah backend/build/libs || true
+
+          # Prefer plain WAR (external Tomcat deployment)
+          WAR="$(ls -1 backend/build/libs/*-plain.war 2>/dev/null | head -n 1)"
+          if [ -z "$WAR" ]; then
+            # Fallback: any WAR
+            WAR="$(ls -1 backend/build/libs/*.war 2>/dev/null | head -n 1)"
+          fi
+
+          if [ -z "$WAR" ]; then
+            echo "No .war produced in backend/build/libs"
+            exit 1
+          fi
+
+          echo "Using WAR: $WAR"
+          cp "$WAR" deploy/ROOT.war
+          ls -lah deploy/ROOT.war
+
+      - name: Deploy to Tsuru
+        env:
+          TSURU_TOKEN: ${{ secrets.TSURU_TOKEN }}
+        run: |
+          tsuru app-deploy -a bioeng-ibm-app deploy/ROOT.war
