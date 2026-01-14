@@ -5,20 +5,20 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import ibm.gui.liveCharting.LiveChartFactory;
-import org.jfree.chart.ChartPanel;
+import org.jfree.chart.*;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.LegendItem;
-import org.jfree.chart.LegendItemCollection;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.chart.LegendItemSource;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.data.xy.XYSeriesCollection;
 
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Line2D;
 
 public class MonitorPage {
 
@@ -30,11 +30,11 @@ public class MonitorPage {
     private JButton playButton;
     private JButton stopButton;
     private JButton connectButton;
-    private JButton button4;
     private JLabel patientNameLabel;
     private JPanel RPPanel;
     private JPanel BPPanel;
     private JPanel OverlayPanel;
+    private JSpinner windowLengthSelect;
     private XYSeries reservoirSeries;
     private XYSeries pressureSeries;
     private ChartPanel bpTabChartPanel;
@@ -56,17 +56,25 @@ public class MonitorPage {
     // update marker occasionally
     private int markerTick = 0;
 
-    private int sampleRate = 100;   // default sample rate
+    private int sampleRate = 1000;   // default sample rate
 
     private int windowSeconds = 5;
 
-    public JButton getPlayButton(){return playButton;}
-    public JButton getStopButton(){return stopButton;}
-    public JButton getConnectButton(){return connectButton;}
+    public JButton getPlayButton() {
+        return playButton;
+    }
+
+    public JButton getStopButton() {
+        return stopButton;
+    }
+
+    public JButton getConnectButton() {
+        return connectButton;
+    }
 
     public void clearGraphs() {
         if (reservoirSeries != null) reservoirSeries.clear();
-        if (pressureSeries != null)  pressureSeries.clear();
+        if (pressureSeries != null) pressureSeries.clear();
     }
 
 
@@ -86,6 +94,7 @@ public class MonitorPage {
         graphsPane.setBackground(panel1.getBackground());
         arppCont.setBackground(panel1.getBackground().darker());
         bppCont.setBackground(panel1.getBackground().darker());
+        connectButton.setBackground(UIManager.getColor("Button.default.accent"));
     }
 
     public void refreshChartTheme() {
@@ -112,6 +121,17 @@ public class MonitorPage {
         if (sdToggleOverlay != null) sdToggleOverlay.setForeground(t);
     }
 
+    private void setWindowSeconds() {
+        //Initializes the Window length spinner at 1
+        windowLengthSelect.setValue(5);
+        //Sets minimum and Maximum Window Lengths
+        windowLengthSelect.setModel(new SpinnerNumberModel(1, 1, 300, 1));
+        //Adds a Listener to change the windowSeconds var when changed
+        windowLengthSelect.addChangeListener(_ -> {
+            windowSeconds =  Math.round((Float) windowLengthSelect.getValue());
+        });
+    }
+
     public void setCustomFields(String patientName, int patientId, int sampleRate) {
         patientNameLabel.setText(patientName + "  |  ID: " + patientId + "  |  Sample Rate: " + sampleRate + " Hz");
         panel1.revalidate();
@@ -120,7 +140,7 @@ public class MonitorPage {
 
     private void installLiveGraphs() {
         reservoirSeries = new XYSeries("Reservoir Pressure (Pr)", false);
-        pressureSeries  = new XYSeries("Blood Pressure (P)", false);
+        pressureSeries = new XYSeries("Blood Pressure (P)", false);
 
         // Both charts tab
         bothReservoirChartPanel = LiveChartFactory.createLiveChart(
@@ -202,29 +222,34 @@ public class MonitorPage {
         updateSdMarker(overlayChartPanel, true);
 
         // refresh
-        arppCont.revalidate(); arppCont.repaint();
-        bppCont.revalidate();  bppCont.repaint();
-        RPPanel.revalidate();  RPPanel.repaint();
-        BPPanel.revalidate();  BPPanel.repaint();
-        OverlayPanel.revalidate(); OverlayPanel.repaint();
+        arppCont.revalidate();
+        arppCont.repaint();
+        bppCont.revalidate();
+        bppCont.repaint();
+        RPPanel.revalidate();
+        RPPanel.repaint();
+        BPPanel.revalidate();
+        BPPanel.repaint();
+        OverlayPanel.revalidate();
+        OverlayPanel.repaint();
     }
 
     // Helper: build one chart that overlays both series
     private ChartPanel createOverlayChartPanel() {
-        var dataset = new org.jfree.data.xy.XYSeriesCollection();
+        var dataset = new XYSeriesCollection();
         dataset.addSeries(pressureSeries);   // 0 = P
         dataset.addSeries(reservoirSeries);  // 1 = Pr
 
-        var xAxis = new org.jfree.chart.axis.NumberAxis("Time (s)");
-        var yAxis = new org.jfree.chart.axis.NumberAxis("Pressure");
+        var xAxis = new NumberAxis("Time (s)");
+        var yAxis = new NumberAxis("Pressure");
 
-        var baseRenderer = new org.jfree.chart.renderer.xy.XYLineAndShapeRenderer(true, false);
+        var baseRenderer = new XYLineAndShapeRenderer(true, false);
         baseRenderer.setSeriesStroke(0, LINE_STROKE);
         baseRenderer.setSeriesStroke(1, LINE_STROKE);
         baseRenderer.setSeriesPaint(0, BP_COLOR);
         baseRenderer.setSeriesPaint(1, RP_COLOR);
 
-        var plot = new org.jfree.chart.plot.XYPlot(dataset, xAxis, yAxis, baseRenderer);
+        var plot = new XYPlot(dataset, xAxis, yAxis, baseRenderer);
 
         ChartTheme theme = currentChartTheme();
 
@@ -238,9 +263,9 @@ public class MonitorPage {
         styleAxis(xAxis, theme.text, theme.axis);
         styleAxis(yAxis, theme.text, theme.axis);
 
-        var chart = new org.jfree.chart.JFreeChart(
+        var chart = new JFreeChart(
                 "Overlay: P vs Pr",
-                org.jfree.chart.JFreeChart.DEFAULT_TITLE_FONT,
+                JFreeChart.DEFAULT_TITLE_FONT,
                 plot,
                 true
         );
@@ -264,7 +289,7 @@ public class MonitorPage {
         return panel;
     }
 
-    private static void styleAxis(org.jfree.chart.axis.NumberAxis axis, Color labelText, Color axisLine) {
+    private static void styleAxis(NumberAxis axis, Color labelText, Color axisLine) {
         axis.setLabelPaint(labelText);
         axis.setTickLabelPaint(labelText);
         axis.setAxisLinePaint(axisLine);
@@ -334,10 +359,10 @@ public class MonitorPage {
         plot.setRangeGridlinePaint(theme.grid);
 
         // axes
-        if (plot.getDomainAxis() instanceof org.jfree.chart.axis.NumberAxis dx) {
+        if (plot.getDomainAxis() instanceof NumberAxis dx) {
             styleAxis(dx, theme.text, theme.axis);
         }
-        if (plot.getRangeAxis() instanceof org.jfree.chart.axis.NumberAxis ry) {
+        if (plot.getRangeAxis() instanceof NumberAxis ry) {
             styleAxis(ry, theme.text, theme.axis);
         }
 
@@ -360,8 +385,12 @@ public class MonitorPage {
 
     private static class ChartTheme {
         final Color bg, grid, axis, text;
+
         ChartTheme(Color bg, Color grid, Color axis, Color text) {
-            this.bg = bg; this.grid = grid; this.axis = axis; this.text = text;
+            this.bg = bg;
+            this.grid = grid;
+            this.axis = axis;
+            this.text = text;
         }
     }
 
@@ -425,19 +454,19 @@ public class MonitorPage {
         }
     }
 
-    private void addSdLegendToChart(org.jfree.chart.JFreeChart chart) {
+    private void addSdLegendToChart(JFreeChart chart) {
         if (chart == null) return;
         if (!showSdLine) {
             LegendTitle legend = chart.getLegend();
             if (legend != null) {
-                legend.setSources(new LegendItemSource[]{ chart.getPlot() });
+                legend.setSources(new LegendItemSource[]{chart.getPlot()});
             }
             return;
         }
 
         ChartTheme theme = currentChartTheme();
         Color text = theme.text;
-        Color bg   = theme.bg;
+        Color bg = theme.bg;
 
         // Dashed-line systole/diastole legend item
         final LegendItem sdItem = new LegendItem(
@@ -445,7 +474,7 @@ public class MonitorPage {
                 null,
                 null,
                 null,
-                new java.awt.geom.Line2D.Double(0, 0, 20, 0),
+                new Line2D.Double(0, 0, 20, 0),
                 new BasicStroke(
                         3.2f,
                         BasicStroke.CAP_BUTT,
@@ -493,12 +522,13 @@ public class MonitorPage {
 
 
     // Systole/diastole line
+
     /**
      * Find the systole/diastole transition time using:
      * - last local systolic peak
      * - first local minimum after it (dicrotic notch candidate)
      * - inflection point before notch = max |2nd derivative| between peak and notch
-     *
+     * <p>
      * Returns time in seconds (x-value), or null if not enough structure yet.
      */
     private Double findSdTransitionTime() {
@@ -581,7 +611,7 @@ public class MonitorPage {
 
     // helpers
 
-    private void setLegendVisible(org.jfree.chart.JFreeChart chart, boolean visible) {
+    private void setLegendVisible(JFreeChart chart, boolean visible) {
         if (chart == null) return;
         LegendTitle legend = chart.getLegend();
         if (legend != null) legend.setVisible(visible);
@@ -632,9 +662,15 @@ public class MonitorPage {
             pressureSeries.add(tp, p);
         }
 
-        int maxPoints = Math.max(200, sampleRate * windowSeconds);
+
+        //Remove Old Points based on the window width
+        //Add offset for BP to have a continous bp
+        float bpOffset = 0.20f; //seconds
+
+        int maxPoints = (int) Math.round(sampleRate*windowSeconds);
+
         while (reservoirSeries.getItemCount() > maxPoints) reservoirSeries.remove(0);
-        while (pressureSeries.getItemCount() > maxPoints) pressureSeries.remove(0);
+        while (pressureSeries.getItemCount() > Math.round(maxPoints + sampleRate * bpOffset)) pressureSeries.remove(0);
 
         // update systole/diastole marker occasionally (not every sample for performance)
         markerTick++;
@@ -654,6 +690,7 @@ public class MonitorPage {
         $$$setupUI$$$();
         initButtons();
         darkenBackground();
+        setWindowSeconds();
         installLiveGraphs();
     }
 
@@ -708,18 +745,18 @@ public class MonitorPage {
         RPPanel = new JPanel();
         RPPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel2.add(RPPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        final JPanel panel4 = new JPanel();
-        panel4.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        tabbedPane1.addTab("Blood Pressure Chart", panel4);
+        final JPanel panel3 = new JPanel();
+        panel3.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        tabbedPane1.addTab("Blood Pressure Chart", panel3);
         BPPanel = new JPanel();
         BPPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        panel4.add(BPPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        final JPanel panel6 = new JPanel();
-        panel6.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        tabbedPane1.addTab("Overlay", panel6);
+        panel3.add(BPPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        final JPanel panel4 = new JPanel();
+        panel4.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        tabbedPane1.addTab("Overlay", panel4);
         OverlayPanel = new JPanel();
         OverlayPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        panel6.add(OverlayPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        panel4.add(OverlayPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JToolBar toolBar1 = new JToolBar();
         panel1.add(toolBar1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 20), null, 0, false));
         patientNameLabel = new JLabel();
@@ -747,14 +784,29 @@ public class MonitorPage {
         final JToolBar.Separator toolBar$Separator1 = new JToolBar.Separator();
         toolBar1.add(toolBar$Separator1);
         connectButton = new JButton();
+        connectButton.setActionCommand("Button");
         connectButton.setEnabled(true);
+        connectButton.setHideActionText(false);
+        connectButton.setLabel("Connect");
         connectButton.setText("Connect");
-        connectButton.setToolTipText("Connect to Server");
         toolBar1.add(connectButton);
-        button4 = new JButton();
-        button4.setEnabled(false);
-        //button4.setText("Button");
-        //toolBar1.add(button4);
+        final JPanel panel5 = new JPanel();
+        panel5.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel5.setMaximumSize(new Dimension(86, 100));
+        panel5.setMinimumSize(new Dimension(86, 58));
+        panel5.setOpaque(false);
+        toolBar1.add(panel5);
+        final JLabel label3 = new JLabel();
+        label3.setText("Window Size [s]");
+        panel5.add(label3, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        windowLengthSelect = new JSpinner();
+        windowLengthSelect.setFocusable(false);
+        windowLengthSelect.setMaximumSize(new Dimension(78, 34));
+        windowLengthSelect.setMinimumSize(new Dimension(78, 34));
+        windowLengthSelect.setPreferredSize(new Dimension(78, 34));
+        windowLengthSelect.setRequestFocusEnabled(false);
+        windowLengthSelect.setToolTipText("Select the length of time to keep the waveform");
+        panel5.add(windowLengthSelect, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
     }
 
     /**

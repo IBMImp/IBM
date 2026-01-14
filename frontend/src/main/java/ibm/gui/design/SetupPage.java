@@ -76,7 +76,7 @@ public class SetupPage {
             if (Integer.signum(val) == 1) return val;
             else throw new Exception();
         } catch (Exception e) {
-            throw new SetupValueException("Non Integer Value Entered");
+            throw new SetupValueException("Patient ID: Enter only Positive Integers.");
         }
     }
 
@@ -86,7 +86,7 @@ public class SetupPage {
             if (Integer.signum(val) == 1) return val;
             else throw new Exception();
         } catch (Exception e) {
-            throw new SetupValueException("Non Integer Value Entered");
+            throw new SetupValueException("Sample Rate: Enter only Positive Integers.");
         }
     }
 
@@ -164,11 +164,11 @@ public class SetupPage {
         panel2.add(sampleLabel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         sampleRateField = new JTextField();
         sampleRateField.setHorizontalAlignment(0);
-        sampleRateField.setToolTipText("Input the recording devices sample rate.");
+        sampleRateField.setToolTipText("Input the recording devices sample rate");
         panel2.add(sampleRateField, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(200, 30), new Dimension(200, 30), 0, false));
         patientID = new JTextField();
         patientID.setHorizontalAlignment(0);
-        patientID.setToolTipText("Input the recording devices sample rate.");
+        patientID.setToolTipText("Input the patient's ID");
         panel2.add(patientID, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(200, 30), new Dimension(200, 30), 0, false));
         patientIdLabel = new JLabel();
         Font patientIdLabelFont = this.$$$getFont$$$(".AppleSystemUIFont", Font.BOLD, 14, patientIdLabel.getFont());

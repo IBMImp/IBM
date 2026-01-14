@@ -463,9 +463,8 @@ public class GUIController {
                     }
                 }
             } catch (SetupValueException e1) {
-                logger.warning("The value entered for Sample Rate is Invalid. Ensure sample rate is a Positive" +
-                        "Integer.");
-                JOptionPane.showMessageDialog(null, "Sample Rate must be a Positive Integer", "Sample Rate " +
+                logger.warning(e1.getMessage());
+                JOptionPane.showMessageDialog(null, e1.getMessage(), " " +
                         "Error", JOptionPane.ERROR_MESSAGE);
             }
 
@@ -528,8 +527,6 @@ public class GUIController {
                 String.valueOf(AppState.currentSettings.patientID),
                 frame -> {
                     monitorPage.addPoint(frame.tp(), frame.tpr(), frame.p(), frame.pr(), frame.pe());
-
-
                 },
                 msg -> {
                     logger.info(msg);
