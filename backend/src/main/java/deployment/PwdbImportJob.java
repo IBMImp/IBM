@@ -31,6 +31,9 @@ public class PwdbImportJob implements CommandLineRunner {
             throw new IllegalStateException("PWDB_IMPORT_URL not set");
         }
 
+        System.out.println("PWDB IMPORT: starting");
+        System.out.println("PWDB IMPORT: url=" + System.getenv("PWDB_IMPORT_URL"));
+
         // Schema (idempotent)
         jdbc.execute("""
             CREATE TABLE IF NOT EXISTS pressure_waveforms (
