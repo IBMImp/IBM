@@ -55,6 +55,7 @@ public final class RealtimeController {
         if (fsHz <= 0 || patientId == null || patientId.isBlank()) return;
 
         pause();
+        onStatusEdt.accept("Using backend: " + backendBaseUrl);
         onStatusEdt.accept("Computing...");
 
         SwingWorker<WaveformPayload, Void> w = new SwingWorker<>() {
